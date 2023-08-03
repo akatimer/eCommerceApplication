@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint ./src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "lint": "eslint ./src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "npm run lint -- --fix",
     "prettier": "npx prettier src --check",
     "prettier:fix": "npm run prettier -- --write",
+    "format": "npm run lint:fix && npm run prettier:fix",
     "preview": "vite preview"
   },
   "dependencies": {
