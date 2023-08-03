@@ -40,4 +40,4 @@ module.exports = {
     "@typescript-eslint/ban-ts-comment": "error",
     "arrow-parens": ["error", "always"],
   },
-}
+};
