@@ -7,7 +7,7 @@
     "node": true
   },
   "extends": [
-    "plugin:prettier/recommended", 
+    "plugin:prettier/recommended",
     "prettier",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -25,10 +25,7 @@
     }
   },
   "rules": {
-    "react-refresh/only-export-components": [
-      "warn",
-      { "allowConstantExport": true }
-    ],
+    "react-refresh/only-export-components": ["warn", { "allowConstantExport": true }],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "comma-dangle": ["error", "only-multiline"],
