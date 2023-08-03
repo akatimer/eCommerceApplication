@@ -2,7 +2,7 @@
 
 2. **Proposed Changes:**
 
-*Briefly describe the proposed changes introduced in this pull request.*
+_Briefly describe the proposed changes introduced in this pull request._
 
 - [ ] Feature/Enhancement
 - [ ] Bug Fix
@@ -11,9 +11,9 @@
 
 3. **Rationale:**
 
-*Explain the reasons behind these proposed changes.
-What problem does this pull request solve or address?*
- 
+_Explain the reasons behind these proposed changes.
+What problem does this pull request solve or address?_
+
 4. **Screenshots:**
 
 5. **Reviewers:**
