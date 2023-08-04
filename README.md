@@ -24,12 +24,21 @@ To build it, use "npm run build" - script will create a "dist" folder with all f
 Scripts:
 
 `npm run dev` - starts a dev web server.
+
 `npm run build` - builds this project.
+
 `npm run lint` - run eslint and finds lint-errors in code.
+
 `npm run lint:fix` - run eslint and finds lint-errors, then try to fix them automatically.
+
 `npm run prettier` - run prettier and finds prettier-errors in code.
+
 `npm run prettier:fix` - run prettier and finds prettier-errors, then try to fix them automaticly.
+
 `npm run format` - run both eslint and prettier in fix mode.
+
 `npm run preview` - starts local sever with "build" folder files.
+
 `npm run prepare` - install husky.
+
 `npm run test` - runs vitest tests.
