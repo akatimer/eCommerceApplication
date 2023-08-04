@@ -7,7 +7,7 @@ RSS Final task
 **For contributors:**
 
 To start contributing, all you need is to clone this repo and create a branch from develop with the feature that you want to add. 
-Switch the branch from development to *your feature branch* and run "npm install".
+Switch the branch from development to *your feature branch* and run `npm install`.
 Then commite as usual.
 When your feature is ready, just open the pull request and add the main team to review.
 After review, your feature will be added by our team.
@@ -15,9 +15,9 @@ After review, your feature will be added by our team.
 **For users:**
 
 To run it localy, just download this repo as a zip
-Unzip it and run "npm install" in the project folder.
-To start in dev mode, use "npm run dev"
-To build it, use "npm run build" - script will create a "dist" folder with all files that you need.
+Unzip it and run `npm install` in the project folder.
+To start in dev mode, use `npm run dev`
+To build it, use `npm run build` - script will create a "dist" folder with all files that you need.
 
 **Aditional**
 
