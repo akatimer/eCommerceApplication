@@ -1,0 +1,52 @@
+.main__baner {
+    max-height: 580px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-radius: 16px;
+    background: linear-gradient(to bottom, #BCAEAB, #B7ABA8);
+
+}
+
+.baner {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 540px;
+    margin: 124px 113px;
+}
+
+.baner__text {
+    font-family: 'Nunito', sans-serif;
+    font-size: 48px;
+    color: #FFFFFF;
+}
+
+.baner__desc {
+    max-width: 292px;
+    font-family: 'Mulish', sans-serif;
+    font-size: 16px;
+    color: #FFFFFF;  
+}
+
+.button__baner {
+    min-width: 160px;
+    min-height: 52px;
+    border: solid #C9BEBC;
+    border-radius: 16px;
+    font-family: 'Mulish', sans-serif;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.button__baner:hover {
+    opacity: 0.8;
+}
+
+.baner__pic {
+    max-width: 540px;
+}

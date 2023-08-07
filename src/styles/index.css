@@ -50,3 +50,7 @@ textarea {
   display: block;
   padding: 10px 15px;
 }
+
+button {
+  all:initial;
+}
