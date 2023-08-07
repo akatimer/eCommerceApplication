@@ -1,8 +1,8 @@
 import React from 'react';
 import './header.css';
-import logo from '../../assets/images/logo.png';
-import signinIcon from '../../assets/icons/user_icn.svg';
-import cartIcon from '../../assets/icons/cart_icn.svg';
+import logo from '../../../assets/images/logo.png';
+import signinIcon from '../../../assets/icons/user_icn.svg';
+import cartIcon from '../../../assets/icons/cart_icn.svg';
 
 const Header: React.FC = () => {
   return (
