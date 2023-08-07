@@ -4,6 +4,23 @@ RSS Final task
 
 **Welcome to our eCommerce Project!**
 
+This platform creates real-world shopping experiences in a digital environment. It's a complete online shopping portal that provides an interactive and smooth experience. From product discovery to checkout, the application ensures a digital journey for the user, enhancing their engagement and boosting their purchasing confidence.
+
+**Purpose:**
+
+This project aims to create an unforgettable customer experience while shopping best cloth eStores. 
+Our main goal is to bring a complete eStore that will embrace all your business needs while giving your customers a smooth digital shopping journey.
+
+**The stack of this project is:**
+
+1. React + TypeScript + SWC - as frontend
+2. Commercetools - as backend
+3. Vite - as bundler
+4. Vitest - as test framework
+5. Eslint + Prettier - as code styler
+6. Husky - git hooks
+
+
 **For contributors:**
 
 1. To start contributing, all you need is to clone this repo and create a branch from develop with the feature that you want to add. 
