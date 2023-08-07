@@ -30,7 +30,8 @@ body {
   text-rendering: optimizeSpeed;
 }
 
-h1, h2 {
+h1,
+h2 {
   line-height: 1.1;
 }
 
