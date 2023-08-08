@@ -24,7 +24,7 @@ input {
   align-self: flex-end;
 }
 
-label {
+.validation-message {
   min-height: 20px;
   align-self: flex-start;
 }
