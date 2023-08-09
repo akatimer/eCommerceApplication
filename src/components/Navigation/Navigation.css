@@ -1,0 +1,19 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    padding: 0 112px;
+}
+
+.nav-item{
+    display: inline;
+    margin: 0 32px;
+}
+
+.customer-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

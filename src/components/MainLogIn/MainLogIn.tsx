@@ -1,7 +1,7 @@
 import React from 'react';
-import Baner from './baner-section/baner';
+import Baner from '../Baner/Baner';
 
-const Main: React.FC = () => {
+const MainLogIn: React.FC = () => {
   return (
     <main className="main">
       <Baner />
@@ -9,4 +9,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default Main;
+export default MainLogIn;

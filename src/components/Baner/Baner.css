@@ -1,4 +1,4 @@
-.main__baner {
+.main-baner {
   min-height: 570px;
   display: flex;
   flex-wrap: wrap;
@@ -15,20 +15,20 @@
   margin: 124px 113px;
 }
 
-.baner__text {
+.baner-text {
   font-family: 'Nunito', sans-serif;
   font-size: 48px;
   color: #ffffff;
 }
 
-.baner__desc {
+.baner-desc {
   max-width: 292px;
   font-family: 'Mulish', sans-serif;
   font-size: 16px;
   color: #ffffff;
 }
 
-.button__baner {
+.button-baner {
   min-width: 160px;
   min-height: 52px;
   border: solid #c9bebc;
@@ -42,6 +42,6 @@
   align-self: flex-start;
 }
 
-.button__baner:hover {
+.button-baner:hover {
   opacity: 0.8;
 }

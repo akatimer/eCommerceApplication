@@ -1,13 +1,11 @@
 import React from 'react';
 import '../styles/index.css';
-import Header from './home-page/header/Header';
-import Main from './home-page/main/MainSection';
+import LogIn from './LogIn/LogIn';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Header />
-      <Main />
+      <LogIn />
     </div>
   );
 };
