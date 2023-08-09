@@ -55,7 +55,7 @@ export default function Form(): ReactElement {
         </div>
         <div className="input-wrapper">
           <input
-            type="email"
+            type="text"
             placeholder="Enter your email..."
             onChange={(e): void => {
               emailHandler(e);
