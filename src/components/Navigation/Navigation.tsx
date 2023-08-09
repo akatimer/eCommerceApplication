@@ -10,13 +10,8 @@ const Navigation: React.FC = () => {
       <Logo />
       <ul className="nav-list">
         <li className="nav-item">
-          <a className="nav-link" href="#!">
+          <a className="nav-link crutch" href="#!">
             Home
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#!">
-            Shop
           </a>
         </li>
       </ul>
@@ -29,6 +24,11 @@ const Navigation: React.FC = () => {
         <li className="nav-item">
           <a className="nav-link" href="#!">
             <img src={cartIcon} alt="cart" />
+          </a>
+        </li>
+        <li className="nav-item sign-up">
+          <a className="nav-link" href="#!">
+            sign up
           </a>
         </li>
       </ul>

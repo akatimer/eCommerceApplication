@@ -1,0 +1,18 @@
+.button {
+    min-width: 160px;
+    min-height: 52px;
+    border: solid 2px #48484A ;
+    border-radius: 16px;
+    font-family: 'Mulish', sans-serif;
+    font-size: 20px;
+    color: #48484A;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .button:hover {
+    background-color: #48484A;
+    color: #FFFFFF;
+  }

@@ -1,10 +1,15 @@
+import './MainLogIn.css';
 import React from 'react';
-import Baner from '../Baner/Baner';
+import LoginForm from '../LoginForm/LoginForm';
 
 const MainLogIn: React.FC = () => {
   return (
     <main className="main">
-      <Baner />
+      <LoginForm
+        onLogin={function (login: string, password: string): void {
+          console.log(login, password);
+        }}
+      />
     </main>
   );
 };

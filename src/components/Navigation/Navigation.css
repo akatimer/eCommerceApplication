@@ -9,11 +9,22 @@
 
 .nav-item {
   display: inline;
-  margin: 0 32px;
+  margin: 0 6px;
 }
 
 .customer-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.sign-up {
+  min-width: 100px;
+  text-align: center;
+  border: solid 2px #48484A ;
+  border-radius: 4px;
+}
+
+.crutch {
+  margin-left: 112px;
 }
