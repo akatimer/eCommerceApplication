@@ -13,6 +13,8 @@ export default function Form(): ReactElement {
   const [passwordMessageColor, setPasswordMessageColor] = useState('');
   const [emailMessage, setEmailMessage] = useState('');
   const [emailMessageColor, setEmailMessageColor] = useState('');
+  const [type, setType] = useState('password');
+  const [toggleClass, setToggleClass] = useState('view-toggle');
 
   function passwordHandler(event: ChangeEvent<HTMLInputElement>): void {
     const password = event.target.value;
@@ -34,33 +36,50 @@ export default function Form(): ReactElement {
       setEmailMessageColor(colors.invalidColor);
     }
   }
+  function toggleHandler(): void {
+    if (type === 'password') {
+      setType('text');
+      setToggleClass('hide-toggle');
+    } else {
+      setType('password');
+      setToggleClass('view-toggle');
+    }
+  }
 
   return (
     <div className="form-wrapper">
-      <h1>Authorization</h1>
-      <form className="auth-form">
+      <form className="auth-form" onSubmit={(e): void => e.preventDefault()}>
+        <h1 className="form-title">Login</h1>
         <div className="validation-message" style={{ color: emailMessageColor }}>
           {emailMessage}
         </div>
-        <input
-          type="email"
-          placeholder="Enter your email..."
-          onChange={(e): void => {
-            emailHandler(e);
-          }}
-          required
-        ></input>
+        <div className="input-wrapper">
+          <input
+            type="email"
+            placeholder="Enter your email..."
+            onChange={(e): void => {
+              emailHandler(e);
+            }}
+            required
+          ></input>
+        </div>
         <div className="validation-message" style={{ color: passwordMessageColor }}>
           {passwordMessage}
         </div>
-        <input
-          type="password"
-          placeholder="Enter your password..."
-          onChange={(e): void => {
-            passwordHandler(e);
-          }}
-          required
-        ></input>
+        <div className="input-wrapper">
+          <input
+            type={type}
+            placeholder="Enter your password..."
+            onChange={(e): void => {
+              passwordHandler(e);
+            }}
+            required
+          ></input>
+          <div
+            className={`password-toggle ${toggleClass}`}
+            onClick={(): void => toggleHandler()}
+          ></div>
+        </div>
         <button className="submit-button" type="submit">
           Sign in
         </button>
