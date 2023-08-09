@@ -1,11 +1,11 @@
 import React from 'react';
 import '../styles/index.css';
-import LogIn from './LogIn/LogIn';
+import Header from '../components/Header/Header';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <LogIn />
+      <Header />
     </div>
   );
 };
