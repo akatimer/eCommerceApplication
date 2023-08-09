@@ -1,4 +1,4 @@
 export default function isEmailValid(email: string): boolean | null {
-  const re = /\S+@\S+\.\S+/;
-  return email.match(re) && email === email.trim();
+  const valid = email.match(/\S+@\S+\.\S+/);
+  return valid && email === email.trim();
 }
