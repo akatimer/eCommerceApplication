@@ -1,9 +1,9 @@
 .main {
-    min-height: 570px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    border-radius: 16px;
-    background: #EDA3B5;
+  min-height: 570px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-radius: 16px;
+  background: #eda3b5;
 }

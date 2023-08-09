@@ -1,39 +1,39 @@
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    max-width: 470px;
-    margin: 0 auto;
-    padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 470px;
+  margin: 0 auto;
+  padding: 20px 0;
 }
 
 .input-form {
-    font-family: 'Mulish', sans-serif;
-    font-size: 20px;
-    min-width: 267px;
-    border: solid 2px #48484A;
-    border-radius: 16px;
-    color: #48484A;
-    caret-color: #EDA3B5;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  min-width: 267px;
+  border: solid 2px #48484a;
+  border-radius: 16px;
+  color: #48484a;
+  caret-color: #eda3b5;
 }
 
 .button-login {
-    min-width: 160px;
-    min-height: 52px;
-    margin-left: 64px;
-    border: solid 2px #48484A ;
-    border-radius: 16px;
-    font-family: 'Mulish', sans-serif;
-    font-size: 20px;
-    color: #48484A;
-    text-align: center;
-    transition: all 0.5s;
-    cursor: pointer;
-    align-self: flex-start;
-  }
-  
-  .button-login:hover {
-    background-color: #48484A;
-    color: #FFFFFF;
-  }
+  min-width: 160px;
+  min-height: 52px;
+  margin-left: 64px;
+  border: solid 2px #48484a;
+  border-radius: 16px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  color: #48484a;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.button-login:hover {
+  background-color: #48484a;
+  color: #ffffff;
+}
