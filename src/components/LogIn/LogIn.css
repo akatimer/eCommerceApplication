@@ -35,9 +35,10 @@ input {
   color: #ffff;
   margin-top: 25px;
   padding: 15px;
-  width: 100%;
   background-color: #212529;
   cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
 }
 
 .validation-message {

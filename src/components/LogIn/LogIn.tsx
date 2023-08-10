@@ -1,5 +1,5 @@
 import React, { ChangeEvent, ReactElement, useState } from 'react';
-import './Form.css';
+import './LogIn.css';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 
