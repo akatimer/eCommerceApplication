@@ -2,10 +2,19 @@ import React, { ChangeEvent, ReactElement, useState } from 'react';
 import './LogIn.css';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
+import LogInInput from '../LogInInput/LogInInput';
 
 const colors = {
   validColor: 'green',
   invalidColor: 'red',
+};
+const passwordMessages = {
+  valid: 'password is valid',
+  invalid: 'password is not valid',
+};
+const emailMessages = {
+  valid: 'email is valid',
+  invalid: 'email is not valid',
 };
 
 export default function Form(): ReactElement {
@@ -19,20 +28,20 @@ export default function Form(): ReactElement {
   function passwordHandler(event: ChangeEvent<HTMLInputElement>): void {
     const password = event.target.value;
     if (isPasswordValid(password)) {
-      setPasswordMessage('password is valid');
+      setPasswordMessage(passwordMessages.valid);
       setPasswordMessageColor(colors.validColor);
     } else {
-      setPasswordMessage('password is not valid');
+      setPasswordMessage(passwordMessages.invalid);
       setPasswordMessageColor(colors.invalidColor);
     }
   }
   function emailHandler(event: ChangeEvent<HTMLInputElement>): void {
     const email = event.target.value;
     if (isEmailValid(email)) {
-      setEmailMessage('email is valid');
+      setEmailMessage(emailMessages.valid);
       setEmailMessageColor(colors.validColor);
     } else {
-      setEmailMessage('email is not valid');
+      setEmailMessage(emailMessages.invalid);
       setEmailMessageColor(colors.invalidColor);
     }
   }
@@ -54,33 +63,33 @@ export default function Form(): ReactElement {
           {emailMessage}
         </div>
         <div className="input-wrapper">
-          <input
+          <LogInInput
+            className="input-form"
             type="text"
             placeholder="Enter your email..."
             onChange={(e): void => {
               emailHandler(e);
             }}
-            required
-          ></input>
+          />
         </div>
         <div className="validation-message" style={{ color: passwordMessageColor }}>
           {passwordMessage}
         </div>
         <div className="input-wrapper">
-          <input
+          <LogInInput
+            className="input-form"
             type={type}
             placeholder="Enter your password..."
             onChange={(e): void => {
               passwordHandler(e);
             }}
-            required
-          ></input>
+          />
           <div
             className={`password-toggle ${toggleClass}`}
             onClick={(): void => toggleHandler()}
           ></div>
         </div>
-        <button className="submit-button" type="submit">
+        <button className="button-login" type="submit">
           Sign in
         </button>
       </form>
