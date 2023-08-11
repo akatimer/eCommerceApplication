@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactElement, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import './LogIn.css';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
@@ -17,7 +17,7 @@ const emailMessages = {
   invalid: 'email is not valid',
 };
 
-export default function Form(): ReactElement {
+const LogIn: React.FC = () => {
   const [passwordMessage, setPasswordMessage] = useState('');
   const [passwordMessageColor, setPasswordMessageColor] = useState('');
   const [emailMessage, setEmailMessage] = useState('');
@@ -95,4 +95,6 @@ export default function Form(): ReactElement {
       </form>
     </div>
   );
-}
+};
+
+export default LogIn;
