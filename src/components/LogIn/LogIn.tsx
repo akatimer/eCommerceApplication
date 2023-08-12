@@ -57,7 +57,7 @@ const LogIn: React.FC = () => {
   }
 
   return (
-    <main className="main">
+    <section className="form">
       <div className="form-wrapper">
         <form className="auth-form" onSubmit={(e): void => e.preventDefault()}>
           <h1 className="form-title">Sign in</h1>
@@ -99,7 +99,7 @@ const LogIn: React.FC = () => {
           />
         </form>
       </div>
-    </main>
+    </section>
   );
 };
 
