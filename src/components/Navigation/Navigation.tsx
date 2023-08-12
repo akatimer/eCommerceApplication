@@ -12,7 +12,7 @@ const Navigation: React.FC = () => {
       <Logo />
       <ul className="nav-list">
         <li className="nav-item">
-          <NavLink to={HOME_ROUTE} className="nav-link crutch">
+          <NavLink to={HOME_ROUTE} className="nav-link home">
             Home
           </NavLink>
         </li>
@@ -28,13 +28,13 @@ const Navigation: React.FC = () => {
             <img src={cartIcon} alt="cart" />
           </a>
         </li>
-        <li className="nav-item sign-up">
-          <NavLink to={REGISTRATION_ROUTE} className="nav-link">
+        <li className="nav-item">
+          <NavLink to={REGISTRATION_ROUTE} className="nav-link sign">
             sign up
           </NavLink>
         </li>
-        <li className="nav-item sign-up">
-          <NavLink to={LOGIN_ROUTE} className="nav-link">
+        <li className="nav-item">
+          <NavLink to={LOGIN_ROUTE} className="nav-link sign">
             sign in
           </NavLink>
         </li>
