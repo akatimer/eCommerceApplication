@@ -1,13 +1,12 @@
 import React from 'react';
+import { RouterProvider } from 'react-router-dom';
 import '../styles/index.css';
-import Header from '../components/Header/Header';
-import LogIn from '../components/LogIn/LogIn';
+import Router from '../components/Router/Router';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Header />
-      <LogIn />
+      <RouterProvider router={Router} />
     </div>
   );
 };

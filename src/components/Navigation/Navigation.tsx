@@ -3,6 +3,8 @@ import React from 'react';
 import signinIcon from '../../assets/icons/user_icn.svg';
 import cartIcon from '../../assets/icons/cart_icn.svg';
 import Logo from '../Logo/Logo';
+import { NavLink } from 'react-router-dom';
+import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/constants';
 
 const Navigation: React.FC = () => {
   return (
@@ -10,9 +12,9 @@ const Navigation: React.FC = () => {
       <Logo />
       <ul className="nav-list">
         <li className="nav-item">
-          <a className="nav-link crutch" href="#!">
+          <NavLink to={HOME_ROUTE} className="nav-link crutch">
             Home
-          </a>
+          </NavLink>
         </li>
       </ul>
       <ul className="nav-list customer-nav">
@@ -27,9 +29,14 @@ const Navigation: React.FC = () => {
           </a>
         </li>
         <li className="nav-item sign-up">
-          <a className="nav-link" href="#!">
+          <NavLink to={REGISTRATION_ROUTE} className="nav-link">
             sign up
-          </a>
+          </NavLink>
+        </li>
+        <li className="nav-item sign-up">
+          <NavLink to={LOGIN_ROUTE} className="nav-link">
+            sign in
+          </NavLink>
         </li>
       </ul>
     </nav>
