@@ -34,3 +34,7 @@
 .crutch {
   margin-left: 112px;
 }
+
+.active {
+  color: #eda3b5;
+}
