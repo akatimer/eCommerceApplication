@@ -29,7 +29,6 @@ export const getProjectPass = await getApiPassRoot()
   //     password: 'cvsy09oq',
   //   },
   //   })
-  // // .clientRequest()
   .get()
   .execute()
   .catch(console.error);
