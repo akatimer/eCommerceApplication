@@ -2,7 +2,7 @@ import './LogInInput.css';
 import React, { ChangeEvent } from 'react';
 
 interface InputComponentProps {
-  placeholder: string;
+  placeholder?: string;
   type: string;
   className: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

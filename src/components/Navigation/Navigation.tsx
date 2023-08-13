@@ -29,13 +29,13 @@ const Navigation: React.FC = () => {
           </a>
         </li>
         <li className="nav-item">
-          <NavLink to={REGISTRATION_ROUTE} className="nav-link sign">
-            sign up
+          <NavLink to={LOGIN_ROUTE} className="nav-link sign">
+            sign in
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink to={LOGIN_ROUTE} className="nav-link sign">
-            sign in
+          <NavLink to={REGISTRATION_ROUTE} className="nav-link sign">
+            sign up
           </NavLink>
         </li>
       </ul>
