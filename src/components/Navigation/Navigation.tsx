@@ -10,11 +10,26 @@ const Navigation: React.FC = () => {
   return (
     <nav className="nav">
       <Logo />
-      <ul className="nav-list">
+      <ul className="nav-list navigation">
         <li className="nav-item">
           <NavLink to={HOME_ROUTE} className="nav-link home">
             Home
           </NavLink>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#!">
+            Shop
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#!">
+            About
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#!">
+            Contact
+          </a>
         </li>
       </ul>
       <ul className="nav-list customer-nav">
