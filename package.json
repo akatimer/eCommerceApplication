@@ -16,6 +16,14 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@commercetools/history-sdk": "^3.5.0",
+    "@commercetools/importapi-sdk": "^4.6.2",
+    "@commercetools/ml-sdk": "^3.4.1",
+    "@commercetools/platform-sdk": "^5.0.0",
+    "@commercetools/sdk-client-v2": "^2.2.0",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
+    "isomorphic-fetch": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0"
@@ -37,6 +45,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
     "prettier": "3.0.1",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vitest": "^0.34.1"
