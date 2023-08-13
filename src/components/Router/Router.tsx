@@ -4,6 +4,7 @@ import Registration from '../Registration/Registration';
 import ErrorPage from '../../pages/ErrorPage/ErrorPage';
 import Root from '../Root/Root';
 import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/constants';
+import Baner from '../Baner/Baner';
 
 const Router = createBrowserRouter([
   {
@@ -11,6 +12,10 @@ const Router = createBrowserRouter([
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: HOME_ROUTE,
+        element: <Baner />,
+      },
       {
         path: LOGIN_ROUTE,
         element: <LogIn />,
