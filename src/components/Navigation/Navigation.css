@@ -23,6 +23,12 @@
   text-align: center;
   border: solid 2px #48484a;
   border-radius: 4px;
+  transition: all 0.5s;
+}
+
+.sign-up:hover {
+  background-color: #48484a;
+  color: #ffffff;
 }
 
 .crutch {

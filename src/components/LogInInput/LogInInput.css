@@ -3,4 +3,8 @@
   font-size: 1.2rem;
   width: 100%;
   box-sizing: border-box;
+  border: solid 2px #48484a;
+  border-radius: 16px;
+  color: #48484a;
+  caret-color: #eda3b5;
 }
