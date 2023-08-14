@@ -9,6 +9,7 @@ import DateInput from '../DateInput/DateInput';
 import StreetInput from '../StreetInput/StreetImput';
 import CityInput from '../SityInput/SityInput';
 import CountrySelect from '../CountrySelect/CountrySelect';
+import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
 
 const Registration: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const Registration: React.FC = () => {
           <CountrySelect />
           <StreetInput />
           <CityInput />
+          <PostalCodeInput />
           <EmailInput />
           <PasswordInput />
           <Button
