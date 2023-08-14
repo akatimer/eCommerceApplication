@@ -9,8 +9,8 @@ const EmailInput: React.FC = () => {
   };
 
   const emailMessages = {
-    valid: 'email is valid',
-    invalid: 'email is not valid',
+    valid: 'Thank you',
+    invalid: 'Email is not valid',
   };
 
   const [emailMessage, setEmailMessage] = useState('');
@@ -36,7 +36,7 @@ const EmailInput: React.FC = () => {
         <LogInInput
           className="input-form"
           type="text"
-          placeholder="Enter your email..."
+          placeholder="Enter your email"
           onChange={emailHandler}
         />
       </div>

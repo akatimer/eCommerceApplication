@@ -9,8 +9,8 @@ const PasswordInput: React.FC = () => {
   };
 
   const passwordMessages = {
-    valid: 'password is valid',
-    invalid: 'password is not valid',
+    valid: 'Thank you',
+    invalid: 'Password is not valid',
   };
 
   const [passwordMessage, setPasswordMessage] = useState('');
@@ -48,7 +48,7 @@ const PasswordInput: React.FC = () => {
         <LogInInput
           className="input-form"
           type={type}
-          placeholder="Enter your password..."
+          placeholder="Enter your password"
           onChange={passwordHandler}
         />
         <div className={`password-toggle ${toggleClass}`} onClick={toggleHandler}></div>
