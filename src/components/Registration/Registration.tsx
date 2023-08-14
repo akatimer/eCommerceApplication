@@ -5,6 +5,7 @@ import PasswordInput from '../PasswordInput/PasswordInput';
 import EmailInput from '../EmailInput/EmailInput';
 import NameInput from '../NameInput/NameInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
+import DateInput from '../DateInput/DateInput';
 
 const Registration: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const Registration: React.FC = () => {
           <h1 className="form-title">Sign up</h1>
           <NameInput />
           <LastNameInput />
+          <DateInput />
           <EmailInput />
           <PasswordInput />
           <Button
