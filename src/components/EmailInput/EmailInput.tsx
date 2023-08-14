@@ -1,46 +1,17 @@
-import React, { useState, ChangeEvent } from 'react';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
-import LogInInput from '../LogInInput/LogInInput';
+import CustomInput from '../CustomInput/CustomInput';
 
 const EmailInput: React.FC = () => {
-  const colors = {
-    validColor: 'green',
-    invalidColor: 'red',
-  };
-
-  const emailMessages = {
-    valid: 'Thank you',
-    invalid: 'Email is not valid',
-  };
-
-  const [emailMessage, setEmailMessage] = useState('');
-  const [emailMessageColor, setEmailMessageColor] = useState('');
-
-  function emailHandler(event: ChangeEvent<HTMLInputElement>): void {
-    const email = event.target.value;
-    if (isEmailValid(email)) {
-      setEmailMessage(emailMessages.valid);
-      setEmailMessageColor(colors.validColor);
-    } else {
-      setEmailMessage(emailMessages.invalid);
-      setEmailMessageColor(colors.invalidColor);
-    }
-  }
-
   return (
-    <>
-      <div className="validation-message" style={{ color: emailMessageColor }}>
-        {emailMessage}
-      </div>
-      <div className="input-wrapper">
-        <LogInInput
-          className="input-form"
-          type="text"
-          placeholder="Enter your email"
-          onChange={emailHandler}
-        />
-      </div>
-    </>
+    <CustomInput
+      validColor="#00A000"
+      invalidColor="#FF0000"
+      validMessage="Thank you"
+      invalidMessage="Email is not valid"
+      validator={isEmailValid}
+      placeholder="Enter your email"
+      type="text"
+    />
   );
 };
 
