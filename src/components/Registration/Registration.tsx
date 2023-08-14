@@ -7,6 +7,7 @@ import NameInput from '../NameInput/NameInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
 import DateInput from '../DateInput/DateInput';
 import StreetInput from '../StreetInput/StreetImput';
+import CityInput from '../SityInput/SityInput';
 
 const Registration: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Registration: React.FC = () => {
           <LastNameInput />
           <DateInput />
           <StreetInput />
+          <CityInput />
           <EmailInput />
           <PasswordInput />
           <Button
