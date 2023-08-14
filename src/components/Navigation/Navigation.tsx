@@ -10,11 +10,26 @@ const Navigation: React.FC = () => {
   return (
     <nav className="nav">
       <Logo />
-      <ul className="nav-list">
+      <ul className="nav-list navigation">
         <li className="nav-item">
-          <NavLink to={HOME_ROUTE} className="nav-link crutch">
+          <NavLink to={HOME_ROUTE} className="nav-link home">
             Home
           </NavLink>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#!">
+            Shop
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#!">
+            About
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#!">
+            Contact
+          </a>
         </li>
       </ul>
       <ul className="nav-list customer-nav">
@@ -28,14 +43,14 @@ const Navigation: React.FC = () => {
             <img src={cartIcon} alt="cart" />
           </a>
         </li>
-        <li className="nav-item sign-up">
-          <NavLink to={REGISTRATION_ROUTE} className="nav-link">
-            sign up
+        <li className="nav-item">
+          <NavLink to={LOGIN_ROUTE} className="nav-link sign">
+            sign in
           </NavLink>
         </li>
-        <li className="nav-item sign-up">
-          <NavLink to={LOGIN_ROUTE} className="nav-link">
-            sign in
+        <li className="nav-item">
+          <NavLink to={REGISTRATION_ROUTE} className="nav-link sign">
+            sign up
           </NavLink>
         </li>
       </ul>

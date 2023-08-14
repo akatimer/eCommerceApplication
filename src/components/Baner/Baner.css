@@ -41,7 +41,3 @@
   cursor: pointer;
   align-self: flex-start;
 }
-
-.button-baner:hover {
-  opacity: 0.8;
-}
