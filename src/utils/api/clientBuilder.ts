@@ -63,7 +63,7 @@ const MyTokenCache: TokenCache = {
     };
   },
   set(value: TokenStore) {
-    localStorage.setItem('123', `${value.token}`);
+    localStorage.setItem('token', `${value.token}`);
   },
 };
 
@@ -93,4 +93,18 @@ export const createClientWithPass = (login: string, pass: string): Client => {
     .withLoggerMiddleware()
     .build();
   return clientPass;
+};
+
+export const createClientWithToken = (
+  token: string,
+  options = {
+    force: true,
+  }
+): Client => {
+  const clientWithToken = new ClientBuilder()
+    .withExistingTokenFlow(token, options)
+    .withHttpMiddleware(httpMiddlewareOptions)
+    .withLoggerMiddleware()
+    .build();
+  return clientWithToken;
 };
