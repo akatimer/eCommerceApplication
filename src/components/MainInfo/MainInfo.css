@@ -1,4 +1,4 @@
-.main-baner {
+.main-info {
   min-height: 570px;
   display: flex;
   flex-wrap: wrap;
@@ -7,7 +7,7 @@
   background: linear-gradient(to bottom, #bcaeab, #b7aba8);
 }
 
-.baner {
+.main-item {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -15,20 +15,20 @@
   margin: 124px 113px;
 }
 
-.baner-text {
+.item-title {
   font-family: 'Nunito', sans-serif;
   font-size: 48px;
   color: #ffffff;
 }
 
-.baner-desc {
+.item-desc {
   max-width: 292px;
   font-family: 'Mulish', sans-serif;
   font-size: 16px;
   color: #ffffff;
 }
 
-.button-baner {
+.button-item {
   min-width: 160px;
   min-height: 52px;
   border: solid #c9bebc;

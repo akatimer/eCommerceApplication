@@ -7,7 +7,7 @@ import NameInput from '../NameInput/NameInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
 import DateInput from '../DateInput/DateInput';
 import StreetInput from '../StreetInput/StreetImput';
-import CityInput from '../SityInput/SityInput';
+import CityInput from '../CityInput/CityInput';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
 

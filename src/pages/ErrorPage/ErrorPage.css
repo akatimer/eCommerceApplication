@@ -1,0 +1,35 @@
+.error {
+  font-family: 'Mulish', sans-serif;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  gap: 48px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(to bottom, #ee9977, #558899);
+}
+
+.error-desc {
+  max-width: 435px;
+  text-align: center;
+}
+
+.error-link {
+  font-style: italic;
+  transition: all 1s;
+  animation: pulsate 1s infinite;
+}
+
+@keyframes pulsate {
+  0% {
+    color: #ffd3e1;
+  }
+  50% {
+    color: #c9bebc;
+  }
+  100% {
+    color: #f18e6f;
+  }
+}
