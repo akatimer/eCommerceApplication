@@ -24,6 +24,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: 4px;
   justify-content: space-between;
 }
 
@@ -50,4 +51,27 @@
   background-color: #48484a;
   color: #ffffff;
   border-radius: 4px;
+}
+
+@media (max-width: 1099px) {
+  .nav {
+    padding: 0 96px;
+    flex-direction: column;
+  }
+
+  .navigation {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 667px) {
+  .navigation {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .customer-nav {
+    flex-direction: column;
+    gap: 24px;
+  }
 }

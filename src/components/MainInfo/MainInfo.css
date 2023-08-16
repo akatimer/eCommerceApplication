@@ -41,3 +41,13 @@
   cursor: pointer;
   align-self: flex-start;
 }
+
+@media (max-width: 399px) {
+  .item-title {
+    text-align: center;
+  }
+
+  .item-desc {
+    text-align: center;
+  }
+}
