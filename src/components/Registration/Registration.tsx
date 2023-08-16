@@ -10,6 +10,7 @@ import StreetInput from '../StreetInput/StreetImput';
 import CityInput from '../CityInput/CityInput';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
+import Checkbox from '../Сheckbox/CheckBox';
 
 const Registration: React.FC = () => {
   return (
@@ -20,10 +21,27 @@ const Registration: React.FC = () => {
           <NameInput />
           <LastNameInput />
           <DateInput />
-          <CountrySelect />
-          <StreetInput />
-          <CityInput />
-          <PostalCodeInput />
+          <fieldset className="address">
+            <legend>Address</legend>
+            <div className="shipp-wrapper">
+              <h2>Shipping</h2>
+              <CountrySelect />
+              <StreetInput />
+              <CityInput />
+              <PostalCodeInput />
+              <div className="checkbox-wrapper">
+                <Checkbox onChange={(): void => {}} label="Use as default" />
+                <Checkbox onChange={(): void => {}} label="Use for billing" />
+              </div>
+            </div>
+            <div className="bill-wrapper">
+              <h2>Billing</h2>
+              <CountrySelect />
+              <StreetInput />
+              <CityInput />
+              <PostalCodeInput />
+            </div>
+          </fieldset>
           <EmailInput />
           <PasswordInput />
           <Button
