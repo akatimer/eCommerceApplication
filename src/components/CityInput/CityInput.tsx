@@ -3,9 +3,10 @@ import CustomInput from '../CustomInput/CustomInput';
 
 interface InputProps {
   onChange: (value: string) => void;
+  value?: string;
 }
 
-const CityInput: React.FC<InputProps> = ({ onChange }) => {
+const CityInput: React.FC<InputProps> = ({ onChange, value }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -16,6 +17,7 @@ const CityInput: React.FC<InputProps> = ({ onChange }) => {
       placeholder="Enter your city"
       type="text"
       onChange={onChange}
+      value={value}
     />
   );
 };

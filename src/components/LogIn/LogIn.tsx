@@ -17,7 +17,7 @@ const LogIn: React.FC = () => {
           <PasswordInput onChange={setPassword} />
           <Button
             label="Continue"
-            className="button-login"
+            className="button button-login"
             onClick={(): void => {
               console.log(email, password);
             }}

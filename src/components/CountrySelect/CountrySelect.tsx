@@ -1,21 +1,19 @@
 import './CountrySelect.css';
-import React, { useState, ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 
 interface CountrySelectProps {
   onChange: (country: string) => void;
+  value?: string;
 }
 
-const CountrySelect: React.FC<CountrySelectProps> = ({ onChange }) => {
-  const [selectedCountry, setSelectedCountry] = useState('');
-
+const CountrySelect: React.FC<CountrySelectProps> = ({ onChange, value }) => {
   const handleCountryChange = (event: ChangeEvent<HTMLSelectElement>): void => {
     const country = event.target.value;
-    setSelectedCountry(country);
     onChange(country);
   };
 
   return (
-    <select className="select" value={selectedCountry} onChange={handleCountryChange}>
+    <select className="select" value={value} onChange={handleCountryChange}>
       <option value="">Your Country</option>
       <option value="USA">USA</option>
       <option value="CA">CANADA</option>
