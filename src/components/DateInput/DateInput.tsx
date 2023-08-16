@@ -1,7 +1,11 @@
 import isDateValid from '../../utils/validationFunctions/isDateValid';
 import CustomInput from '../CustomInput/CustomInput';
 
-const DateInput: React.FC = () => {
+interface InputProps {
+  onChange: (value: string) => void;
+}
+
+const DateInput: React.FC<InputProps> = ({ onChange }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -11,6 +15,7 @@ const DateInput: React.FC = () => {
       validator={isDateValid}
       placeholder="Your date of birth"
       type="date"
+      onChange={onChange}
     />
   );
 };

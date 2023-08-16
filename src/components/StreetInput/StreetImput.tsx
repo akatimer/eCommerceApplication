@@ -1,7 +1,11 @@
 import isStreetValid from '../../utils/validationFunctions/isStreetValid';
 import CustomInput from '../CustomInput/CustomInput';
 
-const StreetInput: React.FC = () => {
+interface InputProps {
+  onChange: (value: string) => void;
+}
+
+const StreetInput: React.FC<InputProps> = ({ onChange }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -11,6 +15,7 @@ const StreetInput: React.FC = () => {
       validator={isStreetValid}
       placeholder="Enter your street"
       type="text"
+      onChange={onChange}
     />
   );
 };

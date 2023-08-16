@@ -2,7 +2,11 @@ import React from 'react';
 import isNameValid from '../../utils/validationFunctions/isNameValid';
 import CustomInput from '../CustomInput/CustomInput';
 
-const NameInput: React.FC = () => {
+interface InputProps {
+  onChange: (value: string) => void;
+}
+
+const NameInput: React.FC<InputProps> = ({ onChange }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -12,6 +16,7 @@ const NameInput: React.FC = () => {
       validator={isNameValid}
       placeholder="Your name"
       type="text"
+      onChange={onChange}
     />
   );
 };

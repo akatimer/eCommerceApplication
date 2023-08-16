@@ -1,7 +1,11 @@
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import CustomInput from '../CustomInput/CustomInput';
 
-const EmailInput: React.FC = () => {
+interface InputProps {
+  onChange: (value: string) => void;
+}
+
+const EmailInput: React.FC<InputProps> = ({ onChange }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -11,6 +15,7 @@ const EmailInput: React.FC = () => {
       validator={isEmailValid}
       placeholder="Enter your email"
       type="text"
+      onChange={onChange}
     />
   );
 };

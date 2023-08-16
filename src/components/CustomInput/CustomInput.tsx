@@ -1,5 +1,5 @@
+import './CustomInput.css';
 import React, { useState, ChangeEvent } from 'react';
-import LogInInput from '../LogInInput/LogInInput';
 import PasswordToggle from '../PasswordToggle/PasswordToggle';
 
 interface InputProps {
@@ -11,6 +11,8 @@ interface InputProps {
   placeholder: string;
   type: string;
   onToggle?: () => void;
+  className?: string;
+  onChange: (value: string) => void;
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -22,6 +24,8 @@ const CustomInput: React.FC<InputProps> = ({
   placeholder,
   type,
   onToggle,
+  className,
+  onChange,
 }) => {
   const [message, setMessage] = useState('');
   const [messageColor, setMessageColor] = useState('');
@@ -35,6 +39,8 @@ const CustomInput: React.FC<InputProps> = ({
       setMessage(invalidMessage);
       setMessageColor(invalidColor);
     }
+
+    onChange(value);
   }
 
   return (
@@ -43,8 +49,8 @@ const CustomInput: React.FC<InputProps> = ({
         {message}
       </div>
       <div className="input-wrapper">
-        <LogInInput
-          className="input-form"
+        <input
+          className={`input-form ${className}`}
           type={type}
           placeholder={placeholder}
           onChange={inputHandler}
