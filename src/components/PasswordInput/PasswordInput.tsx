@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import CustomInput from '../CustomInput/CustomInput';
 
-const PasswordInput: React.FC = () => {
+interface InputProps {
+  onChange: (value: string) => void;
+}
+
+const PasswordInput: React.FC<InputProps> = ({ onChange }) => {
   const [passwordType, setPasswordType] = useState('password');
 
   const togglePasswordType = (): void => {
@@ -20,6 +24,7 @@ const PasswordInput: React.FC = () => {
         placeholder="Enter your password"
         type={passwordType}
         onToggle={togglePasswordType}
+        onChange={onChange}
       />
     </>
   );

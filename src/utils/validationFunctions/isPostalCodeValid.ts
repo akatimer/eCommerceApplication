@@ -1,7 +1,10 @@
 function isPostalCodeValid(code: string): boolean {
-  const postalCodePattern = /^[0-9]{5}(?:-[0-9]{4})?|[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]$/;
+  // 11111 or 11111-1111
+  const usaPattern = /^\d{5}(?:-\d{4})?$/;
+  // A1A 1A1
+  const canadaPattern = /^[ABCEGHJKLMNPRSTVXY]\d[A-Z] \d[A-Z]\d$/;
 
-  return postalCodePattern.test(code);
+  return usaPattern.test(code) || canadaPattern.test(code);
 }
 
 export default isPostalCodeValid;

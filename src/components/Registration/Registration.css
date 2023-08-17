@@ -1,3 +1,23 @@
 .form-reg {
   background: #ee9977;
 }
+
+.address {
+  display: flex;
+  gap: 24px;
+  width: 600px !important;
+  color: #48484a;
+  border: solid 2px #48484a;
+  border-radius: 16px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+}
+
+@media (max-width: 667px) {
+  .address {
+    flex-direction: column;
+    width: 340px !important;
+  }
+}

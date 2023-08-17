@@ -1,7 +1,12 @@
 import isPostalCodeValid from '../../utils/validationFunctions/isPostalCodeValid';
 import CustomInput from '../CustomInput/CustomInput';
 
-const PostalCodeInput: React.FC = () => {
+interface InputProps {
+  onChange: (value: string) => void;
+  value?: string;
+}
+
+const PostalCodeInput: React.FC<InputProps> = ({ onChange, value }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -11,6 +16,8 @@ const PostalCodeInput: React.FC = () => {
       validator={isPostalCodeValid}
       placeholder="Enter your postal code"
       type="text"
+      onChange={onChange}
+      value={value}
     />
   );
 };
