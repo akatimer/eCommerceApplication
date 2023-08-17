@@ -5,13 +5,13 @@ interface PasswordToggleProps {
 }
 
 const PasswordToggle: React.FC<PasswordToggleProps> = ({ onClick }) => {
-  const [toggleClass, setToggleClass] = useState('view-toggle');
+  const [toggleClass, setToggleClass] = useState('hide-toggle');
 
   const handleClick = (): void => {
-    if (toggleClass === 'view-toggle') {
-      setToggleClass('hide-toggle');
-    } else {
+    if (toggleClass === 'hide-toggle') {
       setToggleClass('view-toggle');
+    } else {
+      setToggleClass('hide-toggle');
     }
 
     if (onClick) {
