@@ -25,7 +25,6 @@ const CustomInput: React.FC<InputProps> = ({
   placeholder,
   type,
   onToggle,
-  className,
   onChange,
   value,
 }) => {
@@ -52,7 +51,7 @@ const CustomInput: React.FC<InputProps> = ({
       </div>
       <div className="input-wrapper">
         <input
-          className={`input-form ${className}`}
+          className="input-form"
           type={type}
           placeholder={placeholder}
           onChange={inputHandler}
