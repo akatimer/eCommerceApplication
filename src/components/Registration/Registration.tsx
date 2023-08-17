@@ -11,7 +11,8 @@ import CityInput from '../CityInput/CityInput';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
 import Checkbox from '../Сheckbox/CheckBox';
-import { AddressDraft } from '@commercetools/platform-sdk';
+import { AddressDraft, CustomerDraft } from '@commercetools/platform-sdk';
+import { createCustomer } from '../../utils/api/clientApi';
 
 const Registration: React.FC = () => {
   const [name, setName] = useState('');
@@ -31,7 +32,6 @@ const Registration: React.FC = () => {
   const [useAsDefault, setUseAsDefault] = useState(false);
 
   const shippingAddress: AddressDraft = {
-    id: 'shipping',
     streetName: shippingStreet,
     city: shippingCity,
     country: shippingCountry,
@@ -39,7 +39,6 @@ const Registration: React.FC = () => {
   };
 
   const billingAddress: AddressDraft = {
-    id: 'billing',
     streetName: useShippingForBilling ? shippingStreet : billingStreet,
     city: useShippingForBilling ? shippingCity : billingCity,
     country: useShippingForBilling ? shippingCountry : billingCountry,
@@ -61,27 +60,23 @@ const Registration: React.FC = () => {
     setUseShippingForBilling((prev) => !prev);
   };
 
-  let defaultAddress = {};
-
-  if (useAsDefault) {
-    defaultAddress = {
-      defaultShippingAddress: shippingAddress.id,
-      defaultBillingAddress: useShippingForBilling ? shippingAddress.id : billingAddress.id,
+  const createBody = (): CustomerDraft => {
+    const addresses = [{ ...shippingAddress }, { ...billingAddress }];
+    const defaultAddress = useAsDefault ? { defaultShippingAddress: 0 } : {};
+    const billingAddressNumbers = { billingAddresses: [0] };
+    const shippingAddressNumbers = { shippingAddresses: [1] };
+    const body = {
+      email: email,
+      password: password,
+      dateOfBirth: date,
+      firstName: name,
+      lastName: lastName,
+      addresses: addresses,
+      ...defaultAddress,
+      ...billingAddressNumbers,
+      ...shippingAddressNumbers,
     };
-  }
-
-  const body = {
-    email: email,
-    password: password,
-    dateOfBirth: date,
-    addresses: [
-      {
-        firstName: name,
-        lastName: lastName,
-        ...shippingAddress,
-      },
-    ],
-    ...defaultAddress,
+    return body;
   };
 
   return (
@@ -133,7 +128,7 @@ const Registration: React.FC = () => {
           <Button
             label="Continue"
             className="button button-login"
-            onClick={(): void => console.log(body)}
+            onClick={(): Promise<void> => createCustomer(createBody())}
             type="submit"
           />
         </form>
