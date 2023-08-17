@@ -80,3 +80,10 @@
 .view-toggle {
   background-image: url('../../assets/icons/LoginPage/view-toggle.svg');
 }
+
+@media (max-width: 399px) {
+  .form-wrapper {
+    width: 320px;
+    padding: 12px;
+  }
+}

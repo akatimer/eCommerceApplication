@@ -9,6 +9,7 @@
 
 .main-item {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   gap: 24px;
   max-width: 540px;
@@ -40,4 +41,32 @@
   transition: all 0.5s;
   cursor: pointer;
   align-self: flex-start;
+}
+
+@media (max-width: 1198px) {
+  .main-info {
+    align-items: center;
+  }
+  .main-item {
+    align-items: center;
+  }
+  .item-title {
+    text-align: center;
+  }
+  .item-desc {
+    text-align: center;
+  }
+  .button-item {
+    align-self: center;
+  }
+}
+
+@media (max-width: 399px) {
+  .item-title {
+    text-align: center;
+  }
+
+  .item-desc {
+    text-align: center;
+  }
 }
