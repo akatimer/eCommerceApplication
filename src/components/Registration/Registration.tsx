@@ -28,6 +28,7 @@ const Registration: React.FC = () => {
   const [billingCountry, setBillingCountry] = useState('');
   const [billingPostalCode, setBillingPostalCode] = useState('');
   const [useShippingForBilling, setUseShippingForBilling] = useState(false);
+  const [useAsDefault, setUseAsDefault] = useState(false);
 
   const shippingAddress: AddressDraft = {
     id: 'shipping',
@@ -60,6 +61,15 @@ const Registration: React.FC = () => {
     setUseShippingForBilling((prev) => !prev);
   };
 
+  let defaultAddress = {};
+
+  if (useAsDefault) {
+    defaultAddress = {
+      defaultShippingAddress: shippingAddress.id,
+      defaultBillingAddress: useShippingForBilling ? shippingAddress.id : billingAddress.id,
+    };
+  }
+
   const body = {
     email: email,
     password: password,
@@ -71,6 +81,7 @@ const Registration: React.FC = () => {
         ...shippingAddress,
       },
     ],
+    ...defaultAddress,
   };
 
   return (
@@ -90,7 +101,10 @@ const Registration: React.FC = () => {
               <CityInput onChange={setShippingCity} />
               <PostalCodeInput onChange={setShippingPostalCode} />
               <div className="checkbox-wrapper">
-                <Checkbox onChange={(): void => {}} label="Use as default" />
+                <Checkbox
+                  onChange={(): void => setUseAsDefault((prev) => !prev)}
+                  label="Use as default"
+                />
                 <Checkbox onChange={handleBillingCheckbox} label="Use for billing" />
               </div>
             </div>
@@ -119,7 +133,7 @@ const Registration: React.FC = () => {
           <Button
             label="Continue"
             className="button button-login"
-            onClick={(): void => console.log(body, shippingAddress, billingAddress)}
+            onClick={(): void => console.log(body)}
             type="submit"
           />
         </form>
