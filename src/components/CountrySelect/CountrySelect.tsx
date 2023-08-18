@@ -15,7 +15,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ onChange, value }) => {
   return (
     <select className="select" value={value} onChange={handleCountryChange}>
       <option value="">Your Country</option>
-      <option value="USA">USA</option>
+      <option value="US">USA</option>
       <option value="CA">CANADA</option>
     </select>
   );

@@ -1,50 +1,86 @@
-import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+// import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { CustomerDraft } from '@commercetools/platform-sdk';
 import {
-  createClientWithPass,
-  createClientWithToken,
+  // createClientWithPass,
+  // createClientWithToken,
   getApiRoot,
   projectKey,
 } from './clientBuilder';
 
-export const getCustomers = await getApiRoot()
-  .withProjectKey({ projectKey })
-  // .products()
-  // .get()
-  // .execute();
-  .customers()
-  .get()
-  .execute();
-
-const getApiPassRoot: () => ApiRoot = () => {
-  return createApiBuilderFromCtpClient(
-    createClientWithPass('zhiznevskiyartem@gmail.com', 'qweqweqwe')
-  );
+export const createCustomer = async (body: CustomerDraft): Promise<void> => {
+  const creationResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .customers()
+    .post({
+      body: body,
+    })
+    .execute()
+    .catch(console.error);
+  console.log(creationResponse);
 };
 
-export const getMeWithPassResponse = await getApiPassRoot()
-  .withProjectKey({ projectKey })
-  // .products()
-  // .get()
-  // .execute();
-  .me()
-  // .login()
-  // .post({
-  //   body: {
-  //     email: 'test@test.com',
-  //     password: 'cvsy09oq',
-  //   },
-  //   })
-  .get()
-  .execute()
-  .catch(console.error);
+// export const getCustomers = await getApiRoot()
+//   .withProjectKey({ projectKey })
+//   // .products()
+//   // .get()
+//   // .execute();
+//   .customers()
+//   .post({
+//     body: {
+//       email: 'timur@test.com',
+//       password: 'testpass',
+//       firstName: 'Timur',
+//       lastName: 'Mudryi',
+//       dateOfBirth: '1988-02-27',
+//       addresses: [
+//         {
+//           country: 'US',
+//           city: 'New York',
+//           streetName: '17 State Street',
+//           postalCode: '10004',
+//           phone: '0000000000',
+//         },
+//       ],
+//       defaultBillingAddress: 0,
+//       defaultShippingAddress: 0,
+//     },
+//   })
+//   .execute();
 
-const getApiTokenRoot: () => ApiRoot = () => {
-  const currentToket = `Bearer ${localStorage.getItem('token')}`;
-  return createApiBuilderFromCtpClient(createClientWithToken(currentToket));
-};
+// const getApiPassRoot: () => ApiRoot = () => {
+//   return createApiBuilderFromCtpClient(createClientWithPass('timur@test.test.com', 'testpass'));
+// };
 
-export const getMeWithToken = await getApiTokenRoot()
-  .withProjectKey({ projectKey })
-  .me()
-  .get()
-  .execute();
+// export const getMeWithPassResponse = await getApiPassRoot()
+//   .withProjectKey({ projectKey })
+//   // .products()
+//   // .get()
+//   // .execute();
+//   .me()
+//   .delete({
+//     queryArgs: {
+//       version: 1,
+//     },
+//   })
+//   // .get()
+//   // .login()
+//   // .post({
+//   //   body: {
+//   //     email: 'test@test.com',
+//   //     password: 'cvsy09oq',
+//   //   },
+//   //   })
+//   // .get()
+//   .execute()
+//   .catch(console.error);
+
+// const getApiTokenRoot: () => ApiRoot = () => {
+//   const currentToket = `Bearer ${localStorage.getItem('token')}`;
+//   return createApiBuilderFromCtpClient(createClientWithToken(currentToket));
+// };
+
+// export const getMeWithToken = await getApiTokenRoot()
+//   .withProjectKey({ projectKey })
+//   .me()
+//   .get()
+//   .execute();
