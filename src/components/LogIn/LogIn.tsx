@@ -14,10 +14,18 @@ const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDataValid, setIsDataValid] = useState(false);
+  const [token, setToken] = useState('');
   const navigate = useNavigate();
+  if (token) {
+    navigate(HOME_ROUTE);
+  }
   useEffect(() => {
     if (isEmailValid(email) && isPasswordValid(password)) {
       setIsDataValid(true);
+    }
+    const storageToken = localStorage.getItem('token');
+    if (storageToken) {
+      setToken(storageToken);
     }
   }, [email, password]);
   return (
