@@ -2,16 +2,24 @@ import './LogIn.css';
 import Button from '../Button/Button';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import EmailInput from '../EmailInput/EmailInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
 import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
 import { HOME_ROUTE } from '../../utils/constants';
+import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
+import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 
 const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isDataValid, setIsDataValid] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    if (isEmailValid(email) && isPasswordValid(password)) {
+      setIsDataValid(true);
+    }
+  }, [email, password]);
   return (
     <section className="form">
       <div className="form-wrapper">
@@ -37,6 +45,7 @@ const LogIn: React.FC = () => {
               }
             }}
             type="submit"
+            disabled={!isDataValid}
           />
         </form>
       </div>
