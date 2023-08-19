@@ -7,6 +7,7 @@ import {
   TokenStore,
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient, ApiRoot } from '@commercetools/platform-sdk';
+import { TOKEN_NAME } from '../constants';
 
 export const projectKey = import.meta.env.VITE_PROJECT_KEY || '';
 const authMiddlewareOptions: AuthMiddlewareOptions = {
@@ -58,12 +59,12 @@ type PasswordAuthMiddlewareOptions = {
 const MyTokenCache: TokenCache = {
   get() {
     return {
-      token: 'token',
+      token: TOKEN_NAME,
       expirationTime: 123,
     };
   },
   set(value: TokenStore) {
-    localStorage.setItem('token', `${value.token}`);
+    localStorage.setItem(TOKEN_NAME, `${value.token}`);
   },
 };
 

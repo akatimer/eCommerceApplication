@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
 import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
-import { HOME_ROUTE } from '../../utils/constants';
+import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 
@@ -23,7 +23,7 @@ const LogIn: React.FC = () => {
     if (isEmailValid(email) && isPasswordValid(password)) {
       setIsDataValid(true);
     }
-    const storageToken = localStorage.getItem('token');
+    const storageToken = localStorage.getItem(TOKEN_NAME);
     if (storageToken) {
       setToken(storageToken);
     }
