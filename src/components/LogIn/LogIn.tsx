@@ -16,10 +16,10 @@ const LogIn: React.FC = () => {
   const [isDataValid, setIsDataValid] = useState(false);
   const [token, setToken] = useState('');
   const navigate = useNavigate();
-  if (token) {
-    navigate(HOME_ROUTE);
-  }
   useEffect(() => {
+    if (token) {
+      navigate(HOME_ROUTE);
+    }
     if (isEmailValid(email) && isPasswordValid(password)) {
       setIsDataValid(true);
     }
@@ -27,7 +27,7 @@ const LogIn: React.FC = () => {
     if (storageToken) {
       setToken(storageToken);
     }
-  }, [email, password]);
+  }, [email, navigate, password, token]);
   return (
     <section className="form">
       <div className="form-wrapper">
@@ -48,6 +48,7 @@ const LogIn: React.FC = () => {
                 .post({ body: { email: email, password: password } })
                 .execute()
                 .catch(console.error);
+              console.log(loginResponse);
               if (loginResponse) {
                 navigate(HOME_ROUTE);
               }
