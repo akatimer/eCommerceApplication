@@ -1,15 +1,12 @@
 import './Navigation.css';
-import React, { useState } from 'react';
 import logOutIcon from '../../assets/icons/logout.svg';
 import Logo from '../Logo/Logo';
 import { NavLink } from 'react-router-dom';
 import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { useAuth } from '../AuthUse/AuthUse';
 
 const Navigation: React.FC = () => {
-  // const storageToken = localStorage.getItem(TOKEN_NAME);
-  // const isTokenPresent = storageToken !== null;
-
-  const [loggedOut, setLoggedOut] = useState(false);
+  const { loggedOut, setLoggedOut } = useAuth();
 
   const handleLogOut = (): void => {
     localStorage.removeItem(TOKEN_NAME);

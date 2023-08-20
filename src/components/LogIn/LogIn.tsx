@@ -9,13 +9,16 @@ import { useNavigate } from 'react-router-dom';
 import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
+import { useAuth } from '../AuthUse/AuthUse';
 
 const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDataValid, setIsDataValid] = useState(false);
   const [token, setToken] = useState('');
+  const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (token) {
       navigate(HOME_ROUTE);
@@ -50,6 +53,7 @@ const LogIn: React.FC = () => {
                 .catch(console.error);
               console.log(loginResponse);
               if (loginResponse) {
+                setLoggedOut(false);
                 navigate(HOME_ROUTE);
               }
             }}
