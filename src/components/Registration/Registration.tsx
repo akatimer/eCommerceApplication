@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Alert from '@mui/material/Alert';
 import './Registration.css';
 import Button from '../Button/Button';
 import PasswordInput from '../PasswordInput/PasswordInput';
@@ -11,7 +12,12 @@ import CityInput from '../CityInput/CityInput';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
 import Checkbox from '../Сheckbox/CheckBox';
-import { AddressDraft, CustomerDraft } from '@commercetools/platform-sdk';
+import {
+  AddressDraft,
+  ClientResponse,
+  CustomerDraft,
+  CustomerSignInResult,
+} from '@commercetools/platform-sdk';
 import { createCustomer } from '../../utils/api/clientApi';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
@@ -28,16 +34,18 @@ const Registration: React.FC = () => {
   const [date, setDate] = useState('');
   const [shippingStreet, setShippingStreet] = useState('');
   const [shippingCity, setShippingCity] = useState('');
-  const [shippingCountry, setShippingCountry] = useState('');
+  const [shippingCountry, setShippingCountry] = useState('US');
   const [shippingPostalCode, setShippingPostalCode] = useState('');
   const [billingStreet, setBillingStreet] = useState('');
   const [billingCity, setBillingCity] = useState('');
-  const [billingCountry, setBillingCountry] = useState('');
+  const [billingCountry, setBillingCountry] = useState('US');
   const [billingPostalCode, setBillingPostalCode] = useState('');
   const [useShippingForBilling, setUseShippingForBilling] = useState(false);
   const [useAsDefault, setUseAsDefault] = useState(false);
 
   const [isDataValid, setIsDataValid] = useState(false);
+
+  const [isModalShown, setIsModalShown] = useState(false);
 
   useEffect(() => {
     if (
@@ -169,12 +177,27 @@ const Registration: React.FC = () => {
           <Button
             label="Continue"
             className="button button-login"
-            onClick={(): Promise<void> => createCustomer(createBody())}
+            onClick={(): Promise<void | ClientResponse<CustomerSignInResult>> =>
+              createCustomer(createBody()).then((response) =>
+                response ? setIsModalShown(false) : setIsModalShown(true)
+              )
+            }
             type="submit"
             disabled={!isDataValid}
           />
         </form>
       </div>
+      {isModalShown && (
+        <Alert
+          severity="error"
+          className="modal"
+          onClose={(): void => {
+            setIsModalShown(false);
+          }}
+        >
+          User with this email already exists
+        </Alert>
+      )}
     </section>
   );
 };

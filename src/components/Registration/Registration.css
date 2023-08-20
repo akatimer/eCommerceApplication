@@ -1,5 +1,7 @@
 .form-reg {
   background: #ee9977;
+  position: relative;
+  padding-bottom: 40px;
 }
 
 .address {
@@ -20,4 +22,11 @@
     flex-direction: column;
     width: 340px !important;
   }
+}
+
+.modal {
+  position: absolute;
+  max-width: 330px;
+  bottom: 10px;
+  left: calc(50% - 165px);
 }
