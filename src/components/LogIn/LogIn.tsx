@@ -10,6 +10,7 @@ import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import { useAuth } from '../AuthUse/AuthUse';
+import Alert from '@mui/material/Alert';
 
 const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ const LogIn: React.FC = () => {
   const [isDataValid, setIsDataValid] = useState(false);
   const [token, setToken] = useState('');
   const { setLoggedOut } = useAuth();
+  const [isModalShown, setIsModalShown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +52,10 @@ const LogIn: React.FC = () => {
                 .login()
                 .post({ body: { email: email, password: password } })
                 .execute()
-                .catch(console.error);
+                .catch(() => {
+                  console.error;
+                  setIsModalShown(true);
+                });
               console.log(loginResponse);
               if (loginResponse) {
                 setLoggedOut(false);
@@ -62,6 +67,17 @@ const LogIn: React.FC = () => {
           />
         </form>
       </div>
+      {isModalShown && (
+        <Alert
+          severity="error"
+          className="modal"
+          onClose={(): void => {
+            setIsModalShown(false);
+          }}
+        >
+          Account is not found
+        </Alert>
+      )}
     </section>
   );
 };
