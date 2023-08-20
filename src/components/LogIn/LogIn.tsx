@@ -9,12 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
+import Alert from '@mui/material/Alert';
 
 const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDataValid, setIsDataValid] = useState(false);
   const [token, setToken] = useState('');
+  const [isModalShown, setIsModalShown] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (token) {
@@ -47,7 +49,10 @@ const LogIn: React.FC = () => {
                 .login()
                 .post({ body: { email: email, password: password } })
                 .execute()
-                .catch(console.error);
+                .catch(() => {
+                  console.error;
+                  setIsModalShown(true);
+                });
               console.log(loginResponse);
               if (loginResponse) {
                 navigate(HOME_ROUTE);
@@ -58,6 +63,17 @@ const LogIn: React.FC = () => {
           />
         </form>
       </div>
+      {isModalShown && (
+        <Alert
+          severity="error"
+          className="modal"
+          onClose={(): void => {
+            setIsModalShown(false);
+          }}
+        >
+          Account is not found
+        </Alert>
+      )}
     </section>
   );
 };
