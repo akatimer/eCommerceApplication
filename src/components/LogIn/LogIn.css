@@ -1,6 +1,7 @@
 .form {
   min-height: 570px;
   display: flex;
+  position: relative;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
@@ -88,4 +89,10 @@
     width: 320px;
     padding: 12px;
   }
+}
+.modal {
+  position: absolute;
+  max-width: 250px;
+  bottom: 10%;
+  left: calc(50% - 125px);
 }
