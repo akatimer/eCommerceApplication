@@ -1,5 +1,5 @@
 // import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { CustomerDraft } from '@commercetools/platform-sdk';
+import { ClientResponse, CustomerDraft, CustomerSignInResult } from '@commercetools/platform-sdk';
 import {
   // createClientWithPass,
   // createClientWithToken,
@@ -7,7 +7,9 @@ import {
   projectKey,
 } from './clientBuilder';
 
-export const createCustomer = async (body: CustomerDraft): Promise<void> => {
+export const createCustomer = async (
+  body: CustomerDraft
+): Promise<void | ClientResponse<CustomerSignInResult>> => {
   const creationResponse = await getApiRoot()
     .withProjectKey({ projectKey })
     .customers()
@@ -17,6 +19,7 @@ export const createCustomer = async (body: CustomerDraft): Promise<void> => {
     .execute()
     .catch(console.error);
   console.log(creationResponse);
+  return creationResponse;
 };
 
 // export const getCustomers = await getApiRoot()
