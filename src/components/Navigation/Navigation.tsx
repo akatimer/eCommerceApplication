@@ -1,12 +1,17 @@
 import './Navigation.css';
 import React from 'react';
-import signinIcon from '../../assets/icons/user_icn.svg';
-import cartIcon from '../../assets/icons/cart_icn.svg';
+import logOutIcon from '../../assets/icons/logout.svg';
 import Logo from '../Logo/Logo';
 import { NavLink } from 'react-router-dom';
-import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/constants';
+import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
 
 const Navigation: React.FC = () => {
+  const storageToken = localStorage.getItem(TOKEN_NAME);
+  const isTokenPresent = storageToken !== null;
+  const handleLogOut = (): void => {
+    localStorage.removeItem(TOKEN_NAME);
+  };
+
   return (
     <nav className="nav">
       <Logo />
@@ -33,26 +38,26 @@ const Navigation: React.FC = () => {
         </li>
       </ul>
       <ul className="nav-list customer-nav">
-        <li className="nav-item">
-          <a className="nav-link" href="#!">
-            <img src={signinIcon} alt="signin" />
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#!">
-            <img src={cartIcon} alt="cart" />
-          </a>
-        </li>
-        <li className="nav-item">
-          <NavLink to={LOGIN_ROUTE} className="nav-link sign">
-            sign in
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink to={REGISTRATION_ROUTE} className="nav-link sign">
-            sign up
-          </NavLink>
-        </li>
+        {isTokenPresent ? (
+          <li className="nav-item">
+            <a className="nav-link" href="#!" onClick={handleLogOut}>
+              <img src={logOutIcon} alt="logout" />
+            </a>
+          </li>
+        ) : (
+          <>
+            <li className="nav-item">
+              <NavLink to={LOGIN_ROUTE} className="nav-link sign">
+                sign in
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to={REGISTRATION_ROUTE} className="nav-link sign">
+                sign up
+              </NavLink>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
