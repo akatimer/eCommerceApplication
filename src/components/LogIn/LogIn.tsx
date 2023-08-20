@@ -2,14 +2,32 @@ import './LogIn.css';
 import Button from '../Button/Button';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import EmailInput from '../EmailInput/EmailInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
 import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { useNavigate } from 'react-router-dom';
+import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
+import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 
 const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isDataValid, setIsDataValid] = useState(false);
+  const [token, setToken] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (token) {
+      navigate(HOME_ROUTE);
+    }
+    if (isEmailValid(email) && isPasswordValid(password)) {
+      setIsDataValid(true);
+    }
+    const storageToken = localStorage.getItem(TOKEN_NAME);
+    if (storageToken) {
+      setToken(storageToken);
+    }
+  }, [email, navigate, password, token]);
   return (
     <section className="form">
       <div className="form-wrapper">
@@ -31,8 +49,12 @@ const LogIn: React.FC = () => {
                 .execute()
                 .catch(console.error);
               console.log(loginResponse);
+              if (loginResponse) {
+                navigate(HOME_ROUTE);
+              }
             }}
             type="submit"
+            disabled={!isDataValid}
           />
         </form>
       </div>

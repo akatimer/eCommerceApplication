@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Registration.css';
 import Button from '../Button/Button';
 import PasswordInput from '../PasswordInput/PasswordInput';
@@ -13,6 +13,12 @@ import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
 import Checkbox from '../Сheckbox/CheckBox';
 import { AddressDraft, CustomerDraft } from '@commercetools/platform-sdk';
 import { createCustomer } from '../../utils/api/clientApi';
+import isEmailValid from '../../utils/validationFunctions/isEmailValid';
+import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
+import isDateValid from '../../utils/validationFunctions/isDateValid';
+import isNameValid from '../../utils/validationFunctions/isNameValid';
+import isPostalCodeValid from '../../utils/validationFunctions/isPostalCodeValid';
+import isStreetValid from '../../utils/validationFunctions/isStreetValid';
 
 const Registration: React.FC = () => {
   const [name, setName] = useState('');
@@ -31,6 +37,41 @@ const Registration: React.FC = () => {
   const [useShippingForBilling, setUseShippingForBilling] = useState(false);
   const [useAsDefault, setUseAsDefault] = useState(false);
 
+  const [isDataValid, setIsDataValid] = useState(false);
+
+  useEffect(() => {
+    if (
+      isEmailValid(email) &&
+      isPasswordValid(password) &&
+      isDateValid(date) &&
+      isNameValid(name) &&
+      isNameValid(lastName) &&
+      isNameValid(shippingCity) &&
+      isNameValid(billingCity) &&
+      isPostalCodeValid(shippingPostalCode) &&
+      isPostalCodeValid(billingPostalCode) &&
+      isStreetValid(shippingStreet) &&
+      isStreetValid(billingStreet)
+    ) {
+      setIsDataValid(true);
+    } else {
+      setIsDataValid(false);
+    }
+  }, [
+    billingCity,
+    billingPostalCode,
+    billingStreet,
+    date,
+    email,
+    isDataValid,
+    lastName,
+    name,
+    password,
+    shippingCity,
+    shippingCountry,
+    shippingPostalCode,
+    shippingStreet,
+  ]);
   const shippingAddress: AddressDraft = {
     streetName: shippingStreet,
     city: shippingCity,
@@ -130,6 +171,7 @@ const Registration: React.FC = () => {
             className="button button-login"
             onClick={(): Promise<void> => createCustomer(createBody())}
             type="submit"
+            disabled={!isDataValid}
           />
         </form>
       </div>
