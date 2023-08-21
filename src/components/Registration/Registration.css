@@ -4,10 +4,14 @@
   padding-bottom: 40px;
 }
 
+.shipp-wrapper,
+.bill-wrapper {
+  width: 300px;
+}
+
 .address {
   display: flex;
   gap: 24px;
-  width: 600px !important;
   color: #48484a;
   border: solid 2px #48484a;
   border-radius: 16px;

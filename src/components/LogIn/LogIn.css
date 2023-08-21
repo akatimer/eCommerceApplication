@@ -90,7 +90,7 @@
     padding: 12px;
   }
 }
-.modal {
+.auth-modal {
   position: absolute;
   max-width: 250px;
   bottom: 10%;

@@ -48,22 +48,39 @@ const Registration: React.FC = () => {
   const [isModalShown, setIsModalShown] = useState(false);
 
   useEffect(() => {
-    if (
-      isEmailValid(email) &&
-      isPasswordValid(password) &&
-      isDateValid(date) &&
-      isNameValid(name) &&
-      isNameValid(lastName) &&
-      isNameValid(shippingCity) &&
-      isNameValid(billingCity) &&
-      isPostalCodeValid(shippingPostalCode) &&
-      isPostalCodeValid(billingPostalCode) &&
-      isStreetValid(shippingStreet) &&
-      isStreetValid(billingStreet)
-    ) {
-      setIsDataValid(true);
+    if (!useShippingForBilling) {
+      if (
+        isEmailValid(email) &&
+        isPasswordValid(password) &&
+        isDateValid(date) &&
+        isNameValid(name) &&
+        isNameValid(lastName) &&
+        isNameValid(shippingCity) &&
+        isNameValid(billingCity) &&
+        isPostalCodeValid(shippingPostalCode) &&
+        isPostalCodeValid(billingPostalCode) &&
+        isStreetValid(shippingStreet) &&
+        isStreetValid(billingStreet)
+      ) {
+        setIsDataValid(true);
+      } else {
+        setIsDataValid(false);
+      }
     } else {
-      setIsDataValid(false);
+      if (
+        isEmailValid(email) &&
+        isPasswordValid(password) &&
+        isDateValid(date) &&
+        isNameValid(name) &&
+        isNameValid(lastName) &&
+        isNameValid(shippingCity) &&
+        isPostalCodeValid(shippingPostalCode) &&
+        isStreetValid(shippingStreet)
+      ) {
+        setIsDataValid(true);
+      } else {
+        setIsDataValid(false);
+      }
     }
   }, [
     billingCity,
@@ -79,6 +96,7 @@ const Registration: React.FC = () => {
     shippingCountry,
     shippingPostalCode,
     shippingStreet,
+    useShippingForBilling,
   ]);
   const shippingAddress: AddressDraft = {
     streetName: shippingStreet,
@@ -88,29 +106,20 @@ const Registration: React.FC = () => {
   };
 
   const billingAddress: AddressDraft = {
-    streetName: useShippingForBilling ? shippingStreet : billingStreet,
-    city: useShippingForBilling ? shippingCity : billingCity,
-    country: useShippingForBilling ? shippingCountry : billingCountry,
-    postalCode: useShippingForBilling ? shippingPostalCode : billingPostalCode,
+    streetName: billingStreet,
+    city: billingCity,
+    country: billingCountry,
+    postalCode: billingPostalCode,
   };
 
   const handleBillingCheckbox = (): void => {
-    if (useShippingForBilling) {
-      setBillingStreet(shippingStreet);
-      setBillingCity(shippingCity);
-      setBillingCountry(shippingCountry);
-      setBillingPostalCode(shippingPostalCode);
-    } else {
-      setBillingStreet('');
-      setBillingCity('');
-      setBillingCountry('');
-      setBillingPostalCode('');
-    }
     setUseShippingForBilling((prev) => !prev);
   };
 
   const createBody = (): CustomerDraft => {
-    const addresses = [{ ...shippingAddress }, { ...billingAddress }];
+    const addresses = useShippingForBilling
+      ? [{ ...shippingAddress }, { ...shippingAddress }]
+      : [{ ...shippingAddress }, { ...billingAddress }];
     const defaultAddress = useAsDefault ? { defaultShippingAddress: 0 } : {};
     const billingAddressNumbers = { billingAddresses: [0] };
     const shippingAddressNumbers = { shippingAddresses: [1] };
@@ -125,6 +134,7 @@ const Registration: React.FC = () => {
       ...billingAddressNumbers,
       ...shippingAddressNumbers,
     };
+    console.log(body);
     return body;
   };
 
@@ -152,25 +162,15 @@ const Registration: React.FC = () => {
                 <Checkbox onChange={handleBillingCheckbox} label="Use for billing" />
               </div>
             </div>
-            <div className="bill-wrapper">
-              <h2>Billing</h2>
-              <CountrySelect
-                onChange={setBillingCountry}
-                value={useShippingForBilling ? shippingCountry : billingCountry}
-              />
-              <StreetInput
-                onChange={setBillingStreet}
-                value={useShippingForBilling ? shippingStreet : billingStreet}
-              />
-              <CityInput
-                onChange={setBillingCity}
-                value={useShippingForBilling ? shippingCity : billingCity}
-              />
-              <PostalCodeInput
-                onChange={setBillingPostalCode}
-                value={useShippingForBilling ? shippingPostalCode : billingPostalCode}
-              />
-            </div>
+            {!useShippingForBilling && (
+              <div className="bill-wrapper">
+                <h2>Billing</h2>
+                <CountrySelect onChange={setBillingCountry} value={billingCountry} />
+                <StreetInput onChange={setBillingStreet} value={billingStreet} />
+                <CityInput onChange={setBillingCity} value={billingCity} />
+                <PostalCodeInput onChange={setBillingPostalCode} value={billingPostalCode} />
+              </div>
+            )}
           </fieldset>
           <EmailInput onChange={setEmail} />
           <PasswordInput onChange={setPassword} />

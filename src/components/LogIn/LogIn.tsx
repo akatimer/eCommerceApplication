@@ -70,7 +70,7 @@ const LogIn: React.FC = () => {
       {isModalShown && (
         <Alert
           severity="error"
-          className="modal"
+          className="auth-modal"
           onClose={(): void => {
             setIsModalShown(false);
           }}
