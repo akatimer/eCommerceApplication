@@ -29,7 +29,7 @@ import isNameValid from '../../utils/validationFunctions/isNameValid';
 import isPostalCodeValid from '../../utils/validationFunctions/isPostalCodeValid';
 import isStreetValid from '../../utils/validationFunctions/isStreetValid';
 import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
-import { HOME_ROUTE } from '../../utils/constants';
+import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import { useNavigate } from 'react-router-dom';
 import { LOGIN_ROUTE } from '../../utils/constants';
 import { NavLink } from 'react-router-dom';
@@ -50,6 +50,7 @@ const Registration: React.FC = () => {
   const [billingPostalCode, setBillingPostalCode] = useState('');
   const [useShippingForBilling, setUseShippingForBilling] = useState(false);
   const [useAsDefault, setUseAsDefault] = useState(false);
+  const [token, setToken] = useState('');
 
   const [isDataValid, setIsDataValid] = useState(false);
 
@@ -58,6 +59,13 @@ const Registration: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (token) {
+      navigate(HOME_ROUTE);
+    }
+    const storageToken = localStorage.getItem(TOKEN_NAME);
+    if (storageToken) {
+      setToken(storageToken);
+    }
     if (!useShippingForBilling) {
       if (
         isEmailValid(email) &&
@@ -101,13 +109,16 @@ const Registration: React.FC = () => {
     isDataValid,
     lastName,
     name,
+    navigate,
     password,
     shippingCity,
     shippingCountry,
     shippingPostalCode,
     shippingStreet,
+    token,
     useShippingForBilling,
   ]);
+
   const shippingAddress: AddressDraft = {
     streetName: shippingStreet,
     city: shippingCity,
