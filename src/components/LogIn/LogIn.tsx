@@ -5,8 +5,8 @@ import EmailInput from '../EmailInput/EmailInput';
 import { useEffect, useState } from 'react';
 import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
 import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { HOME_ROUTE, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import { useAuth } from '../AuthUse/AuthUse';
@@ -66,6 +66,12 @@ const LogIn: React.FC = () => {
             disabled={!isDataValid}
           />
         </form>
+        <p className="to-route-desc">
+          Sign in or&nbsp;
+          <NavLink to={REGISTRATION_ROUTE} className="to-route-link">
+            create an account
+          </NavLink>
+        </p>
       </div>
       {isModalShown && (
         <Alert
