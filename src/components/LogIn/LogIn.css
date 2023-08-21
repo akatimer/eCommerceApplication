@@ -84,6 +84,16 @@
   background-image: url('../../assets/icons/LoginPage/view-toggle.svg');
 }
 
+.to-route-desc {
+  color: #48484a;
+  text-align: center;
+  font-size: 20px;
+}
+.to-route-link {
+  font-style: italic;
+  color: #ffffff;
+}
+
 @media (max-width: 399px) {
   .form-wrapper {
     width: 320px;
