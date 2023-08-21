@@ -24,7 +24,7 @@
 @media (max-width: 667px) {
   .address {
     flex-direction: column;
-    width: 340px !important;
+    width: 320px !important;
   }
 }
 

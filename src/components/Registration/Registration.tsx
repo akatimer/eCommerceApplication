@@ -31,6 +31,8 @@ import isStreetValid from '../../utils/validationFunctions/isStreetValid';
 import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
 import { HOME_ROUTE } from '../../utils/constants';
 import { useNavigate } from 'react-router-dom';
+import { LOGIN_ROUTE } from '../../utils/constants';
+import { NavLink } from 'react-router-dom';
 
 const Registration: React.FC = () => {
   const [name, setName] = useState('');
@@ -212,6 +214,12 @@ const Registration: React.FC = () => {
             disabled={!isDataValid}
           />
         </form>
+        <p className="to-route-desc">
+          Сreate an account or&nbsp;
+          <NavLink to={LOGIN_ROUTE} className="to-route-link">
+            log in
+          </NavLink>
+        </p>
       </div>
       {isModalShown && (
         <Alert

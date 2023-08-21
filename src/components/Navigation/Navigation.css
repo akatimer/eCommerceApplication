@@ -55,23 +55,35 @@
 
 @media (max-width: 1099px) {
   .nav {
+    font-size: 24px;
     padding: 0 96px;
     flex-direction: column;
   }
 
   .navigation {
+    gap: 24px;
     margin-left: 0;
   }
 }
 
 @media (max-width: 667px) {
+  .nav {
+    font-size: 16px;
+    padding: 0 48px;
+  }
+
+  .navigation {
+    gap: 12px;
+    align-items: center;
+  }
+}
+@media (max-width: 389px) {
   .navigation {
     flex-direction: column;
-    align-items: center;
   }
 
   .customer-nav {
     flex-direction: column;
-    gap: 24px;
+    gap: 18px;
   }
 }
