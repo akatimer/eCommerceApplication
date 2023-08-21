@@ -56,7 +56,6 @@ const LogIn: React.FC = () => {
                   console.error;
                   setIsModalShown(true);
                 });
-              console.log(loginResponse);
               if (loginResponse) {
                 setLoggedOut(false);
                 navigate(HOME_ROUTE);
@@ -76,7 +75,7 @@ const LogIn: React.FC = () => {
       {isModalShown && (
         <Alert
           severity="error"
-          className="modal"
+          className="auth-modal"
           onClose={(): void => {
             setIsModalShown(false);
           }}
