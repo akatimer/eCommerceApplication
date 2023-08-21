@@ -56,7 +56,6 @@ const LogIn: React.FC = () => {
                   console.error;
                   setIsModalShown(true);
                 });
-              console.log(loginResponse);
               if (loginResponse) {
                 setLoggedOut(false);
                 navigate(HOME_ROUTE);

@@ -12,11 +12,14 @@ import CityInput from '../CityInput/CityInput';
 import CountrySelect from '../CountrySelect/CountrySelect';
 import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
 import Checkbox from '../Сheckbox/CheckBox';
+import { useAuth } from '../AuthUse/AuthUse';
 import {
   AddressDraft,
+  ApiRoot,
   ClientResponse,
   CustomerDraft,
   CustomerSignInResult,
+  createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import { createCustomer } from '../../utils/api/clientApi';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
@@ -25,6 +28,9 @@ import isDateValid from '../../utils/validationFunctions/isDateValid';
 import isNameValid from '../../utils/validationFunctions/isNameValid';
 import isPostalCodeValid from '../../utils/validationFunctions/isPostalCodeValid';
 import isStreetValid from '../../utils/validationFunctions/isStreetValid';
+import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
+import { HOME_ROUTE } from '../../utils/constants';
+import { useNavigate } from 'react-router-dom';
 
 const Registration: React.FC = () => {
   const [name, setName] = useState('');
@@ -46,6 +52,8 @@ const Registration: React.FC = () => {
   const [isDataValid, setIsDataValid] = useState(false);
 
   const [isModalShown, setIsModalShown] = useState(false);
+  const { setLoggedOut } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!useShippingForBilling) {
@@ -116,6 +124,19 @@ const Registration: React.FC = () => {
     setUseShippingForBilling((prev) => !prev);
   };
 
+  const createLogin = (): void => {
+    const ApiPassRoot: () => ApiRoot = () => {
+      return createApiBuilderFromCtpClient(createClientWithPass(email, password));
+    };
+    ApiPassRoot()
+      .withProjectKey({ projectKey })
+      .login()
+      .post({ body: { email: email, password: password } })
+      .execute();
+    setLoggedOut(false);
+    navigate(HOME_ROUTE);
+  };
+
   const createBody = (): CustomerDraft => {
     const addresses = useShippingForBilling
       ? [{ ...shippingAddress }, { ...shippingAddress }]
@@ -178,9 +199,14 @@ const Registration: React.FC = () => {
             label="Continue"
             className="button button-login"
             onClick={(): Promise<void | ClientResponse<CustomerSignInResult>> =>
-              createCustomer(createBody()).then((response) =>
-                response ? setIsModalShown(false) : setIsModalShown(true)
-              )
+              createCustomer(createBody()).then((response) => {
+                if (response) {
+                  setIsModalShown(false);
+                  createLogin();
+                } else {
+                  setIsModalShown(true);
+                }
+              })
             }
             type="submit"
             disabled={!isDataValid}
