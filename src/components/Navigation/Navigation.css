@@ -1,0 +1,89 @@
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 100px;
+  padding: 0 112px;
+}
+
+.nav-item {
+  display: inline;
+  margin: 0 6px;
+}
+
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-left: 92px;
+}
+
+.customer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  justify-content: space-between;
+}
+
+.sign {
+  min-width: 100px;
+  padding: 0 4px 0 4px;
+  text-align: center;
+  border: solid 2px #48484a;
+  border-radius: 4px;
+  transition: all 0.5s;
+}
+
+.sign:hover {
+  background-color: #48484a;
+  color: #ffffff;
+}
+
+.home {
+  padding: 0 4px 0 4px;
+  transition: all 0.5s;
+}
+
+.active {
+  background-color: #48484a;
+  color: #ffffff;
+  border-radius: 4px;
+}
+
+@media (max-width: 1099px) {
+  .nav {
+    font-size: 24px;
+    padding: 0 96px;
+    flex-direction: column;
+  }
+
+  .navigation {
+    gap: 24px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 667px) {
+  .nav {
+    font-size: 16px;
+    padding: 0 48px;
+  }
+
+  .navigation {
+    gap: 12px;
+    align-items: center;
+  }
+}
+@media (max-width: 389px) {
+  .navigation {
+    flex-direction: column;
+  }
+
+  .customer-nav {
+    flex-direction: column;
+    gap: 18px;
+  }
+}
