@@ -29,7 +29,7 @@ export const createCustomer = async (
 
 export const getProducts =
   async (): Promise<void | ClientResponse<ProductProjectionPagedQueryResponse>> => {
-    const products = getApiRoot()
+    const products = await getApiRoot()
       .withProjectKey({ projectKey })
       .productProjections()
       .get()

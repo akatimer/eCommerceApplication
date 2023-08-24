@@ -8,9 +8,10 @@ type Props = {
   product: ProductProjection;
 };
 
+const region = 'en-US';
+
 const ProductCard: React.FC<Props> = ({ product }) => {
   const { name, description, masterVariant } = product;
-  const region = 'en-US';
   return (
     <Card sx={{ width: 364, height: 560, borderRadius: 3 }}>
       <CardActionArea>

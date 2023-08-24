@@ -2,7 +2,13 @@ import './Navigation.css';
 import logOutIcon from '../../assets/icons/logout.svg';
 import Logo from '../Logo/Logo';
 import { NavLink } from 'react-router-dom';
-import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import {
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  REGISTRATION_ROUTE,
+  SHOP_ROUTE,
+  TOKEN_NAME,
+} from '../../utils/constants';
 import { useAuth } from '../AuthUse/AuthUse';
 import { useState } from 'react';
 
@@ -30,9 +36,9 @@ const Navigation: React.FC = () => {
           </NavLink>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#!">
+          <NavLink to={SHOP_ROUTE} className="nav-link">
             Shop
-          </a>
+          </NavLink>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#!">
