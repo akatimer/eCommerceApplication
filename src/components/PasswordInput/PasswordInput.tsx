@@ -4,7 +4,7 @@ import CustomInput from '../CustomInput/CustomInput';
 
 interface InputProps {
   onChange: (value: string) => void;
-  readOnlyValue: boolean;
+  readOnlyValue?: boolean;
 }
 
 const PasswordInput: React.FC<InputProps> = ({ onChange, readOnlyValue }) => {

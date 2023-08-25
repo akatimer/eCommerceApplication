@@ -1,11 +1,12 @@
 import {
   AddressDraft,
   ApiRoot,
+  ClientResponse,
+  Customer,
   CustomerDraft,
   CustomerSignInResult,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
-import { ClientResponse } from '@commercetools/sdk-client-v2';
 import Alert from '@mui/material/Alert';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { createCustomer } from '../../utils/api/clientApi';
@@ -23,13 +24,18 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../AuthUse/AuthUse';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
-import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
+import {
+  createClientWithPass,
+  createClientWithToken,
+  projectKey,
+} from '../../utils/api/clientBuilder';
 import isDateValid from '../../utils/validationFunctions/isDateValid';
 import isNameValid from '../../utils/validationFunctions/isNameValid';
 import isPostalCodeValid from '../../utils/validationFunctions/isPostalCodeValid';
 import isStreetValid from '../../utils/validationFunctions/isStreetValid';
 import Checkbox from '../Сheckbox/CheckBox';
 import Button from '../Button/Button';
+import './profile.css';
 
 const Profile: React.FC = () => {
   const [name, setName] = useState('');
@@ -50,16 +56,41 @@ const Profile: React.FC = () => {
   const [token, setToken] = useState('');
 
   const [isDataValid, setIsDataValid] = useState(false);
+  const [isReadOnly, setIsReadOnly] = useState(true);
 
   const [isModalShown, setIsModalShown] = useState(false);
   const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // if (token) {
-    //   navigate(HOME_ROUTE);
-    // }
+  const getMyProfile = (): Promise<void | ClientResponse<Customer>> | undefined => {
+    const currentToken = localStorage.getItem(TOKEN_NAME);
+    if (currentToken) {
+      const apiTokenRoot = (): ApiRoot => {
+        return createApiBuilderFromCtpClient(createClientWithToken(`Bearer ${currentToken}`));
+      };
+      const clientProfileResponse = apiTokenRoot()
+        .withProjectKey({ projectKey })
+        .me()
+        .get()
+        .execute()
+        .catch(console.error);
+      return clientProfileResponse;
+    }
+  };
 
+  const checkProfileResponse = async (): Promise<void | Customer> => {
+    const profileResponse = await getMyProfile();
+    if (profileResponse) {
+      console.log(profileResponse.body);
+      return profileResponse.body;
+    } else {
+      localStorage.removeItem(TOKEN_NAME);
+      setLoggedOut(true);
+      navigate(HOME_ROUTE);
+    }
+  };
+
+  useEffect(() => {
     const storageToken = localStorage.getItem(TOKEN_NAME);
     if (storageToken) {
       setToken(storageToken);
@@ -176,16 +207,16 @@ const Profile: React.FC = () => {
         <form className="auth-form reg-form" onSubmit={(e): void => e.preventDefault()}>
           <h1 className="form-title">Your Profile</h1>
           <NameInput readOnlyValue={true} onChange={setName} />
-          <LastNameInput readOnlyValue={true} onChange={setLastName} />
-          <DateInput readOnlyValue={true} onChange={setDate} />
+          <LastNameInput readOnlyValue={isReadOnly} onChange={setLastName} />
+          <DateInput readOnlyValue={isReadOnly} onChange={setDate} />
           <fieldset className="address">
             <legend>Address</legend>
             <div className="shipp-wrapper">
               <h2>Shipping</h2>
-              <CountrySelect readOnlyValue={true} onChange={setShippingCountry} />
-              <StreetInput readOnlyValue={true} onChange={setShippingStreet} />
-              <CityInput readOnlyValue={true} onChange={setShippingCity} />
-              <PostalCodeInput readOnlyValue={true} onChange={setShippingPostalCode} />
+              <CountrySelect readOnlyValue={isReadOnly} onChange={setShippingCountry} />
+              <StreetInput readOnlyValue={isReadOnly} onChange={setShippingStreet} />
+              <CityInput readOnlyValue={isReadOnly} onChange={setShippingCity} />
+              <PostalCodeInput readOnlyValue={isReadOnly} onChange={setShippingPostalCode} />
               <div className="checkbox-wrapper">
                 <Checkbox
                   onChange={(): void => setUseAsDefault((prev) => !prev)}
@@ -198,26 +229,30 @@ const Profile: React.FC = () => {
               <div className="bill-wrapper">
                 <h2>Billing</h2>
                 <CountrySelect
-                  readOnlyValue={true}
+                  readOnlyValue={isReadOnly}
                   onChange={setBillingCountry}
                   value={billingCountry}
                 />
                 <StreetInput
-                  readOnlyValue={true}
+                  readOnlyValue={isReadOnly}
                   onChange={setBillingStreet}
                   value={billingStreet}
                 />
-                <CityInput readOnlyValue={true} onChange={setBillingCity} value={billingCity} />
+                <CityInput
+                  readOnlyValue={isReadOnly}
+                  onChange={setBillingCity}
+                  value={billingCity}
+                />
                 <PostalCodeInput
-                  readOnlyValue={true}
+                  readOnlyValue={isReadOnly}
                   onChange={setBillingPostalCode}
                   value={billingPostalCode}
                 />
               </div>
             )}
           </fieldset>
-          <EmailInput readOnlyValue={true} onChange={setEmail} />
-          <PasswordInput readOnlyValue={true} onChange={setPassword} />
+          <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} />
+          <PasswordInput readOnlyValue={isReadOnly} onChange={setPassword} />
           <Button
             label="Continue"
             className="button button-login"
@@ -233,6 +268,15 @@ const Profile: React.FC = () => {
             }
             type="submit"
             disabled={!isDataValid}
+          />
+          <Button
+            label="Edit"
+            className="button button-edit"
+            onClick={(): void => {
+              setIsReadOnly(!isReadOnly);
+              checkProfileResponse();
+            }}
+            type="button"
           />
         </form>
         <p className="to-route-desc">
