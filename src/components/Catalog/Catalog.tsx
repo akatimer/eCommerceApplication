@@ -16,6 +16,9 @@ const Catalog: React.FC = () => {
       .catch(console.error);
   }, []);
 
+  if (!products) {
+    return <div className="loading">Loading...</div>;
+  }
   return (
     <Grid container alignItems={'center'} spacing={6} sx={{ margin: 'auto' }}>
       {products &&

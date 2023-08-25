@@ -3,9 +3,16 @@ import LogIn from '../LogIn/LogIn';
 import Registration from '../Registration/Registration';
 import ErrorPage from '../../pages/ErrorPage/ErrorPage';
 import Root from '../Root/Root';
-import { HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../../utils/constants';
-import MainInfo from '../MainInfo/MainInfo';
+import {
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  REGISTRATION_ROUTE,
+  SHOP_ROUTE,
+  PRODUCT_ROUTE,
+} from '../../utils/constants';
 import Catalog from '../Catalog/Catalog';
+import MainInfo from '../MainInfo/MainInfo';
+import DetailedProduct from '../DetailedProduct/DetailedProduct';
 
 const Router = createBrowserRouter([
   {
@@ -28,6 +35,10 @@ const Router = createBrowserRouter([
       {
         path: SHOP_ROUTE,
         element: <Catalog />,
+      },
+      {
+        path: `${PRODUCT_ROUTE}/:id`,
+        element: <DetailedProduct />,
       },
     ],
   },
