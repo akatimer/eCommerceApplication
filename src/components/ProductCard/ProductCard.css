@@ -39,16 +39,37 @@
 
 .card-price_block {
   display: flex;
-  padding: 0 24px;
+  padding: 0 18px;
 }
 
-.card-price {
+.card_current-price {
   font-family: 'Nunito', sans-serif;
   font-size: 34px;
   font-weight: 400;
   line-height: 46px;
   letter-spacing: 0.4px;
   text-align: left;
+}
+
+.card_old-price {
+  font-family: 'Nunito', sans-serif;
+  font-size: 24px;
+  color: #7a7878;
+  font-weight: 400;
+  line-height: 46px;
+  letter-spacing: 0.4px;
+  text-align: left;
+  text-decoration: line-through;
+}
+
+.card_discount-price {
+  font-family: 'Nunito', sans-serif;
+  font-size: 34px;
+  color: #0faeae;
+  font-weight: 500;
+  line-height: 46px;
+  text-align: left;
+  margin-right: 5px;
 }
 
 .card-dollar {
