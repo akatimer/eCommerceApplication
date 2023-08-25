@@ -1,10 +1,11 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { Card, CardActionArea, CardContent } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import React from 'react';
 import './ProductCard.css';
+import { PRODUCT_ROUTE } from '../../utils/constants';
 
 type Props = {
-  key: string | undefined;
   product: ProductProjection;
 };
 
@@ -15,17 +16,19 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <Card sx={{ width: 364, height: 560, borderRadius: 3 }}>
       <CardActionArea>
-        <div className="card-image_block">
-          <img
-            className="card-image"
-            src={masterVariant.images ? masterVariant.images[0].url : ''}
-            alt={name[region]}
-          />
-        </div>
-        <CardContent>
-          <h2 className="card-title">{name[region]}</h2>
-          <p className="card-description">{description ? description[region] : ''}</p>
-        </CardContent>
+        <NavLink to={`${PRODUCT_ROUTE}/${product.key}`}>
+          <div className="card-image_block">
+            <img
+              className="card-image"
+              src={masterVariant.images ? masterVariant.images[0].url : ''}
+              alt={name[region]}
+            />
+          </div>
+          <CardContent>
+            <h2 className="card-title">{name[region]}</h2>
+            <p className="card-description">{description ? description[region] : ''}</p>
+          </CardContent>
+        </NavLink>
       </CardActionArea>
       <div className="card-price_block">
         <span className="card-dollar">$</span>

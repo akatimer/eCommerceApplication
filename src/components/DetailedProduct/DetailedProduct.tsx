@@ -3,8 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { getApiRoot } from '../../utils/api/clientBuilder';
 import { projectKey } from '../../utils/api/clientBuilder';
 import { ProductProjection } from '@commercetools/platform-sdk';
+import { NavLink, useParams } from 'react-router-dom';
+import crossPic from '../../assets/icons/cancel_icn.svg';
+import { SHOP_ROUTE } from '../../utils/constants';
 
 const DetailedProduct: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const [productData, setProductData] = useState<ProductProjection | null>(null);
 
   useEffect(() => {
@@ -13,7 +17,7 @@ const DetailedProduct: React.FC = () => {
         const productResponse = await getApiRoot()
           .withProjectKey({ projectKey })
           .productProjections()
-          .withKey({ key: 'hoodie_kropka' })
+          .withKey({ key: `${id}` })
           .get()
           .execute();
 
@@ -24,7 +28,7 @@ const DetailedProduct: React.FC = () => {
     };
 
     fetchProduct();
-  }, []);
+  }, [id]);
 
   if (!productData) {
     return <div className="loading">Loading...</div>;
@@ -38,8 +42,13 @@ const DetailedProduct: React.FC = () => {
 
   return (
     <div className="prod-container">
+      <div className="close-page">
+        <NavLink to={SHOP_ROUTE}>
+          <img className="cross-pic" src={crossPic} alt="Close page" />
+        </NavLink>
+      </div>
       <div className="prod-pic">
-        <img src={image} alt={productName} />
+        <img className="prod-photo" src={image} alt={productName} />
       </div>
       <div className="prod-desc-container">
         <h2 className="prod-title">{productName}</h2>
