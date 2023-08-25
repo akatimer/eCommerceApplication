@@ -53,6 +53,8 @@ const DetailedProduct: React.FC = () => {
         </Link>
       </div>
       <div className="prod-pic">
+        <button className="btn-prev" onClick={(): void => carousel?.current?.slidePrev()}></button>
+        <button className="btn-next" onClick={(): void => carousel?.current?.slideNext()}></button>
         <AliceCarousel
           key="carousel"
           mouseTracking
@@ -61,20 +63,6 @@ const DetailedProduct: React.FC = () => {
           items={items}
           ref={carousel}
         />
-        <div key="btns" className="b-refs-buttons">
-          <button
-            className="alice-carousel__prev-btn"
-            onClick={(): void => carousel?.current?.slidePrev()}
-          >
-            Prev
-          </button>
-          <button
-            className="alice-carousel__next-btn"
-            onClick={(): void => carousel?.current?.slideNext()}
-          >
-            Next
-          </button>
-        </div>
       </div>
       <div className="prod-desc-container">
         <h2 className="prod-title">{productName}</h2>
