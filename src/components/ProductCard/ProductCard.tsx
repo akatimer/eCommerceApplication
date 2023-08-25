@@ -15,8 +15,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   const [discount, setDiscount] = useState<number>();
   useEffect(() => {
     if (masterVariant.prices) {
-      console.log(masterVariant.prices[0].discounted?.value?.centAmount);
-      setDiscount(masterVariant.prices[0].discounted?.value?.centAmount);
+      setDiscount(masterVariant.prices[0].discounted?.value.centAmount);
     }
   }, [masterVariant.prices]);
   return (

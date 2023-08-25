@@ -41,6 +41,7 @@
   display: flex;
   padding: 0 18px;
 }
+
 .card_current-price {
   font-family: 'Nunito', sans-serif;
   font-size: 34px;
@@ -49,6 +50,7 @@
   letter-spacing: 0.4px;
   text-align: left;
 }
+
 .card_old-price {
   font-family: 'Nunito', sans-serif;
   font-size: 24px;
@@ -60,7 +62,6 @@
   text-decoration: line-through;
 }
 
-/* #08b1b1; #058b8c; #ff3628; / #d01c10; */
 .card_discount-price {
   font-family: 'Nunito', sans-serif;
   font-size: 34px;
