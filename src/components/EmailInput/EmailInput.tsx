@@ -3,9 +3,10 @@ import CustomInput from '../CustomInput/CustomInput';
 
 interface InputProps {
   onChange: (value: string) => void;
+  readOnlyValue?: boolean;
 }
 
-const EmailInput: React.FC<InputProps> = ({ onChange }) => {
+const EmailInput: React.FC<InputProps> = ({ onChange, readOnlyValue }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -16,6 +17,7 @@ const EmailInput: React.FC<InputProps> = ({ onChange }) => {
       placeholder="Enter your email"
       type="text"
       onChange={onChange}
+      readOnlyValue={readOnlyValue}
     />
   );
 };

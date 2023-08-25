@@ -4,9 +4,10 @@ import CustomInput from '../CustomInput/CustomInput';
 
 interface InputProps {
   onChange: (value: string) => void;
+  readOnlyValue: boolean;
 }
 
-const PasswordInput: React.FC<InputProps> = ({ onChange }) => {
+const PasswordInput: React.FC<InputProps> = ({ onChange, readOnlyValue }) => {
   const [passwordType, setPasswordType] = useState('password');
 
   const togglePasswordType = (): void => {
@@ -25,6 +26,7 @@ const PasswordInput: React.FC<InputProps> = ({ onChange }) => {
         type={passwordType}
         onToggle={togglePasswordType}
         onChange={onChange}
+        readOnlyValue={readOnlyValue}
       />
     </>
   );

@@ -4,9 +4,10 @@ import CustomInput from '../CustomInput/CustomInput';
 
 interface InputProps {
   onChange: (value: string) => void;
+  readOnlyValue?: boolean;
 }
 
-const LastNameInput: React.FC<InputProps> = ({ onChange }) => {
+const LastNameInput: React.FC<InputProps> = ({ onChange, readOnlyValue }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -17,6 +18,7 @@ const LastNameInput: React.FC<InputProps> = ({ onChange }) => {
       placeholder="Your last name"
       type="text"
       onChange={onChange}
+      readOnlyValue={readOnlyValue}
     />
   );
 };
