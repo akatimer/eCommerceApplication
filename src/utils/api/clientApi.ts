@@ -1,5 +1,10 @@
 // import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { ClientResponse, CustomerDraft, CustomerSignInResult } from '@commercetools/platform-sdk';
+import {
+  ClientResponse,
+  CustomerDraft,
+  CustomerSignInResult,
+  ProductProjectionPagedQueryResponse,
+} from '@commercetools/platform-sdk';
 import {
   // createClientWithPass,
   // createClientWithToken,
@@ -21,6 +26,17 @@ export const createCustomer = async (
   console.log(creationResponse);
   return creationResponse;
 };
+
+export const getProducts =
+  async (): Promise<void | ClientResponse<ProductProjectionPagedQueryResponse>> => {
+    const products = await getApiRoot()
+      .withProjectKey({ projectKey })
+      .productProjections()
+      .get()
+      .execute()
+      .catch(console.error);
+    return products;
+  };
 
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })
