@@ -1,15 +1,18 @@
 import './DetailedProduct.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getApiRoot } from '../../utils/api/clientBuilder';
 import { projectKey } from '../../utils/api/clientBuilder';
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { Link, useParams } from 'react-router-dom';
 import crossPic from '../../assets/icons/cancel_icn.svg';
 import { SHOP_ROUTE } from '../../utils/constants';
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css';
 
 const DetailedProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [productData, setProductData] = useState<ProductProjection | null>(null);
+  const carousel = useRef<AliceCarousel>(null);
 
   useEffect(() => {
     const fetchProduct = async (): Promise<void> => {
@@ -33,12 +36,14 @@ const DetailedProduct: React.FC = () => {
   if (!productData) {
     return <div className="loading">Loading...</div>;
   }
-
-  const image = productData.masterVariant.images && productData.masterVariant.images[0]?.url;
   const productName = productData.name && productData.name['en-US'];
   const description = productData.description && productData.description['en-US'];
   const price =
     productData.masterVariant.prices && productData.masterVariant.prices[0]?.value.centAmount / 100;
+
+  const items = productData.masterVariant.images?.map((image, index) => (
+    <img key={index} className="prod-photo" src={image.url} alt={productName} />
+  ));
 
   return (
     <div className="prod-container">
@@ -48,7 +53,28 @@ const DetailedProduct: React.FC = () => {
         </Link>
       </div>
       <div className="prod-pic">
-        <img className="prod-photo" src={image} alt={productName} />
+        <AliceCarousel
+          key="carousel"
+          mouseTracking
+          disableDotsControls
+          disableButtonsControls
+          items={items}
+          ref={carousel}
+        />
+        <div key="btns" className="b-refs-buttons">
+          <button
+            className="alice-carousel__prev-btn"
+            onClick={(): void => carousel?.current?.slidePrev()}
+          >
+            Prev
+          </button>
+          <button
+            className="alice-carousel__next-btn"
+            onClick={(): void => carousel?.current?.slideNext()}
+          >
+            Next
+          </button>
+        </div>
       </div>
       <div className="prod-desc-container">
         <h2 className="prod-title">{productName}</h2>

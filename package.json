@@ -28,6 +28,7 @@
     "@mui/material": "^5.14.5",
     "isomorphic-fetch": "^3.0.0",
     "react": "^18.2.0",
+    "react-alice-carousel": "^2.7.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0"
   },
