@@ -1,16 +1,5 @@
-.loading {
-  width: 97vw;
-  height: 100vh;
-  font-family: 'Nunito';
-  font-size: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: pulsate 1s infinite;
-}
-
 .prod-container {
-  width: 97vw;
+  width: 100vw;
   height: 100vh;
   font-family: 'Mulish';
   display: flex;
@@ -19,12 +8,10 @@
 }
 
 .prod-pic {
-  width: 30%;
-  margin-top: 88px;
 }
 
 .prod-desc-container {
-  margin-top: 176px;
+  margin-top: 88px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -33,12 +20,12 @@
   font-family: 'Nunito';
   font-size: 48px;
   color: #1b2437;
-  width: 75%;
+  width: 342px;
   text-align: start;
 }
 
 .prod-desc-title {
-  width: 30%;
+  width: 156px;
   font-size: 16px;
   color: #eda3b5;
   border-bottom: solid 2px #eda3b5;
