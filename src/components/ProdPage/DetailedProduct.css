@@ -1,8 +1,8 @@
 .loading {
-  width: 97vw;
+  width: 100vw;
   height: 100vh;
   font-family: 'Nunito';
-  font-size: 48px;
+  font-size: 46px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
 }
 
 .prod-container {
-  width: 97vw;
+  width: 100vw;
   height: 100vh;
   font-family: 'Mulish';
   display: flex;
@@ -33,12 +33,12 @@
   font-family: 'Nunito';
   font-size: 48px;
   color: #1b2437;
-  width: 75%;
+  width: 342px;
   text-align: start;
 }
 
 .prod-desc-title {
-  width: 30%;
+  width: 156px;
   font-size: 16px;
   color: #eda3b5;
   border-bottom: solid 2px #eda3b5;
