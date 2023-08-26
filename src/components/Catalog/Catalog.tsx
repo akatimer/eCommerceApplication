@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../../utils/api/clientApi';
 import ProductCard from '../ProductCard/ProductCard';
+import SortDropdown from '../SortDropdown/SortDropdown';
 
 const Catalog: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>();
@@ -20,14 +21,17 @@ const Catalog: React.FC = () => {
     return <div className="loading">Loading...</div>;
   }
   return (
-    <Grid container alignItems={'center'} spacing={6} sx={{ margin: 'auto' }}>
-      {products &&
-        products.map((product) => (
-          <Grid item key={product.id}>
-            <ProductCard key={product.id} product={product} />
-          </Grid>
-        ))}
-    </Grid>
+    <>
+      <SortDropdown />
+      <Grid container alignItems={'center'} spacing={6} sx={{ margin: 'auto' }}>
+        {products &&
+          products.map((product) => (
+            <Grid item key={product.id}>
+              <ProductCard key={product.id} product={product} />
+            </Grid>
+          ))}
+      </Grid>
+    </>
   );
 };
 
