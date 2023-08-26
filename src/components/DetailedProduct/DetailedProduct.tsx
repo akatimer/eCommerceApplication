@@ -41,8 +41,8 @@ const DetailedProduct: React.FC = () => {
   const price =
     productData.masterVariant.prices && productData.masterVariant.prices[0]?.value.centAmount / 100;
 
-  const items = productData.masterVariant.images?.map((image, index) => (
-    <img key={index} className="prod-photo" src={image.url} alt={productName} />
+  const items = productData.masterVariant.images?.map((image, ordinalNumber) => (
+    <img key={ordinalNumber} className="prod-photo" src={image.url} alt={productName} />
   ));
 
   return (
