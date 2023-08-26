@@ -31,13 +31,43 @@
 }
 
 .prod-pic {
+  position: relative;
   width: 40%;
   margin-top: 88px;
 }
 
 .prod-photo {
-  border-radius: 15px;
   margin-bottom: 12px;
+}
+
+.btn-prev {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  left: 1%;
+  top: 50%;
+  z-index: 2;
+  background-image: url('../../assets/icons/arrow-l.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  transition: all 1s;
+}
+
+.btn-next {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: 1%;
+  top: 50%;
+  z-index: 2;
+  background-image: url('../../assets/icons/arrow-r.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  transition: all 1s;
 }
 
 .prod-desc-container {
