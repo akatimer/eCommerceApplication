@@ -27,16 +27,20 @@ export const createCustomer = async (
   return creationResponse;
 };
 
-export const getProducts =
-  async (): Promise<void | ClientResponse<ProductProjectionPagedQueryResponse>> => {
-    const products = await getApiRoot()
-      .withProjectKey({ projectKey })
-      .productProjections()
-      .get()
-      .execute()
-      .catch(console.error);
-    return products;
-  };
+export const getProducts = async (
+  sortMethod: string
+): Promise<void | ClientResponse<ProductProjectionPagedQueryResponse>> => {
+  const products = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .productProjections()
+    .search()
+    .get({
+      queryArgs: { sort: sortMethod },
+    })
+    .execute()
+    .catch(console.error);
+  return products;
+};
 
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })
