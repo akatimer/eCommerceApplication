@@ -28,15 +28,13 @@ export const createCustomer = async (
 };
 
 export const getProducts = async (
-  sortMethod: string
+  queryArgs: object
 ): Promise<void | ClientResponse<ProductProjectionPagedQueryResponse>> => {
   const products = await getApiRoot()
     .withProjectKey({ projectKey })
     .productProjections()
     .search()
-    .get({
-      queryArgs: { sort: sortMethod },
-    })
+    .get(queryArgs)
     .execute()
     .catch(console.error);
   return products;

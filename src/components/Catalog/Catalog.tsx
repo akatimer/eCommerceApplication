@@ -14,7 +14,11 @@ const Catalog: React.FC = () => {
     setSorting(event.target.value);
   };
   useEffect(() => {
-    getProducts(sorting ? sorting : 'price asc')
+    getProducts({
+      queryArgs: {
+        sort: sorting ? sorting : 'price asc',
+      },
+    })
       .then((response) => {
         if (response) {
           setProducts(response.body.results);
