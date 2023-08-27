@@ -82,6 +82,10 @@ const Profile: React.FC = () => {
     const profileResponse = await getMyProfile();
     if (profileResponse) {
       console.log(profileResponse.body);
+      setEmail(profileResponse.body.email);
+      setName(profileResponse.body.firstName || '');
+      setLastName(profileResponse.body.lastName || '');
+      setDate(profileResponse.body.dateOfBirth || '');
       return profileResponse.body;
     } else {
       localStorage.removeItem(TOKEN_NAME);
@@ -206,9 +210,9 @@ const Profile: React.FC = () => {
       <div className="form-wrapper">
         <form className="auth-form reg-form" onSubmit={(e): void => e.preventDefault()}>
           <h1 className="form-title">Your Profile</h1>
-          <NameInput readOnlyValue={true} onChange={setName} />
-          <LastNameInput readOnlyValue={isReadOnly} onChange={setLastName} />
-          <DateInput readOnlyValue={isReadOnly} onChange={setDate} />
+          <NameInput readOnlyValue={true} onChange={setName} value={name} />
+          <LastNameInput readOnlyValue={isReadOnly} onChange={setLastName} value={lastName} />
+          <DateInput readOnlyValue={isReadOnly} onChange={setDate} value={date} />
           <fieldset className="address">
             <legend>Address</legend>
             <div className="shipp-wrapper">
@@ -251,7 +255,7 @@ const Profile: React.FC = () => {
               </div>
             )}
           </fieldset>
-          <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} />
+          <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} value={email} />
           <PasswordInput readOnlyValue={isReadOnly} onChange={setPassword} />
           <Button
             label="Continue"
