@@ -94,6 +94,8 @@ const Profile: React.FC = () => {
     }
   };
 
+  checkProfileResponse();
+
   useEffect(() => {
     const storageToken = localStorage.getItem(TOKEN_NAME);
     if (storageToken) {

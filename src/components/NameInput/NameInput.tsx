@@ -5,9 +5,10 @@ import CustomInput from '../CustomInput/CustomInput';
 interface InputProps {
   onChange: (value: string) => void;
   readOnlyValue?: boolean;
+  value?: string;
 }
 
-const NameInput: React.FC<InputProps> = ({ onChange, readOnlyValue }) => {
+const NameInput: React.FC<InputProps> = ({ onChange, readOnlyValue, value }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -19,6 +20,7 @@ const NameInput: React.FC<InputProps> = ({ onChange, readOnlyValue }) => {
       type="text"
       onChange={onChange}
       readOnlyValue={readOnlyValue}
+      value={value}
     />
   );
 };
