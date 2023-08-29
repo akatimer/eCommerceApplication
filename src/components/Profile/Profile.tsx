@@ -78,23 +78,23 @@ const Profile: React.FC = () => {
     }
   };
 
-  const checkProfileResponse = async (): Promise<void | Customer> => {
-    const profileResponse = await getMyProfile();
-    if (profileResponse) {
-      console.log(profileResponse.body);
-      setEmail(profileResponse.body.email);
-      setName(profileResponse.body.firstName || '');
-      setLastName(profileResponse.body.lastName || '');
-      setDate(profileResponse.body.dateOfBirth || '');
-      return profileResponse.body;
-    } else {
-      localStorage.removeItem(TOKEN_NAME);
-      setLoggedOut(true);
-      navigate(HOME_ROUTE);
-    }
-  };
-
-  checkProfileResponse();
+  useEffect(() => {
+    (async (): Promise<void | Customer> => {
+      const profileResponse = await getMyProfile();
+      if (profileResponse) {
+        console.log(profileResponse.body);
+        setEmail(profileResponse.body.email);
+        setName(profileResponse.body.firstName || '');
+        setLastName(profileResponse.body.lastName || '');
+        setDate(profileResponse.body.dateOfBirth || '');
+        return profileResponse.body;
+      } else {
+        localStorage.removeItem(TOKEN_NAME);
+        setLoggedOut(true);
+        navigate(HOME_ROUTE);
+      }
+    })();
+  }, [navigate, setLoggedOut]);
 
   useEffect(() => {
     const storageToken = localStorage.getItem(TOKEN_NAME);
@@ -212,7 +212,7 @@ const Profile: React.FC = () => {
       <div className="form-wrapper">
         <form className="auth-form reg-form" onSubmit={(e): void => e.preventDefault()}>
           <h1 className="form-title">Your Profile</h1>
-          <NameInput readOnlyValue={true} onChange={setName} value={name} />
+          <NameInput readOnlyValue={isReadOnly} onChange={setName} value={name} />
           <LastNameInput readOnlyValue={isReadOnly} onChange={setLastName} value={lastName} />
           <DateInput readOnlyValue={isReadOnly} onChange={setDate} value={date} />
           <fieldset className="address">
@@ -280,7 +280,7 @@ const Profile: React.FC = () => {
             className="button button-edit"
             onClick={(): void => {
               setIsReadOnly(!isReadOnly);
-              checkProfileResponse();
+              // checkProfileResponse();
             }}
             type="button"
           />
