@@ -1,6 +1,8 @@
 import './MainInfo.css';
 import React from 'react';
 import mainPhoto from '../../assets/images/item-shirt.png';
+import { SHOP_ROUTE } from '../../utils/constants';
+import { Link } from 'react-router-dom';
 
 const MainInfo: React.FC = () => {
   return (
@@ -11,7 +13,9 @@ const MainInfo: React.FC = () => {
           Casual relaxed silhouette, spacious model, suitable for people of any age, both men and
           women.
         </p>
-        <button className="button button-item">Shopping</button>
+        <Link to={SHOP_ROUTE}>
+          <button className="button button-item">Shopping</button>
+        </Link>
       </div>
       <div className="item-pic">
         <img src={mainPhoto} alt="shirt" />

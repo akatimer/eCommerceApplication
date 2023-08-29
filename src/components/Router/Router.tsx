@@ -6,13 +6,15 @@ import Root from '../Root/Root';
 import {
   HOME_ROUTE,
   LOGIN_ROUTE,
-  PROFILE_ROUTE,
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
+  PRODUCT_ROUTE,
+  PROFILE_ROUTE,
 } from '../../utils/constants';
 import MainInfo from '../MainInfo/MainInfo';
 import Catalog from '../Catalog/Catalog';
 import Profile from '../Profile/Profile';
+import DetailedProduct from '../DetailedProduct/DetailedProduct';
 
 const Router = createBrowserRouter([
   {
@@ -39,6 +41,10 @@ const Router = createBrowserRouter([
       {
         path: PROFILE_ROUTE,
         element: <Profile />,
+      },
+      {
+        path: `${PRODUCT_ROUTE}/:id`,
+        element: <DetailedProduct />,
       },
     ],
   },
