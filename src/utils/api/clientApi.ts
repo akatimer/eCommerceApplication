@@ -3,7 +3,7 @@ import {
   ClientResponse,
   CustomerDraft,
   CustomerSignInResult,
-  ProductProjectionPagedQueryResponse,
+  ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 import {
   // createClientWithPass,
@@ -29,7 +29,7 @@ export const createCustomer = async (
 
 export const getProducts = async (
   queryArgs: object
-): Promise<void | ClientResponse<ProductProjectionPagedQueryResponse>> => {
+): Promise<void | ClientResponse<ProductProjectionPagedSearchResponse>> => {
   const products = await getApiRoot()
     .withProjectKey({ projectKey })
     .productProjections()
