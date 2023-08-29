@@ -13,12 +13,13 @@
   height: 44px;
   border-radius: 5px;
   font-family: 'Mulish', sans-serif !important;
+  border: none !important;
 }
 
 .select-item {
   font-family: 'Mulish', sans-serif !important;
 }
 
-fieldset {
+.MuiOutlinedInput-notchedOutline {
   border: 0 !important;
 }

@@ -8,6 +8,7 @@
   display: flex;
   align-items: row;
   margin-top: 20px;
+  gap: 2em;
 }
 .side-panel {
 }
@@ -49,6 +50,9 @@
     display: flex;
     flex-direction: row;
     padding: 0 3em;
+  }
+  .grid-container {
+    justify-content: center;
   }
 }
 @media (max-width: 440px) {

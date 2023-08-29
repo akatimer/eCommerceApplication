@@ -7,6 +7,8 @@ import SortDropdown from '../SortDropdown/SortDropdown';
 import './Catalog.css';
 import Search from '../Search/Search';
 import FilterAccordion from '../FilterAccordion/FilterAccordion';
+import { ColorResult } from 'react-color';
+import convertColor from '../../utils/convertColor';
 
 const Catalog: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>();
@@ -14,6 +16,7 @@ const Catalog: React.FC = () => {
   const [searchValue, setSearchValue] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [color, setColor] = useState('');
 
   const handleChange = (event: SelectChangeEvent): void => {
     setSorting(event.target.value);
@@ -23,6 +26,10 @@ const Catalog: React.FC = () => {
     setSearchValue(target.value);
     target.value.length < 4 && target.value.length > 0 ? setShowModal(true) : setShowModal(false);
   };
+  const colorHandleChange = (color: ColorResult): void => {
+    setColor(color.hex);
+    console.log(color.hex);
+  };
 
   useEffect(() => {
     getProducts({
@@ -30,6 +37,7 @@ const Catalog: React.FC = () => {
         sort: sorting ? sorting : 'price asc',
         'text.en-US': searchValue.length > 3 ? searchValue : '',
         fuzzy: true,
+        filter: [color && `variants.attributes.color.key:"${convertColor(color)}"`],
       },
     })
       .then((response) => {
@@ -42,7 +50,7 @@ const Catalog: React.FC = () => {
         }
       })
       .catch(console.error);
-  }, [sorting, searchValue]);
+  }, [sorting, searchValue, color]);
 
   if (!products) {
     return <div className="loading">Loading...</div>;
@@ -60,8 +68,10 @@ const Catalog: React.FC = () => {
       )}
       <></>
       <div className="catalog-wrapper">
-        <div className="side-panel">{<FilterAccordion />}</div>
-        <Grid container spacing={{ xs: 2, md: 3 }} sx={{ justifyContent: 'center' }}>
+        <div className="side-panel">
+          <FilterAccordion color={color} colorHandleChange={colorHandleChange} />
+        </div>
+        <Grid container spacing={{ xs: 2, md: 3 }} className="grid-container">
           {products &&
             products.map((product) => (
               <Grid item key={product.id}>
