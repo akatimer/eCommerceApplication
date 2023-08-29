@@ -6,6 +6,7 @@ import ProductCard from '../ProductCard/ProductCard';
 import SortDropdown from '../SortDropdown/SortDropdown';
 import './Catalog.css';
 import Search from '../Search/Search';
+import FilterAccordion from '../FilterAccordion/FilterAccordion';
 
 const Catalog: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>();
@@ -57,14 +58,20 @@ const Catalog: React.FC = () => {
           Sorry, we couldn&apos;t find any matching result for your query.
         </div>
       )}
-      <Grid container alignItems={'center'} spacing={6} sx={{ margin: 'auto' }}>
-        {products &&
-          products.map((product) => (
-            <Grid item key={product.id}>
-              <ProductCard key={product.id} product={product} />
-            </Grid>
-          ))}
-      </Grid>
+      <></>
+      <div className="catalog-wrapper">
+        <div className="side-panel">
+          <FilterAccordion />
+        </div>
+        <Grid container alignItems={'center'} spacing={6} sx={{ margin: 'auto' }}>
+          {products &&
+            products.map((product) => (
+              <Grid item key={product.id}>
+                <ProductCard key={product.id} product={product} />
+              </Grid>
+            ))}
+        </Grid>
+      </div>
     </div>
   );
 };
