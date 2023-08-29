@@ -1,64 +1,38 @@
 import {
-  AddressDraft,
+  Address,
   ApiRoot,
   ClientResponse,
   Customer,
-  CustomerDraft,
-  CustomerSignInResult,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import Alert from '@mui/material/Alert';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { createCustomer } from '../../utils/api/clientApi';
 import { HOME_ROUTE, LOGIN_ROUTE, TOKEN_NAME } from '../../utils/constants';
-import CityInput from '../CityInput/CityInput';
-import CountrySelect from '../CountrySelect/CountrySelect';
 import DateInput from '../DateInput/DateInput';
 import EmailInput from '../EmailInput/EmailInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
 import NameInput from '../NameInput/NameInput';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
-import StreetInput from '../StreetInput/StreetImput';
-import { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useAuth } from '../AuthUse/AuthUse';
-import isEmailValid from '../../utils/validationFunctions/isEmailValid';
-import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
-import {
-  createClientWithPass,
-  createClientWithToken,
-  projectKey,
-} from '../../utils/api/clientBuilder';
-import isDateValid from '../../utils/validationFunctions/isDateValid';
-import isNameValid from '../../utils/validationFunctions/isNameValid';
-import isPostalCodeValid from '../../utils/validationFunctions/isPostalCodeValid';
-import isStreetValid from '../../utils/validationFunctions/isStreetValid';
-import Checkbox from '../Сheckbox/CheckBox';
+import { createClientWithToken, projectKey } from '../../utils/api/clientBuilder';
 import Button from '../Button/Button';
 import './profile.css';
+import AddressComponent from '../AddressComponent/AddressComponent';
 
 const Profile: React.FC = () => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [date, setDate] = useState('');
-  const [shippingStreet, setShippingStreet] = useState('');
-  const [shippingCity, setShippingCity] = useState('');
-  const [shippingCountry, setShippingCountry] = useState('US');
-  const [shippingPostalCode, setShippingPostalCode] = useState('');
-  const [billingStreet, setBillingStreet] = useState('');
-  const [billingCity, setBillingCity] = useState('');
-  const [billingCountry, setBillingCountry] = useState('US');
-  const [billingPostalCode, setBillingPostalCode] = useState('');
-  const [useShippingForBilling, setUseShippingForBilling] = useState(false);
-  const [useAsDefault, setUseAsDefault] = useState(false);
-  const [token, setToken] = useState('');
-
-  const [isDataValid, setIsDataValid] = useState(false);
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('US');
+  const [postalCode, setPostalCode] = useState('');
+  const [addressType, setAddressType] = useState('Shipping');
   const [isReadOnly, setIsReadOnly] = useState(true);
 
   const [isModalShown, setIsModalShown] = useState(false);
+  const [customerBody, setCustomerBody] = useState<ClientResponse | null>(null);
   const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
 
@@ -78,16 +52,39 @@ const Profile: React.FC = () => {
     }
   };
 
+  const createAdresses = (): ReactElement[] | undefined => {
+    if (customerBody) {
+      console.log(customerBody.body);
+      return customerBody.body.addresses.map((address: Address) => (
+        <AddressComponent
+          key={address.id}
+          isReadOnly={isReadOnly}
+          typeValue={
+            customerBody.body.shippingAddressIds.includes(address.id) ? addressType : 'Billing'
+          }
+          countryValue={address.country || country}
+          cityValue={address.city || city}
+          streetValue={address.streetName || street}
+          postalCodeValue={address.postalCode || postalCode}
+          setAdressType={setAddressType}
+          setCountry={setCountry}
+          setCity={setCity}
+          setStreet={setStreet}
+          setPostalCode={setPostalCode}
+        />
+      ));
+    }
+  };
+
   useEffect(() => {
-    (async (): Promise<void | Customer> => {
+    (async (): Promise<void> => {
       const profileResponse = await getMyProfile();
       if (profileResponse) {
-        console.log(profileResponse.body);
         setEmail(profileResponse.body.email);
         setName(profileResponse.body.firstName || '');
         setLastName(profileResponse.body.lastName || '');
         setDate(profileResponse.body.dateOfBirth || '');
-        return profileResponse.body;
+        setCustomerBody(profileResponse);
       } else {
         localStorage.removeItem(TOKEN_NAME);
         setLoggedOut(true);
@@ -95,117 +92,6 @@ const Profile: React.FC = () => {
       }
     })();
   }, [navigate, setLoggedOut]);
-
-  useEffect(() => {
-    const storageToken = localStorage.getItem(TOKEN_NAME);
-    if (storageToken) {
-      setToken(storageToken);
-    }
-    if (!useShippingForBilling) {
-      if (
-        isEmailValid(email) &&
-        isPasswordValid(password) &&
-        isDateValid(date) &&
-        isNameValid(name) &&
-        isNameValid(lastName) &&
-        isNameValid(shippingCity) &&
-        isNameValid(billingCity) &&
-        isPostalCodeValid(shippingPostalCode) &&
-        isPostalCodeValid(billingPostalCode) &&
-        isStreetValid(shippingStreet) &&
-        isStreetValid(billingStreet)
-      ) {
-        setIsDataValid(true);
-      } else {
-        setIsDataValid(false);
-      }
-    } else {
-      if (
-        isEmailValid(email) &&
-        isPasswordValid(password) &&
-        isDateValid(date) &&
-        isNameValid(name) &&
-        isNameValid(lastName) &&
-        isNameValid(shippingCity) &&
-        isPostalCodeValid(shippingPostalCode) &&
-        isStreetValid(shippingStreet)
-      ) {
-        setIsDataValid(true);
-      } else {
-        setIsDataValid(false);
-      }
-    }
-  }, [
-    billingCity,
-    billingPostalCode,
-    billingStreet,
-    date,
-    email,
-    isDataValid,
-    lastName,
-    name,
-    navigate,
-    password,
-    shippingCity,
-    shippingCountry,
-    shippingPostalCode,
-    shippingStreet,
-    token,
-    useShippingForBilling,
-  ]);
-
-  const shippingAddress: AddressDraft = {
-    streetName: shippingStreet,
-    city: shippingCity,
-    country: shippingCountry,
-    postalCode: shippingPostalCode,
-  };
-
-  const billingAddress: AddressDraft = {
-    streetName: billingStreet,
-    city: billingCity,
-    country: billingCountry,
-    postalCode: billingPostalCode,
-  };
-
-  const handleBillingCheckbox = (): void => {
-    setUseShippingForBilling((prev) => !prev);
-  };
-
-  const createLogin = (): void => {
-    const ApiPassRoot: () => ApiRoot = () => {
-      return createApiBuilderFromCtpClient(createClientWithPass(email, password));
-    };
-    ApiPassRoot()
-      .withProjectKey({ projectKey })
-      .login()
-      .post({ body: { email: email, password: password } })
-      .execute();
-    setLoggedOut(false);
-    navigate(HOME_ROUTE);
-  };
-
-  const createBody = (): CustomerDraft => {
-    const addresses = useShippingForBilling
-      ? [{ ...shippingAddress }, { ...shippingAddress }]
-      : [{ ...shippingAddress }, { ...billingAddress }];
-    const defaultAddress = useAsDefault ? { defaultShippingAddress: 0 } : {};
-    const billingAddressNumbers = { billingAddresses: [0] };
-    const shippingAddressNumbers = { shippingAddresses: [1] };
-    const body = {
-      email: email,
-      password: password,
-      dateOfBirth: date,
-      firstName: name,
-      lastName: lastName,
-      addresses: addresses,
-      ...defaultAddress,
-      ...billingAddressNumbers,
-      ...shippingAddressNumbers,
-    };
-    console.log(body);
-    return body;
-  };
 
   return (
     <section className="form form-reg">
@@ -215,71 +101,14 @@ const Profile: React.FC = () => {
           <NameInput readOnlyValue={isReadOnly} onChange={setName} value={name} />
           <LastNameInput readOnlyValue={isReadOnly} onChange={setLastName} value={lastName} />
           <DateInput readOnlyValue={isReadOnly} onChange={setDate} value={date} />
-          <fieldset className="address">
-            <legend>Address</legend>
-            <div className="shipp-wrapper">
-              <h2>Shipping</h2>
-              <CountrySelect readOnlyValue={isReadOnly} onChange={setShippingCountry} />
-              <StreetInput readOnlyValue={isReadOnly} onChange={setShippingStreet} />
-              <CityInput readOnlyValue={isReadOnly} onChange={setShippingCity} />
-              <PostalCodeInput readOnlyValue={isReadOnly} onChange={setShippingPostalCode} />
-              <div className="checkbox-wrapper">
-                <Checkbox
-                  onChange={(): void => setUseAsDefault((prev) => !prev)}
-                  label="Use as default"
-                />
-                <Checkbox onChange={handleBillingCheckbox} label="Use for billing" />
-              </div>
-            </div>
-            {!useShippingForBilling && (
-              <div className="bill-wrapper">
-                <h2>Billing</h2>
-                <CountrySelect
-                  readOnlyValue={isReadOnly}
-                  onChange={setBillingCountry}
-                  value={billingCountry}
-                />
-                <StreetInput
-                  readOnlyValue={isReadOnly}
-                  onChange={setBillingStreet}
-                  value={billingStreet}
-                />
-                <CityInput
-                  readOnlyValue={isReadOnly}
-                  onChange={setBillingCity}
-                  value={billingCity}
-                />
-                <PostalCodeInput
-                  readOnlyValue={isReadOnly}
-                  onChange={setBillingPostalCode}
-                  value={billingPostalCode}
-                />
-              </div>
-            )}
-          </fieldset>
+          {createAdresses()}
           <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} value={email} />
-          <PasswordInput readOnlyValue={isReadOnly} onChange={setPassword} />
-          <Button
-            label="Continue"
-            className="button button-login"
-            onClick={(): Promise<void | ClientResponse<CustomerSignInResult>> =>
-              createCustomer(createBody()).then((response) => {
-                if (response) {
-                  setIsModalShown(false);
-                  createLogin();
-                } else {
-                  setIsModalShown(true);
-                }
-              })
-            }
-            type="submit"
-            disabled={!isDataValid}
-          />
           <Button
             label="Edit"
             className="button button-edit"
             onClick={(): void => {
               setIsReadOnly(!isReadOnly);
+              console.log(createAdresses());
               // checkProfileResponse();
             }}
             type="button"
