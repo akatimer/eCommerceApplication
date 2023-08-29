@@ -5,9 +5,8 @@ import {
   Customer,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
-import Alert from '@mui/material/Alert';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, LOGIN_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { useNavigate } from 'react-router-dom';
+import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import DateInput from '../DateInput/DateInput';
 import EmailInput from '../EmailInput/EmailInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
@@ -30,8 +29,6 @@ const Profile: React.FC = () => {
   const [postalCode, setPostalCode] = useState('');
   const [addressType, setAddressType] = useState('Shipping');
   const [isReadOnly, setIsReadOnly] = useState(true);
-
-  const [isModalShown, setIsModalShown] = useState(false);
   const [customerBody, setCustomerBody] = useState<ClientResponse | null>(null);
   const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
@@ -114,24 +111,7 @@ const Profile: React.FC = () => {
             type="button"
           />
         </form>
-        <p className="to-route-desc">
-          Сreate an account or&nbsp;
-          <NavLink to={LOGIN_ROUTE} className="to-route-link">
-            log in
-          </NavLink>
-        </p>
       </div>
-      {isModalShown && (
-        <Alert
-          severity="error"
-          className="modal"
-          onClose={(): void => {
-            setIsModalShown(false);
-          }}
-        >
-          User with this email already exists
-        </Alert>
-      )}
     </section>
   );
 };
