@@ -60,10 +60,8 @@ const Catalog: React.FC = () => {
       )}
       <></>
       <div className="catalog-wrapper">
-        <div className="side-panel">
-          <FilterAccordion />
-        </div>
-        <Grid container alignItems={'center'} spacing={6} sx={{ margin: 'auto' }}>
+        <div className="side-panel">{<FilterAccordion />}</div>
+        <Grid container spacing={{ xs: 2, md: 3 }} sx={{ justifyContent: 'center' }}>
           {products &&
             products.map((product) => (
               <Grid item key={product.id}>
