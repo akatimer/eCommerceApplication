@@ -17,7 +17,6 @@ enum SortMethods {
 const SortDropdown: React.FC<Props> = (props) => {
   return (
     <div className="select-wrapper">
-      <h2 className="select-title">Show</h2>
       <Select
         className="sort-select"
         value={props.sorting ? props.sorting : SortMethods.LOWEST_FIRST}
