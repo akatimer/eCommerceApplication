@@ -9,9 +9,11 @@ import {
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
   PRODUCT_ROUTE,
+  PROFILE_ROUTE,
 } from '../../utils/constants';
-import Catalog from '../Catalog/Catalog';
 import MainInfo from '../MainInfo/MainInfo';
+import Catalog from '../Catalog/Catalog';
+import Profile from '../Profile/Profile';
 import DetailedProduct from '../DetailedProduct/DetailedProduct';
 
 const Router = createBrowserRouter([
@@ -35,6 +37,10 @@ const Router = createBrowserRouter([
       {
         path: SHOP_ROUTE,
         element: <Catalog />,
+      },
+      {
+        path: PROFILE_ROUTE,
+        element: <Profile />,
       },
       {
         path: `${PRODUCT_ROUTE}/:id`,

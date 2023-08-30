@@ -12,10 +12,11 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 const DetailedProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [productData, setProductData] = useState<ProductProjection | null>(null);
+  const [discount, setDiscount] = useState<number>();
   const carousel = useRef<AliceCarousel>(null);
 
   useEffect(() => {
-    const fetchProduct = async (): Promise<void> => {
+    const fetchProductAndDiscount = async (): Promise<void> => {
       try {
         const productResponse = await getApiRoot()
           .withProjectKey({ projectKey })
@@ -25,17 +26,24 @@ const DetailedProduct: React.FC = () => {
           .execute();
 
         setProductData(productResponse.body);
+
+        if (productResponse.body && productResponse.body.masterVariant.prices) {
+          const calculatedDiscount =
+            productResponse.body.masterVariant.prices[0].discounted?.value.centAmount;
+          setDiscount(calculatedDiscount);
+        }
       } catch (error) {
         console.error('Error fetching product data:', error);
       }
     };
 
-    fetchProduct();
+    fetchProductAndDiscount();
   }, [id]);
 
   if (!productData) {
     return <div className="loading">Loading...</div>;
   }
+
   const productName = productData.name && productData.name['en-US'];
   const description = productData.description && productData.description['en-US'];
   const price =
@@ -70,8 +78,12 @@ const DetailedProduct: React.FC = () => {
           <h4 className="prod-desc-title">Info</h4>
           <p className="prod-desc">{description}</p>
         </div>
-        <div className="price">
-          $ <span className="cost">{price}</span>
+        <div className="card-price_block">
+          <span className="card-dollar">$</span>
+          {discount ? <div className="card_discount-price">{(discount / 100).toFixed(2)}</div> : ''}
+          {price !== undefined && (
+            <div className={!discount ? 'card_current-price' : 'card_old-price'}>{price}</div>
+          )}
         </div>
       </div>
     </div>
