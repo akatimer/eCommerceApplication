@@ -1,14 +1,28 @@
-import { Accordion, AccordionDetails, AccordionSummary, Slider, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Checkbox,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Slider,
+  Typography,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CirclePicker, ColorResult } from 'react-color';
 import React from 'react';
 import './FilterAccordion.css';
+import pink from '@mui/material/colors/pink';
 
 type Props = {
   colorHandleChange: (color: ColorResult) => void;
   priceHandleChange: (event: Event, newValue: number | number[], activeThumb: number) => void;
+  brandHandleChange: (value: string) => () => void;
   color: string;
   price: number[] | number;
+  checkedBrand: string[];
 };
 
 const FilterAccordion: React.FC<Props> = (props) => {
@@ -57,6 +71,36 @@ const FilterAccordion: React.FC<Props> = (props) => {
           <Typography sx={{ fontFamily: 'Mulish', fontWeight: 700 }}>Brand</Typography>
         </AccordionSummary>
         <AccordionDetails>
+          <List>
+            {['kropka', 'koska'].map((value) => {
+              const labelId = `checkbox-list-label-${value}`;
+              return (
+                <ListItem key={value} disablePadding>
+                  <ListItemButton onClick={props.brandHandleChange(value)} dense>
+                    <Checkbox
+                      edge="start"
+                      checked={props.checkedBrand.indexOf(value) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': labelId }}
+                      sx={{
+                        color: pink[50],
+                        '&.Mui-checked': {
+                          color: pink[200],
+                        },
+                      }}
+                    />
+
+                    <ListItemText id={labelId}>
+                      <Typography sx={{ fontFamily: 'Mulish', color: '#1B2437' }}>
+                        {value.charAt(0).toUpperCase() + value.slice(1)}
+                      </Typography>
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
           <Typography sx={{ fontFamily: 'Mulish' }}></Typography>
         </AccordionDetails>
       </Accordion>

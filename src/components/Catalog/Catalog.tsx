@@ -1,5 +1,5 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Grid, SelectChangeEvent } from '@mui/material';
+import { Button, Grid, SelectChangeEvent } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../../utils/api/clientApi';
 import ProductCard from '../ProductCard/ProductCard';
@@ -17,7 +17,21 @@ const Catalog: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [color, setColor] = useState('');
-  const [price, setPrice] = useState<number[]>([20, 99]);
+  const [price, setPrice] = useState<number[]>([20, 110]);
+  const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
+
+  const brandHandleChange = (value: string) => () => {
+    const index = checkedBrand.indexOf(value);
+    const newCheckedValue = [...checkedBrand];
+
+    if (index === -1) {
+      newCheckedValue.push(value);
+    } else {
+      newCheckedValue.splice(index, 1);
+    }
+
+    setCheckedBrand(newCheckedValue);
+  };
 
   const handleChange = (event: SelectChangeEvent): void => {
     setSorting(event.target.value);
@@ -60,6 +74,8 @@ const Catalog: React.FC = () => {
         filter: [
           color && `variants.attributes.color.key:"${convertColor(color)}"`,
           price && `variants.price.centAmount:range (${price[0] * 100} to ${price[1] * 100})`,
+          checkedBrand.length &&
+            `variants.attributes.brand.key: ${checkedBrand.map((el) => `"${el}"`)}`,
         ],
       },
     })
@@ -73,7 +89,7 @@ const Catalog: React.FC = () => {
         }
       })
       .catch(console.error);
-  }, [sorting, searchValue, color, price]);
+  }, [sorting, searchValue, color, price, checkedBrand]);
 
   if (!products) {
     return <div className="loading">Loading...</div>;
@@ -89,9 +105,23 @@ const Catalog: React.FC = () => {
           <FilterAccordion
             color={color}
             price={price}
+            checkedBrand={checkedBrand}
             colorHandleChange={colorHandleChange}
             priceHandleChange={priceHandleChange}
+            brandHandleChange={brandHandleChange}
           />
+          <Button
+            color={'secondary'}
+            sx={{ fontFamily: 'Mulish' }}
+            variant="outlined"
+            onClick={(): void => {
+              setCheckedBrand([]);
+              setColor('');
+              setPrice([20, 110]);
+            }}
+          >
+            Default
+          </Button>
         </div>
         <Grid container spacing={{ xs: 2, md: 3 }} className="grid-container">
           {notFound && (
