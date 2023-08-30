@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Slider, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { CirclePicker, ColorResult } from 'react-color';
 import React from 'react';
@@ -6,7 +6,9 @@ import './FilterAccordion.css';
 
 type Props = {
   colorHandleChange: (color: ColorResult) => void;
+  priceHandleChange: (event: Event, newValue: number | number[], activeThumb: number) => void;
   color: string;
+  price: number[] | number;
 };
 
 const FilterAccordion: React.FC<Props> = (props) => {
@@ -21,7 +23,17 @@ const FilterAccordion: React.FC<Props> = (props) => {
           <Typography sx={{ fontFamily: 'Mulish', fontWeight: 700 }}>Price</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ fontFamily: 'Mulish' }}>Text goes here ...</Typography>
+          <Slider
+            getAriaLabel={(): string => 'Minimum distance shift'}
+            value={props.price}
+            min={20}
+            max={110}
+            onChange={props.priceHandleChange}
+            valueLabelDisplay="auto"
+            disableSwap
+            sx={{ color: '#EDA3B5' }}
+          />
+          <Typography sx={{ fontFamily: 'Mulish' }}>Choose price range</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion disableGutters>
@@ -45,7 +57,7 @@ const FilterAccordion: React.FC<Props> = (props) => {
           <Typography sx={{ fontFamily: 'Mulish', fontWeight: 700 }}>Brand</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography sx={{ fontFamily: 'Mulish' }}>Text goes here ...</Typography>
+          <Typography sx={{ fontFamily: 'Mulish' }}></Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion disableGutters>

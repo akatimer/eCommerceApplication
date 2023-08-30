@@ -25,9 +25,16 @@
   padding: 2em;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1246px) {
   .catalog {
     padding: 0 48px;
+  }
+  .catalog-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .grid-container {
+    justify-content: center;
   }
 }
 @media (max-width: 600px) {
@@ -50,9 +57,6 @@
     display: flex;
     flex-direction: row;
     padding: 0 3em;
-  }
-  .grid-container {
-    justify-content: center;
   }
 }
 @media (max-width: 440px) {

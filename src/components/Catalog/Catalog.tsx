@@ -17,6 +17,7 @@ const Catalog: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [color, setColor] = useState('');
+  const [price, setPrice] = useState<number[]>([20, 99]);
 
   const handleChange = (event: SelectChangeEvent): void => {
     setSorting(event.target.value);
@@ -30,6 +31,25 @@ const Catalog: React.FC = () => {
     setColor(color.hex);
     console.log(color.hex);
   };
+  const MIN_PRICE = 20;
+
+  const priceHandleChange = (event: Event, newValue: number | number[], active: number): void => {
+    if (!Array.isArray(newValue)) {
+      return;
+    }
+
+    if (newValue[1] - newValue[0] < MIN_PRICE) {
+      if (active === 0) {
+        const grip = Math.min(newValue[0], 100 - MIN_PRICE);
+        setPrice([grip, grip + MIN_PRICE]);
+      } else {
+        const grip = Math.max(newValue[1], MIN_PRICE);
+        setPrice([grip - MIN_PRICE, grip]);
+      }
+    } else {
+      setPrice(newValue as number[]);
+    }
+  };
 
   useEffect(() => {
     getProducts({
@@ -37,7 +57,10 @@ const Catalog: React.FC = () => {
         sort: sorting ? sorting : 'price asc',
         'text.en-US': searchValue.length > 3 ? searchValue : '',
         fuzzy: true,
-        filter: [color && `variants.attributes.color.key:"${convertColor(color)}"`],
+        filter: [
+          color && `variants.attributes.color.key:"${convertColor(color)}"`,
+          price && `variants.price.centAmount:range (${price[0] * 100} to ${price[1] * 100})`,
+        ],
       },
     })
       .then((response) => {
@@ -50,7 +73,7 @@ const Catalog: React.FC = () => {
         }
       })
       .catch(console.error);
-  }, [sorting, searchValue, color]);
+  }, [sorting, searchValue, color, price]);
 
   if (!products) {
     return <div className="loading">Loading...</div>;
@@ -61,17 +84,21 @@ const Catalog: React.FC = () => {
         <Search searchHandler={searchHandler} showModal={showModal} />
         <SortDropdown handleChange={handleChange} sorting={sorting} />
       </div>
-      {notFound && (
-        <div className="not-found">
-          Sorry, we couldn&apos;t find any matching result for your query.
-        </div>
-      )}
-      <></>
       <div className="catalog-wrapper">
         <div className="side-panel">
-          <FilterAccordion color={color} colorHandleChange={colorHandleChange} />
+          <FilterAccordion
+            color={color}
+            price={price}
+            colorHandleChange={colorHandleChange}
+            priceHandleChange={priceHandleChange}
+          />
         </div>
         <Grid container spacing={{ xs: 2, md: 3 }} className="grid-container">
+          {notFound && (
+            <div className="not-found">
+              Sorry, we couldn&apos;t find any matching result for your query.
+            </div>
+          )}
           {products &&
             products.map((product) => (
               <Grid item key={product.id}>
