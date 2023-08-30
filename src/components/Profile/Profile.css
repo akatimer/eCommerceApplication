@@ -1,0 +1,13 @@
+.button-edit {
+  font-size: 1.2rem;
+  margin-top: 25px;
+  padding: 15px;
+  border: solid 2px #48484a;
+  border-radius: 16px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  color: #48484a;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+}

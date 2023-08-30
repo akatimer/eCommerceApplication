@@ -1,10 +1,12 @@
 import './Navigation.css';
 import logOutIcon from '../../assets/icons/logout.svg';
+import profile from '../../assets/icons/user_icn.svg';
 import Logo from '../Logo/Logo';
 import { NavLink } from 'react-router-dom';
 import {
   HOME_ROUTE,
   LOGIN_ROUTE,
+  PROFILE_ROUTE,
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
   TOKEN_NAME,
@@ -53,11 +55,18 @@ const Navigation: React.FC = () => {
       </ul>
       <ul className="nav-list customer-nav">
         {!loggedOut || token ? (
-          <li className="nav-item">
-            <a className="nav-link" href="#!" onClick={handleLogOut}>
-              <img src={logOutIcon} alt="logout" />
-            </a>
-          </li>
+          <>
+            <li className="nav-item">
+              <NavLink to={PROFILE_ROUTE} className="nav-link profile">
+                <img src={profile} alt="profile" />
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#!" onClick={handleLogOut}>
+                <img src={logOutIcon} alt="logout" />
+              </a>
+            </li>
+          </>
         ) : (
           <>
             <li className="nav-item">
