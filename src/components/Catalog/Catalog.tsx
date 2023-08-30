@@ -19,18 +19,27 @@ const Catalog: React.FC = () => {
   const [color, setColor] = useState('');
   const [price, setPrice] = useState<number[]>([20, 110]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
+  const [checkedSize, setCheckedSize] = useState<string[]>([]);
 
   const brandHandleChange = (value: string) => () => {
     const index = checkedBrand.indexOf(value);
     const newCheckedValue = [...checkedBrand];
-
     if (index === -1) {
       newCheckedValue.push(value);
     } else {
       newCheckedValue.splice(index, 1);
     }
-
     setCheckedBrand(newCheckedValue);
+  };
+  const sizeHandleChange = (value: string) => () => {
+    const index = checkedSize.indexOf(value);
+    const newCheckedValue = [...checkedSize];
+    if (index === -1) {
+      newCheckedValue.push(value);
+    } else {
+      newCheckedValue.splice(index, 1);
+    }
+    setCheckedSize(newCheckedValue);
   };
 
   const handleChange = (event: SelectChangeEvent): void => {
@@ -43,7 +52,6 @@ const Catalog: React.FC = () => {
   };
   const colorHandleChange = (color: ColorResult): void => {
     setColor(color.hex);
-    console.log(color.hex);
   };
   const MIN_PRICE = 20;
 
@@ -76,6 +84,8 @@ const Catalog: React.FC = () => {
           price && `variants.price.centAmount:range (${price[0] * 100} to ${price[1] * 100})`,
           checkedBrand.length &&
             `variants.attributes.brand.key: ${checkedBrand.map((el) => `"${el}"`)}`,
+          checkedSize.length &&
+            `variants.attributes.size.key: ${checkedSize.map((el) => `"${el}"`)}`,
         ],
       },
     })
@@ -89,7 +99,7 @@ const Catalog: React.FC = () => {
         }
       })
       .catch(console.error);
-  }, [sorting, searchValue, color, price, checkedBrand]);
+  }, [sorting, searchValue, color, price, checkedBrand, checkedSize]);
 
   if (!products) {
     return <div className="loading">Loading...</div>;
@@ -106,21 +116,23 @@ const Catalog: React.FC = () => {
             color={color}
             price={price}
             checkedBrand={checkedBrand}
+            checkedSize={checkedSize}
             colorHandleChange={colorHandleChange}
             priceHandleChange={priceHandleChange}
             brandHandleChange={brandHandleChange}
+            sizeHandleChange={sizeHandleChange}
           />
           <Button
-            color={'secondary'}
-            sx={{ fontFamily: 'Mulish' }}
-            variant="outlined"
+            sx={{ fontFamily: 'Mulish', alignSelf: 'center', color: '#0faeae', marginTop: 2 }}
+            variant="text"
             onClick={(): void => {
               setCheckedBrand([]);
+              setCheckedSize([]);
               setColor('');
               setPrice([20, 110]);
             }}
           >
-            Default
+            reset filters
           </Button>
         </div>
         <Grid container spacing={{ xs: 2, md: 3 }} className="grid-container">

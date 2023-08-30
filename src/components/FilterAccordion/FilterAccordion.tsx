@@ -15,14 +15,17 @@ import { CirclePicker, ColorResult } from 'react-color';
 import React from 'react';
 import './FilterAccordion.css';
 import pink from '@mui/material/colors/pink';
+import { BRANDS, COLORS, SIZES } from '../../utils/constants';
 
 type Props = {
   colorHandleChange: (color: ColorResult) => void;
   priceHandleChange: (event: Event, newValue: number | number[], activeThumb: number) => void;
   brandHandleChange: (value: string) => () => void;
+  sizeHandleChange: (value: string) => () => void;
   color: string;
   price: number[] | number;
   checkedBrand: string[];
+  checkedSize: string[];
 };
 
 const FilterAccordion: React.FC<Props> = (props) => {
@@ -47,7 +50,9 @@ const FilterAccordion: React.FC<Props> = (props) => {
             disableSwap
             sx={{ color: '#EDA3B5' }}
           />
-          <Typography sx={{ fontFamily: 'Mulish' }}>Choose price range</Typography>
+          <Typography sx={{ fontFamily: 'Mulish', textAlign: 'center' }}>
+            Choose price range
+          </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion disableGutters>
@@ -58,8 +63,42 @@ const FilterAccordion: React.FC<Props> = (props) => {
         >
           <Typography sx={{ fontFamily: 'Mulish', fontWeight: 700 }}>Size</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography sx={{ fontFamily: 'Mulish' }}>Text goes here ...</Typography>
+        <AccordionDetails
+          sx={{
+            maxHeight: 266,
+            overflow: 'auto',
+          }}
+        >
+          <List>
+            {SIZES.map((value) => {
+              const labelId = `checkbox-list-label-${value}`;
+              return (
+                <ListItem key={value} disablePadding>
+                  <ListItemButton onClick={props.sizeHandleChange(value)} dense>
+                    <Checkbox
+                      edge="start"
+                      checked={props.checkedSize.indexOf(value) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': labelId }}
+                      sx={{
+                        color: pink[50],
+                        '&.Mui-checked': {
+                          color: pink[200],
+                        },
+                      }}
+                    />
+
+                    <ListItemText id={labelId}>
+                      <Typography sx={{ fontFamily: 'Mulish', color: '#1B2437' }}>
+                        {value}
+                      </Typography>
+                    </ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
         </AccordionDetails>
       </Accordion>
       <Accordion disableGutters>
@@ -72,7 +111,7 @@ const FilterAccordion: React.FC<Props> = (props) => {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            {['kropka', 'koska'].map((value) => {
+            {BRANDS.map((value) => {
               const labelId = `checkbox-list-label-${value}`;
               return (
                 <ListItem key={value} disablePadding>
@@ -113,10 +152,7 @@ const FilterAccordion: React.FC<Props> = (props) => {
           <Typography sx={{ fontFamily: 'Mulish', fontWeight: 700 }}>Color</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CirclePicker
-            colors={['#8bc34a', '#ff9800', '#ff7f50 ', '#f5f196', '#795548', '#000000']}
-            onChange={props.colorHandleChange}
-          />
+          <CirclePicker colors={COLORS} onChange={props.colorHandleChange} />
           <Typography sx={{ fontFamily: 'Mulish' }}></Typography>
         </AccordionDetails>
       </Accordion>
