@@ -3,6 +3,8 @@ import {
   ApiRoot,
   ClientResponse,
   Customer,
+  MyCustomerChangeAddressAction,
+  MyCustomerUpdateAction,
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +32,9 @@ const Profile: React.FC = () => {
   const [addressType, setAddressType] = useState('Shipping');
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [customerBody, setCustomerBody] = useState<ClientResponse | null>(null);
+  const [addressOnPage, setAddressesOnPage] = useState<ReactElement[]>();
+  const [curretnId, setCurrentId] = useState('');
+  const [edtitAdr, setEditAdr] = useState(false);
   const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
 
@@ -49,8 +54,35 @@ const Profile: React.FC = () => {
     }
   };
 
-  const [curretnId, setCurrentId] = useState('');
-  const [edtitAdr, setEditAdr] = useState(false);
+  const testAction: MyCustomerChangeAddressAction = {
+    action: 'changeAddress',
+    addressId: curretnId,
+    address: {
+      streetName: street,
+      city: city,
+      country: country,
+      postalCode: postalCode,
+    },
+  };
+
+  const editMyProfile = (
+    actions: MyCustomerUpdateAction[]
+  ): Promise<void | ClientResponse<Customer>> => {
+    const currentToken = localStorage.getItem(TOKEN_NAME);
+    const newVersion = customerBody?.body.version;
+    const apiTokenRoot = (): ApiRoot => {
+      return createApiBuilderFromCtpClient(createClientWithToken(`Bearer ${currentToken}`));
+    };
+    const clientProfileResponse = apiTokenRoot()
+      .withProjectKey({ projectKey })
+      .me()
+      .post({
+        body: { version: newVersion, actions: actions },
+      })
+      .execute()
+      .catch(console.error);
+    return clientProfileResponse;
+  };
 
   const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     const storedValue = event.currentTarget.dataset.value;
@@ -74,7 +106,7 @@ const Profile: React.FC = () => {
 
   const createAdresses = (): ReactElement[] | undefined => {
     if (customerBody) {
-      return customerBody.body.addresses.map((address: Address) => {
+      const addr = customerBody.body.addresses.map((address: Address) => {
         return (
           <div className="address address-layout" key={address.id}>
             <div>Type: </div>
@@ -97,8 +129,12 @@ const Profile: React.FC = () => {
           </div>
         );
       });
+      setAddressesOnPage(addr);
+      return addr;
     }
   };
+  // createAdresses();
+  // const addr = useMemo(() => createAdresses(), []);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -109,6 +145,7 @@ const Profile: React.FC = () => {
         setLastName(profileResponse.body.lastName || '');
         setDate(profileResponse.body.dateOfBirth || '');
         setCustomerBody(profileResponse);
+        // setAddressesOnPage(createAdresses());
       } else {
         localStorage.removeItem(TOKEN_NAME);
         setLoggedOut(true);
@@ -116,6 +153,10 @@ const Profile: React.FC = () => {
       }
     })();
   }, [navigate, setLoggedOut]);
+
+  // useEffect(() => {
+  //   createAdresses();
+  // }, []);
 
   return (
     <section className="form form-reg">
@@ -125,6 +166,27 @@ const Profile: React.FC = () => {
           <NameInput readOnlyValue={isReadOnly} onChange={setName} value={name} />
           <LastNameInput readOnlyValue={isReadOnly} onChange={setLastName} value={lastName} />
           <DateInput readOnlyValue={isReadOnly} onChange={setDate} value={date} />
+          <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} value={email} />
+          {isReadOnly ? (
+            <Button
+              label="Edit"
+              className="button button-edit"
+              onClick={(): void => {
+                setIsReadOnly(!isReadOnly);
+                // checkProfileResponse();
+              }}
+              type="button"
+            />
+          ) : (
+            <Button
+              label="Update"
+              className="button button-edit"
+              onClick={(): void => {
+                setIsReadOnly(!isReadOnly);
+              }}
+              type="button"
+            />
+          )}
           {edtitAdr && (
             <>
               <AddressComponent
@@ -146,23 +208,19 @@ const Profile: React.FC = () => {
                 onClick={(): void => {
                   setEditAdr(false);
                   console.log(curretnId);
+                  editMyProfile([testAction])
+                    .then((resp) => {
+                      if (resp) {
+                        setCustomerBody(resp);
+                      }
+                    })
+                    .then(() => createAdresses());
                 }}
                 className="button button-save-update"
               />
             </>
           )}
-          {createAdresses()}
-          <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} value={email} />
-          <Button
-            label="Edit"
-            className="button button-edit"
-            onClick={(): void => {
-              setIsReadOnly(!isReadOnly);
-              console.log(createAdresses());
-              // checkProfileResponse();
-            }}
-            type="button"
-          />
+          {addressOnPage ? addressOnPage : createAdresses()}
         </form>
       </div>
     </section>
