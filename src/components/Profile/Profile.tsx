@@ -104,14 +104,15 @@ const Profile: React.FC = () => {
     }
   };
 
-  const createAdresses = (): ReactElement[] | undefined => {
-    if (customerBody) {
-      const addr = customerBody.body.addresses.map((address: Address) => {
+  const createAdresses = (resp?: ClientResponse<Customer>): ReactElement[] | undefined => {
+    const currentBody = resp ? resp : customerBody;
+    if (currentBody) {
+      const addr = currentBody.body.addresses.map((address: Address) => {
         return (
           <div className="address address-layout" key={address.id}>
             <div>Type: </div>
             <div>
-              {customerBody.body.shippingAddressIds.includes(address.id) ? 'Shipping' : 'Billing'}
+              {currentBody.body.shippingAddressIds.includes(address.id) ? 'Shipping' : 'Billing'}
             </div>
             <div>Country: </div>
             <div>{address.country}</div>
@@ -133,8 +134,6 @@ const Profile: React.FC = () => {
       return addr;
     }
   };
-  // createAdresses();
-  // const addr = useMemo(() => createAdresses(), []);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -145,7 +144,6 @@ const Profile: React.FC = () => {
         setLastName(profileResponse.body.lastName || '');
         setDate(profileResponse.body.dateOfBirth || '');
         setCustomerBody(profileResponse);
-        // setAddressesOnPage(createAdresses());
       } else {
         localStorage.removeItem(TOKEN_NAME);
         setLoggedOut(true);
@@ -153,10 +151,6 @@ const Profile: React.FC = () => {
       }
     })();
   }, [navigate, setLoggedOut]);
-
-  // useEffect(() => {
-  //   createAdresses();
-  // }, []);
 
   return (
     <section className="form form-reg">
@@ -207,14 +201,18 @@ const Profile: React.FC = () => {
                 label="Save & Update"
                 onClick={(): void => {
                   setEditAdr(false);
-                  console.log(curretnId);
                   editMyProfile([testAction])
                     .then((resp) => {
                       if (resp) {
                         setCustomerBody(resp);
                       }
+                      return resp;
                     })
-                    .then(() => createAdresses());
+                    .then((resp) => {
+                      if (resp) {
+                        createAdresses(resp);
+                      }
+                    });
                 }}
                 className="button button-save-update"
               />
