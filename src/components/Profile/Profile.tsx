@@ -57,29 +57,39 @@ const Profile: React.FC = () => {
     if (storedValue) {
       setCurrentId(storedValue);
       setEditAdr(true);
+      const currentAddress = customerBody?.body.addresses.filter(
+        (addr: Address) => addr.id === storedValue
+      );
+      setAddressType(
+        customerBody?.body.shippingAddressIds.includes(currentAddress[0].id)
+          ? 'Shipping'
+          : 'Billing'
+      );
+      setCountry(currentAddress[0].country);
+      setCity(currentAddress[0].country);
+      setStreet(currentAddress[0].streetName);
+      setPostalCode(currentAddress[0].postalCode);
     }
   };
 
   const createAdresses = (): ReactElement[] | undefined => {
     if (customerBody) {
-      // console.log(customerBody.body);
-      // setAddresses(customerBody.body.addresses);
       return customerBody.body.addresses.map((address: Address) => {
         return (
-          <div key={address.id}>
-            <div>Type</div>
+          <div className="address address-layout" key={address.id}>
+            <div>Type: </div>
             <div>
-              {customerBody.body.shippingAddressIds.includes(address.id) ? addressType : 'Billing'}
+              {customerBody.body.shippingAddressIds.includes(address.id) ? 'Shipping' : 'Billing'}
             </div>
-            <div>Country</div>
+            <div>Country: </div>
             <div>{address.country}</div>
-            <div>Street</div>
+            <div>Street: </div>
             <div>{address.streetName}</div>
-            <div>PostalCode</div>
+            <div>PostalCode: </div>
             <div>{address.postalCode}</div>
             <Button
               label="Edit Adr"
-              className="button"
+              className="button button-edit-adr"
               type="button"
               dataValue={address.id || ''}
               onClick={handleButtonClick}
@@ -118,7 +128,8 @@ const Profile: React.FC = () => {
           {edtitAdr && (
             <>
               <AddressComponent
-                isReadOnly={isReadOnly}
+                label="Edit Address"
+                isReadOnly={false}
                 typeValue={addressType}
                 countryValue={country}
                 cityValue={city}

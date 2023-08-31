@@ -11,3 +11,24 @@
   transition: all 0.5s;
   cursor: pointer;
 }
+
+.address-layout {
+  width: 328px;
+  padding: 0.35em 0.75em 0.625em;
+  margin: 10px;
+  display: inline-grid;
+  grid-template-columns: 95px 170px;
+  grid-template-rows: repeat(5, 35px);
+  align-items: center;
+  justify-items: start;
+  justify-content: center;
+}
+
+.address-layout>div {
+  grid-column: auto/span 1;
+}
+
+.button-edit-adr {
+  justify-self: center;
+  grid-column: auto/span 2;
+}
