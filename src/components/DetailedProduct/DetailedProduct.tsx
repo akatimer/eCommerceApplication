@@ -58,7 +58,7 @@ const DetailedProduct: React.FC = () => {
   ));
   return (
     <div className="prod-wrapper">
-      <div className="prod-container">
+      <div className={`prod-container ${modalVisible ? 'hidden' : ''}`}>
         <div className="close-page">
           <Link to={SHOP_ROUTE}>
             <img className="cross-pic" src={crossPic} alt="Close page" />

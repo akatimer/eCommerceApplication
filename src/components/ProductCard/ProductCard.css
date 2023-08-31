@@ -40,6 +40,7 @@
 .card-price_block {
   display: flex;
   padding: 0 18px;
+  align-items: center;
 }
 
 .card_current-price {
@@ -80,7 +81,6 @@
   line-height: 33px;
   letter-spacing: 0px;
   text-align: left;
-  margin-bottom: 7px;
 }
 
 .card-button {

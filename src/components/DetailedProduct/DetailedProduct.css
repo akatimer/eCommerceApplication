@@ -27,7 +27,7 @@
   cursor: pointer;
 }
 .cross-pic {
-  width: 60px;
+  width: 4em;
 }
 
 .prod-pic {
@@ -42,8 +42,8 @@
 }
 
 .btn-prev {
-  width: 42px;
-  height: 42px;
+  width: 6%;
+  height: 8%;
   position: absolute;
   left: 1%;
   top: 50%;
@@ -57,8 +57,8 @@
 }
 
 .btn-next {
-  width: 42px;
-  height: 42px;
+  width: 6%;
+  height: 8%;
   position: absolute;
   right: 1%;
   top: 50%;
@@ -82,6 +82,7 @@
   font-size: 48px;
   color: #1b2437;
   width: 100%;
+  padding: 8px;
   text-align: start;
 }
 
@@ -95,8 +96,9 @@
 }
 
 .prod-desc {
-  width: 469px;
+  max-width: 28em;
   margin-top: 32px;
+  padding: 8px;
   font-size: 16px;
   color: #8e8e93;
   text-align: start;
@@ -137,4 +139,7 @@
   transform: translate(-50%, -50%);
   padding-top: 20px;
   padding-bottom: 20px;
+}
+.hidden {
+  display: none;
 }
