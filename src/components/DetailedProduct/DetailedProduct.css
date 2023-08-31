@@ -27,7 +27,7 @@
   cursor: pointer;
 }
 .cross-pic {
-  width: 4em;
+  width: 7vw;
 }
 
 .prod-pic {
@@ -42,8 +42,8 @@
 }
 
 .btn-prev {
-  width: 6%;
-  height: 8%;
+  width: 5%;
+  height: 7%;
   position: absolute;
   left: 1%;
   top: 50%;
@@ -53,12 +53,11 @@
   background-position: center;
   background-size: contain;
   cursor: pointer;
-  transition: all 1s;
 }
 
 .btn-next {
-  width: 6%;
-  height: 8%;
+  width: 5%;
+  height: 7%;
   position: absolute;
   right: 1%;
   top: 50%;
@@ -68,7 +67,6 @@
   background-position: center;
   background-size: contain;
   cursor: pointer;
-  transition: all 1s;
 }
 
 .prod-desc-container {
@@ -112,6 +110,7 @@
 .cost {
   font-size: 34px;
 }
+
 .full-screen {
   display: none;
   position: fixed;
@@ -135,11 +134,9 @@
   top: 50%;
   left: 50%;
   width: 69%;
-  height: 100%;
   transform: translate(-50%, -50%);
-  padding-top: 20px;
-  padding-bottom: 20px;
 }
+
 .hidden {
   display: none;
 }
