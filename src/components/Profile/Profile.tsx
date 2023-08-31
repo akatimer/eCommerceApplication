@@ -147,7 +147,7 @@ const Profile: React.FC = () => {
                   setEditAdr(false);
                   console.log(curretnId);
                 }}
-                className="button"
+                className="button button-save-update"
               />
             </>
           )}

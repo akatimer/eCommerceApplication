@@ -15,7 +15,7 @@
 .address-layout {
   width: 328px;
   padding: 0.35em 0.75em 0.625em;
-  margin: 10px;
+  margin: 5px;
   display: inline-grid;
   grid-template-columns: 95px 170px;
   grid-template-rows: repeat(5, 35px);
@@ -24,11 +24,16 @@
   justify-content: center;
 }
 
-.address-layout>div {
+.address-layout > div {
   grid-column: auto/span 1;
 }
 
 .button-edit-adr {
   justify-self: center;
   grid-column: auto/span 2;
+}
+
+.button-save-update {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
