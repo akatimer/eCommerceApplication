@@ -49,27 +49,44 @@ const Profile: React.FC = () => {
     }
   };
 
+  const [curretnId, setCurrentId] = useState('');
+  const [edtitAdr, setEditAdr] = useState(false);
+
+  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const storedValue = event.currentTarget.dataset.value;
+    if (storedValue) {
+      setCurrentId(storedValue);
+      setEditAdr(true);
+    }
+  };
+
   const createAdresses = (): ReactElement[] | undefined => {
     if (customerBody) {
-      console.log(customerBody.body);
-      return customerBody.body.addresses.map((address: Address) => (
-        <AddressComponent
-          key={address.id}
-          isReadOnly={isReadOnly}
-          typeValue={
-            customerBody.body.shippingAddressIds.includes(address.id) ? addressType : 'Billing'
-          }
-          countryValue={address.country || country}
-          cityValue={address.city || city}
-          streetValue={address.streetName || street}
-          postalCodeValue={address.postalCode || postalCode}
-          setAdressType={setAddressType}
-          setCountry={setCountry}
-          setCity={setCity}
-          setStreet={setStreet}
-          setPostalCode={setPostalCode}
-        />
-      ));
+      // console.log(customerBody.body);
+      // setAddresses(customerBody.body.addresses);
+      return customerBody.body.addresses.map((address: Address) => {
+        return (
+          <div key={address.id}>
+            <div>Type</div>
+            <div>
+              {customerBody.body.shippingAddressIds.includes(address.id) ? addressType : 'Billing'}
+            </div>
+            <div>Country</div>
+            <div>{address.country}</div>
+            <div>Street</div>
+            <div>{address.streetName}</div>
+            <div>PostalCode</div>
+            <div>{address.postalCode}</div>
+            <Button
+              label="Edit Adr"
+              className="button"
+              type="button"
+              dataValue={address.id || ''}
+              onClick={handleButtonClick}
+            />
+          </div>
+        );
+      });
     }
   };
 
@@ -98,6 +115,31 @@ const Profile: React.FC = () => {
           <NameInput readOnlyValue={isReadOnly} onChange={setName} value={name} />
           <LastNameInput readOnlyValue={isReadOnly} onChange={setLastName} value={lastName} />
           <DateInput readOnlyValue={isReadOnly} onChange={setDate} value={date} />
+          {edtitAdr && (
+            <>
+              <AddressComponent
+                isReadOnly={isReadOnly}
+                typeValue={addressType}
+                countryValue={country}
+                cityValue={city}
+                streetValue={street}
+                postalCodeValue={postalCode}
+                setAdressType={setAddressType}
+                setCountry={setCountry}
+                setCity={setCity}
+                setStreet={setStreet}
+                setPostalCode={setPostalCode}
+              />
+              <Button
+                label="Save & Update"
+                onClick={(): void => {
+                  setEditAdr(false);
+                  console.log(curretnId);
+                }}
+                className="button"
+              />
+            </>
+          )}
           {createAdresses()}
           <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} value={email} />
           <Button
