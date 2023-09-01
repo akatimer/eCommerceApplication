@@ -123,6 +123,8 @@ const Profile: React.FC = () => {
             </div>
             <div>Country: </div>
             <div>{address.country}</div>
+            <div>City: </div>
+            <div>{address.city}</div>
             <div>Street: </div>
             <div>{address.streetName}</div>
             <div>PostalCode: </div>

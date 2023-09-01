@@ -39,8 +39,8 @@ const AddressComponent: React.FC<IAdressProps> = ({
       <div className="shipp-wrapper">
         <AdressTypeSelect readOnlyValue={isReadOnly} onChange={setAdressType} value={typeValue} />
         <CountrySelect readOnlyValue={isReadOnly} onChange={setCountry} value={countryValue} />
-        <StreetInput readOnlyValue={isReadOnly} onChange={setStreet} value={streetValue} />
         <CityInput readOnlyValue={isReadOnly} onChange={setCity} value={cityValue} />
+        <StreetInput readOnlyValue={isReadOnly} onChange={setStreet} value={streetValue} />
         <PostalCodeInput
           readOnlyValue={isReadOnly}
           onChange={setPostalCode}
