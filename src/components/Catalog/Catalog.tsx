@@ -1,5 +1,5 @@
-import { ProductProjection } from '@commercetools/platform-sdk';
-import { Button, Grid, SelectChangeEvent } from '@mui/material';
+import { FacetResults, ProductProjection } from '@commercetools/platform-sdk';
+import { Button, CircularProgress, Grid, SelectChangeEvent } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../../utils/api/clientApi';
 import ProductCard from '../ProductCard/ProductCard';
@@ -20,6 +20,8 @@ const Catalog: React.FC = () => {
   const [price, setPrice] = useState<number[]>([20, 110]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
   const [checkedSize, setCheckedSize] = useState<string[]>([]);
+  const [checkedCategory, setCheckedCategory] = useState<string[]>([]);
+  const [facets, setFacets] = useState<FacetResults>();
 
   const brandHandleChange = (value: string) => () => {
     const index = checkedBrand.indexOf(value);
@@ -40,6 +42,16 @@ const Catalog: React.FC = () => {
       newCheckedValue.splice(index, 1);
     }
     setCheckedSize(newCheckedValue);
+  };
+  const categoryHandleChange = (value: string) => () => {
+    const index = checkedCategory.indexOf(value);
+    const newCheckedValue = [...checkedCategory];
+    if (index === -1) {
+      newCheckedValue.push(value);
+    } else {
+      newCheckedValue.splice(index, 1);
+    }
+    setCheckedCategory(newCheckedValue);
   };
 
   const handleChange = (event: SelectChangeEvent): void => {
@@ -79,9 +91,16 @@ const Catalog: React.FC = () => {
         sort: sorting ? sorting : 'price asc',
         'text.en-US': searchValue.length > 3 ? searchValue : '',
         fuzzy: true,
-        filter: [
+        facet: [
+          'variants.attributes.size.key',
+          'variants.attributes.brand.key',
+          'variants.attributes.color.key',
+          // 'categories.id',
+        ],
+        'filter.query': [
           color && `variants.attributes.color.key:"${convertColor(color)}"`,
           price && `variants.price.centAmount:range (${price[0] * 100} to ${price[1] * 100})`,
+          checkedCategory.length && `categories.id: ${checkedCategory.map((el) => `"${el}"`)}`,
           checkedBrand.length &&
             `variants.attributes.brand.key: ${checkedBrand.map((el) => `"${el}"`)}`,
           checkedSize.length &&
@@ -93,16 +112,22 @@ const Catalog: React.FC = () => {
         if (response?.body.count) {
           setProducts(response.body.results);
           setNotFound(false);
+          setFacets(response.body.facets);
         } else {
           setProducts([]);
           setNotFound(true);
         }
       })
       .catch(console.error);
-  }, [sorting, searchValue, color, price, checkedBrand, checkedSize]);
+  }, [sorting, searchValue, color, price, checkedBrand, checkedSize, checkedCategory]);
 
   if (!products) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading">
+        <CircularProgress color="inherit" />
+        Loading...
+      </div>
+    );
   }
   return (
     <div className="catalog">
@@ -117,10 +142,14 @@ const Catalog: React.FC = () => {
             price={price}
             checkedBrand={checkedBrand}
             checkedSize={checkedSize}
+            checkedCategory={checkedCategory}
             colorHandleChange={colorHandleChange}
             priceHandleChange={priceHandleChange}
             brandHandleChange={brandHandleChange}
             sizeHandleChange={sizeHandleChange}
+            categoryHandleChange={categoryHandleChange}
+            products={products}
+            facets={facets}
           />
           <Button
             sx={{ fontFamily: 'Mulish', alignSelf: 'center', color: '#0faeae', marginTop: 2 }}
@@ -130,6 +159,7 @@ const Catalog: React.FC = () => {
               setCheckedSize([]);
               setColor('');
               setPrice([20, 110]);
+              setCheckedCategory([]);
             }}
           >
             reset filters
