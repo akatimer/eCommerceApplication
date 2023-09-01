@@ -25,9 +25,14 @@
   right: 2%;
   top: 2%;
   cursor: pointer;
+  transition: all 0.5s;
 }
 .cross-pic {
-  width: 60px;
+  width: 7vw;
+}
+
+.close-page:hover {
+  filter: brightness(1.1);
 }
 
 .prod-pic {
@@ -37,12 +42,13 @@
 }
 
 .prod-photo {
+  margin-top: 12px;
   margin-bottom: 12px;
 }
 
 .btn-prev {
-  width: 32px;
-  height: 32px;
+  width: 5%;
+  height: 7%;
   position: absolute;
   left: 1%;
   top: 50%;
@@ -52,12 +58,16 @@
   background-position: center;
   background-size: contain;
   cursor: pointer;
-  transition: all 1s;
+  transition: all 0.5s;
+}
+
+.btn-prev:hover {
+  filter: brightness(1.1);
 }
 
 .btn-next {
-  width: 32px;
-  height: 32px;
+  width: 5%;
+  height: 7%;
   position: absolute;
   right: 1%;
   top: 50%;
@@ -67,7 +77,11 @@
   background-position: center;
   background-size: contain;
   cursor: pointer;
-  transition: all 1s;
+  transition: all 0.5s;
+}
+
+.btn-next:hover {
+  filter: brightness(1.1);
 }
 
 .prod-desc-container {
@@ -81,6 +95,7 @@
   font-size: 48px;
   color: #1b2437;
   width: 100%;
+  padding: 8px;
   text-align: start;
 }
 
@@ -94,8 +109,9 @@
 }
 
 .prod-desc {
-  width: 469px;
+  max-width: 28em;
   margin-top: 32px;
+  padding: 8px;
   font-size: 16px;
   color: #8e8e93;
   text-align: start;
@@ -108,4 +124,34 @@
 
 .cost {
   font-size: 34px;
+}
+
+.full-screen {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.visible {
+  display: block;
+}
+
+.prod-pic-modal {
+  position: absolute;
+  padding-top: 8px;
+  top: 50%;
+  left: 50%;
+  width: 69%;
+  transform: translate(-50%, -50%);
+}
+
+.hidden {
+  display: none;
 }
