@@ -104,7 +104,7 @@ const Profile: React.FC = () => {
         const shippingIds = currentProfile?.body.shippingAddressIds || [];
         setAddressType(shippingIds.includes(storedValue) ? 'Shipping' : 'Billing');
         setCountry(currentAddress[0].country);
-        setCity(currentAddress[0].country);
+        setCity(currentAddress[0].city || '');
         setStreet(currentAddress[0].streetName || '');
         setPostalCode(currentAddress[0].postalCode || '');
       }
