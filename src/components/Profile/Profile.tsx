@@ -17,7 +17,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { useAuth } from '../AuthUse/AuthUse';
 import { createClientWithToken, projectKey } from '../../utils/api/clientBuilder';
 import Button from '../Button/Button';
-import './profile.css';
+import './Profile.css';
 import AddressComponent from '../AddressComponent/AddressComponent';
 
 const Profile: React.FC = () => {
