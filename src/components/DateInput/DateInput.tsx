@@ -3,9 +3,11 @@ import CustomInput from '../CustomInput/CustomInput';
 
 interface InputProps {
   onChange: (value: string) => void;
+  readOnlyValue?: boolean;
+  value?: string;
 }
 
-const DateInput: React.FC<InputProps> = ({ onChange }) => {
+const DateInput: React.FC<InputProps> = ({ onChange, readOnlyValue, value }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -16,6 +18,8 @@ const DateInput: React.FC<InputProps> = ({ onChange }) => {
       placeholder="Your date of birth"
       type="date"
       onChange={onChange}
+      readOnlyValue={readOnlyValue}
+      value={value}
     />
   );
 };

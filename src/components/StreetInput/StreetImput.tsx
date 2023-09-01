@@ -4,9 +4,10 @@ import CustomInput from '../CustomInput/CustomInput';
 interface InputProps {
   onChange: (value: string) => void;
   value?: string;
+  readOnlyValue?: boolean;
 }
 
-const StreetInput: React.FC<InputProps> = ({ onChange, value }) => {
+const StreetInput: React.FC<InputProps> = ({ onChange, value, readOnlyValue }) => {
   return (
     <CustomInput
       validColor="#00A000"
@@ -18,6 +19,7 @@ const StreetInput: React.FC<InputProps> = ({ onChange, value }) => {
       type="text"
       value={value}
       onChange={onChange}
+      readOnlyValue={readOnlyValue}
     />
   );
 };
