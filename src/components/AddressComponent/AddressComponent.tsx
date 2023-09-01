@@ -5,6 +5,7 @@ import PostalCodeInput from '../PostalCodeInput/PostalCodeInput';
 import StreetInput from '../StreetInput/StreetImput';
 
 interface IAdressProps {
+  label: string;
   isReadOnly: boolean;
   typeValue: string;
   countryValue: string;
@@ -19,6 +20,7 @@ interface IAdressProps {
 }
 
 const AddressComponent: React.FC<IAdressProps> = ({
+  label,
   isReadOnly,
   typeValue,
   countryValue,
@@ -33,12 +35,12 @@ const AddressComponent: React.FC<IAdressProps> = ({
 }) => {
   return (
     <fieldset className="address">
-      <legend>Address</legend>
+      <legend>{label}</legend>
       <div className="shipp-wrapper">
         <AdressTypeSelect readOnlyValue={isReadOnly} onChange={setAdressType} value={typeValue} />
         <CountrySelect readOnlyValue={isReadOnly} onChange={setCountry} value={countryValue} />
-        <StreetInput readOnlyValue={isReadOnly} onChange={setStreet} value={streetValue} />
         <CityInput readOnlyValue={isReadOnly} onChange={setCity} value={cityValue} />
+        <StreetInput readOnlyValue={isReadOnly} onChange={setStreet} value={streetValue} />
         <PostalCodeInput
           readOnlyValue={isReadOnly}
           onChange={setPostalCode}
