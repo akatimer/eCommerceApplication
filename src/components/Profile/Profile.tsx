@@ -54,7 +54,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  const testAction: MyCustomerChangeAddressAction = {
+  const changeAdressAction: MyCustomerChangeAddressAction = {
     action: 'changeAddress',
     addressId: curretnId,
     address: {
@@ -64,6 +64,13 @@ const Profile: React.FC = () => {
       postalCode: postalCode,
     },
   };
+
+  const changeUserFieldsActiom: MyCustomerUpdateAction[] = [
+    { action: 'setFirstName', firstName: name },
+    { action: 'setLastName', lastName: lastName },
+    { action: 'setDateOfBirth', dateOfBirth: date },
+    { action: 'changeEmail', email: email },
+  ];
 
   const editMyProfile = (
     actions: MyCustomerUpdateAction[]
@@ -84,23 +91,23 @@ const Profile: React.FC = () => {
     return clientProfileResponse;
   };
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
     const storedValue = event.currentTarget.dataset.value;
+    const currentProfile = await getMyProfile();
     if (storedValue) {
       setCurrentId(storedValue);
       setEditAdr(true);
-      const currentAddress = customerBody?.body.addresses.filter(
+      const currentAddress = currentProfile?.body.addresses.filter(
         (addr: Address) => addr.id === storedValue
       );
-      setAddressType(
-        customerBody?.body.shippingAddressIds.includes(currentAddress[0].id)
-          ? 'Shipping'
-          : 'Billing'
-      );
-      setCountry(currentAddress[0].country);
-      setCity(currentAddress[0].country);
-      setStreet(currentAddress[0].streetName);
-      setPostalCode(currentAddress[0].postalCode);
+      if (currentAddress) {
+        const shippingIds = currentProfile?.body.shippingAddressIds || [];
+        setAddressType(shippingIds.includes(storedValue) ? 'Shipping' : 'Billing');
+        setCountry(currentAddress[0].country);
+        setCity(currentAddress[0].country);
+        setStreet(currentAddress[0].streetName || '');
+        setPostalCode(currentAddress[0].postalCode || '');
+      }
     }
   };
 
@@ -125,7 +132,10 @@ const Profile: React.FC = () => {
               className="button button-edit-adr"
               type="button"
               dataValue={address.id || ''}
-              onClick={handleButtonClick}
+              onClick={(event): void => {
+                handleButtonClick(event);
+                console.log(customerBody);
+              }}
             />
           </div>
         );
@@ -177,6 +187,18 @@ const Profile: React.FC = () => {
               className="button button-edit"
               onClick={(): void => {
                 setIsReadOnly(!isReadOnly);
+                editMyProfile(changeUserFieldsActiom).then(async (resp) => {
+                  if (resp) {
+                    const profileResponse = await getMyProfile();
+                    if (profileResponse) {
+                      setEmail(profileResponse.body.email);
+                      setName(profileResponse.body.firstName || '');
+                      setLastName(profileResponse.body.lastName || '');
+                      setDate(profileResponse.body.dateOfBirth || '');
+                      setCustomerBody(profileResponse);
+                    }
+                  }
+                });
               }}
               type="button"
             />
@@ -201,18 +223,12 @@ const Profile: React.FC = () => {
                 label="Save & Update"
                 onClick={(): void => {
                   setEditAdr(false);
-                  editMyProfile([testAction])
-                    .then((resp) => {
-                      if (resp) {
-                        setCustomerBody(resp);
-                      }
-                      return resp;
-                    })
-                    .then((resp) => {
-                      if (resp) {
-                        createAdresses(resp);
-                      }
-                    });
+                  editMyProfile([changeAdressAction]).then((resp) => {
+                    if (resp) {
+                      createAdresses(resp);
+                      setCustomerBody(resp);
+                    }
+                  });
                 }}
                 className="button button-save-update"
               />
