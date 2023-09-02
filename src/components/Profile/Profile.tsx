@@ -29,7 +29,7 @@ const Profile: React.FC = () => {
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('US');
   const [postalCode, setPostalCode] = useState('');
-  const [addressType, setAddressType] = useState('Shipping');
+  // const [addressType, setAddressType] = useState('Shipping');
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [customerBody, setCustomerBody] = useState<ClientResponse | null>(null);
   const [addressOnPage, setAddressesOnPage] = useState<ReactElement[]>();
@@ -66,12 +66,16 @@ const Profile: React.FC = () => {
     },
   };
 
-  const changeUserFieldsActiom: MyCustomerUpdateAction[] = [
+  const changeUserFieldsAction: MyCustomerUpdateAction[] = [
     { action: 'setFirstName', firstName: name },
     { action: 'setLastName', lastName: lastName },
     { action: 'setDateOfBirth', dateOfBirth: date },
     { action: 'changeEmail', email: email },
   ];
+
+  // useEffect(() => {
+  //   createAdresses();
+  // }, [createAdresses]);
 
   const editMyProfile = async (
     actions: MyCustomerUpdateAction[]
@@ -107,8 +111,8 @@ const Profile: React.FC = () => {
         (addr: Address) => addr.id === storedValue
       );
       if (currentAddress) {
-        const shippingIds = currentProfile?.body.shippingAddressIds || [];
-        setAddressType(shippingIds.includes(storedValue) ? 'Shipping' : 'Billing');
+        // const shippingIds = currentProfile?.body.shippingAddressIds || [];
+        // setAddressType(shippingIds.includes(storedValue) ? 'Shipping' : 'Billing');
         setCountry(currentAddress[0].country);
         setCity(currentAddress[0].city || '');
         setStreet(currentAddress[0].streetName || '');
@@ -162,6 +166,7 @@ const Profile: React.FC = () => {
               type="button"
               dataValue={address.id || ''}
               onClick={(event): void => {
+                setEditAdr(false);
                 handleButtonDeleteClick(event);
               }}
             />
@@ -215,7 +220,7 @@ const Profile: React.FC = () => {
               className="button button-edit"
               onClick={(): void => {
                 setIsReadOnly(!isReadOnly);
-                editMyProfile(changeUserFieldsActiom).then(async (resp) => {
+                editMyProfile(changeUserFieldsAction).then(async (resp) => {
                   if (resp) {
                     const profileResponse = await getMyProfile();
                     if (profileResponse) {
@@ -255,12 +260,12 @@ const Profile: React.FC = () => {
               <AddressComponent
                 label="Add Address"
                 isReadOnly={false}
-                typeValue={addressType}
+                // typeValue={addressType}
                 countryValue={country}
                 cityValue={city}
                 streetValue={street}
                 postalCodeValue={postalCode}
-                setAdressType={setAddressType}
+                // setAdressType={setAddressType}
                 setCountry={setCountry}
                 setCity={setCity}
                 setStreet={setStreet}
@@ -296,12 +301,12 @@ const Profile: React.FC = () => {
               <AddressComponent
                 label="Edit Address"
                 isReadOnly={false}
-                typeValue={addressType}
+                // typeValue={addressType}
                 countryValue={country}
                 cityValue={city}
                 streetValue={street}
                 postalCodeValue={postalCode}
-                setAdressType={setAddressType}
+                // setAdressType={setAddressType}
                 setCountry={setCountry}
                 setCity={setCity}
                 setStreet={setStreet}
