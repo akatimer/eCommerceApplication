@@ -91,7 +91,9 @@ const Profile: React.FC = () => {
     return clientProfileResponse;
   };
 
-  const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const handleButtonEditClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     const storedValue = event.currentTarget.dataset.value;
     const currentProfile = await getMyProfile();
     if (storedValue) {
@@ -109,6 +111,18 @@ const Profile: React.FC = () => {
         setPostalCode(currentAddress[0].postalCode || '');
       }
     }
+  };
+
+  const handleButtonDeleteClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    const storedValue = event.currentTarget.dataset.value;
+    await editMyProfile([{ action: 'removeAddress', addressId: storedValue }]).then((resp) => {
+      if (resp) {
+        createAdresses(resp);
+        setCustomerBody(resp);
+      }
+    });
   };
 
   const createAdresses = (resp?: ClientResponse<Customer>): ReactElement[] | undefined => {
@@ -135,8 +149,16 @@ const Profile: React.FC = () => {
               type="button"
               dataValue={address.id || ''}
               onClick={(event): void => {
-                handleButtonClick(event);
-                console.log(customerBody);
+                handleButtonEditClick(event);
+              }}
+            />
+            <Button
+              label="Delete Adr"
+              className="button button-edit-adr"
+              type="button"
+              dataValue={address.id || ''}
+              onClick={(event): void => {
+                handleButtonDeleteClick(event);
               }}
             />
           </div>
