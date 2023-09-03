@@ -8,7 +8,7 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { HOME_ROUTE, LOGIN_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import DateInput from '../DateInput/DateInput';
 import EmailInput from '../EmailInput/EmailInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
@@ -19,6 +19,8 @@ import { createClientWithToken, projectKey } from '../../utils/api/clientBuilder
 import Button from '../Button/Button';
 import './Profile.css';
 import AddressComponent from '../AddressComponent/AddressComponent';
+import PasswordInput from '../PasswordInput/PasswordInput';
+import CustModal from '../Modal/CustModal';
 
 const Profile: React.FC = () => {
   const [name, setName] = useState('');
@@ -30,11 +32,15 @@ const Profile: React.FC = () => {
   const [country, setCountry] = useState('US');
   const [postalCode, setPostalCode] = useState('');
   // const [addressType, setAddressType] = useState('Shipping');
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [customerBody, setCustomerBody] = useState<ClientResponse | null>(null);
   const [addressOnPage, setAddressesOnPage] = useState<ReactElement[]>();
   const [curretnId, setCurrentId] = useState('');
-  const [edtitAdr, setEditAdr] = useState(false);
+  const [isEditAdr, setIsEditAdr] = useState(false);
+  const [isChangePass, setIsChangePass] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const [isAddAdrFormShown, setIsAddAdrFormShown] = useState(false);
   const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
@@ -106,7 +112,7 @@ const Profile: React.FC = () => {
     const currentProfile = await getMyProfile();
     if (storedValue) {
       setCurrentId(storedValue);
-      setEditAdr(true);
+      setIsEditAdr(true);
       const currentAddress = currentProfile?.body.addresses.filter(
         (addr: Address) => addr.id === storedValue
       );
@@ -131,6 +137,24 @@ const Profile: React.FC = () => {
         setCustomerBody(resp);
       }
     });
+  };
+
+  const changeMyPassword = (): Promise<void | ClientResponse<Customer>> => {
+    const currentToken = localStorage.getItem(TOKEN_NAME);
+    const newVersion = customerBody?.body.version;
+    const apiTokenRoot = (): ApiRoot => {
+      return createApiBuilderFromCtpClient(createClientWithToken(`Bearer ${currentToken}`));
+    };
+    const clientProfileResponse = apiTokenRoot()
+      .withProjectKey({ projectKey })
+      .me()
+      .password()
+      .post({
+        body: { version: newVersion, currentPassword: password, newPassword: newPassword },
+      })
+      .execute()
+      .catch(console.error);
+    return clientProfileResponse;
   };
 
   const createAdresses = (resp?: ClientResponse<Customer>): ReactElement[] | undefined => {
@@ -166,7 +190,7 @@ const Profile: React.FC = () => {
               type="button"
               dataValue={address.id || ''}
               onClick={(event): void => {
-                setEditAdr(false);
+                setIsEditAdr(false);
                 handleButtonDeleteClick(event);
               }}
             />
@@ -296,7 +320,7 @@ const Profile: React.FC = () => {
               />
             </>
           )}
-          {edtitAdr && (
+          {isEditAdr && (
             <>
               <AddressComponent
                 label="Edit Address"
@@ -315,7 +339,7 @@ const Profile: React.FC = () => {
               <Button
                 label="Save & Update"
                 onClick={(): void => {
-                  setEditAdr(false);
+                  setIsEditAdr(false);
                   editMyProfile([changeAdressAction]).then((resp) => {
                     if (resp) {
                       createAdresses(resp);
@@ -328,6 +352,43 @@ const Profile: React.FC = () => {
             </>
           )}
           {addressOnPage ? addressOnPage : createAdresses()}
+          <Button
+            label="Change Pass"
+            onClick={(): void => {
+              setIsChangePass(true);
+            }}
+            className="button button-save-update"
+          />
+          {isChangePass && (
+            <>
+              <PasswordInput onChange={setPassword} />
+              <PasswordInput onChange={setNewPassword} placeholder="Enter new password" />
+              <Button
+                label="Update"
+                className="button button-edit"
+                onClick={(): void => {
+                  changeMyPassword().then((resp) => {
+                    console.log(resp);
+                    if (resp) {
+                      localStorage.removeItem(TOKEN_NAME);
+                      setLoggedOut(true);
+                      navigate(LOGIN_ROUTE);
+                    } else {
+                      setIsModal(true);
+                    }
+                  });
+                }}
+              />
+            </>
+          )}
+          {isModal && (
+            <CustModal
+              title="You Entered Wrong Password"
+              onClick={(): void => {
+                setIsModal(false);
+              }}
+            />
+          )}
         </form>
       </div>
     </section>
