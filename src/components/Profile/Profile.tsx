@@ -29,12 +29,13 @@ const Profile: React.FC = () => {
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('US');
   const [postalCode, setPostalCode] = useState('');
-  const [addressType, setAddressType] = useState('Shipping');
+  // const [addressType, setAddressType] = useState('Shipping');
   const [isReadOnly, setIsReadOnly] = useState(true);
   const [customerBody, setCustomerBody] = useState<ClientResponse | null>(null);
   const [addressOnPage, setAddressesOnPage] = useState<ReactElement[]>();
   const [curretnId, setCurrentId] = useState('');
   const [edtitAdr, setEditAdr] = useState(false);
+  const [isAddAdrFormShown, setIsAddAdrFormShown] = useState(false);
   const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
 
@@ -65,33 +66,42 @@ const Profile: React.FC = () => {
     },
   };
 
-  const changeUserFieldsActiom: MyCustomerUpdateAction[] = [
+  const changeUserFieldsAction: MyCustomerUpdateAction[] = [
     { action: 'setFirstName', firstName: name },
     { action: 'setLastName', lastName: lastName },
     { action: 'setDateOfBirth', dateOfBirth: date },
     { action: 'changeEmail', email: email },
   ];
 
-  const editMyProfile = (
+  // useEffect(() => {
+  //   createAdresses();
+  // }, [createAdresses]);
+
+  const editMyProfile = async (
     actions: MyCustomerUpdateAction[]
   ): Promise<void | ClientResponse<Customer>> => {
     const currentToken = localStorage.getItem(TOKEN_NAME);
-    const newVersion = customerBody?.body.version;
+    const currentProfile = await getMyProfile();
+    const newVersion = currentProfile?.body.version;
     const apiTokenRoot = (): ApiRoot => {
       return createApiBuilderFromCtpClient(createClientWithToken(`Bearer ${currentToken}`));
     };
-    const clientProfileResponse = apiTokenRoot()
-      .withProjectKey({ projectKey })
-      .me()
-      .post({
-        body: { version: newVersion, actions: actions },
-      })
-      .execute()
-      .catch(console.error);
-    return clientProfileResponse;
+    if (newVersion) {
+      const clientProfileResponse = apiTokenRoot()
+        .withProjectKey({ projectKey })
+        .me()
+        .post({
+          body: { version: newVersion, actions: actions },
+        })
+        .execute()
+        .catch(console.error);
+      return clientProfileResponse;
+    }
   };
 
-  const handleButtonClick = async (event: React.MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const handleButtonEditClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
     const storedValue = event.currentTarget.dataset.value;
     const currentProfile = await getMyProfile();
     if (storedValue) {
@@ -101,14 +111,26 @@ const Profile: React.FC = () => {
         (addr: Address) => addr.id === storedValue
       );
       if (currentAddress) {
-        const shippingIds = currentProfile?.body.shippingAddressIds || [];
-        setAddressType(shippingIds.includes(storedValue) ? 'Shipping' : 'Billing');
+        // const shippingIds = currentProfile?.body.shippingAddressIds || [];
+        // setAddressType(shippingIds.includes(storedValue) ? 'Shipping' : 'Billing');
         setCountry(currentAddress[0].country);
         setCity(currentAddress[0].city || '');
         setStreet(currentAddress[0].streetName || '');
         setPostalCode(currentAddress[0].postalCode || '');
       }
     }
+  };
+
+  const handleButtonDeleteClick = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): Promise<void> => {
+    const storedValue = event.currentTarget.dataset.value;
+    await editMyProfile([{ action: 'removeAddress', addressId: storedValue }]).then((resp) => {
+      if (resp) {
+        createAdresses(resp);
+        setCustomerBody(resp);
+      }
+    });
   };
 
   const createAdresses = (resp?: ClientResponse<Customer>): ReactElement[] | undefined => {
@@ -130,13 +152,22 @@ const Profile: React.FC = () => {
             <div>PostalCode: </div>
             <div>{address.postalCode}</div>
             <Button
-              label="Edit Adr"
+              label="Edit Addr"
               className="button button-edit-adr"
               type="button"
               dataValue={address.id || ''}
               onClick={(event): void => {
-                handleButtonClick(event);
-                console.log(customerBody);
+                handleButtonEditClick(event);
+              }}
+            />
+            <Button
+              label="Delete Addr"
+              className="button button-edit-adr"
+              type="button"
+              dataValue={address.id || ''}
+              onClick={(event): void => {
+                setEditAdr(false);
+                handleButtonDeleteClick(event);
               }}
             />
           </div>
@@ -189,7 +220,7 @@ const Profile: React.FC = () => {
               className="button button-edit"
               onClick={(): void => {
                 setIsReadOnly(!isReadOnly);
-                editMyProfile(changeUserFieldsActiom).then(async (resp) => {
+                editMyProfile(changeUserFieldsAction).then(async (resp) => {
                   if (resp) {
                     const profileResponse = await getMyProfile();
                     if (profileResponse) {
@@ -205,17 +236,77 @@ const Profile: React.FC = () => {
               type="button"
             />
           )}
+          {isAddAdrFormShown ? (
+            <Button
+              label="Cancel Adding"
+              className="button button-edit"
+              onClick={(): void => {
+                setIsAddAdrFormShown(false);
+              }}
+              type="button"
+            />
+          ) : (
+            <Button
+              label="Add Addr"
+              className="button button-edit"
+              onClick={(): void => {
+                setIsAddAdrFormShown(true);
+              }}
+              type="button"
+            />
+          )}
+          {isAddAdrFormShown && (
+            <>
+              <AddressComponent
+                label="Add Address"
+                isReadOnly={false}
+                // typeValue={addressType}
+                countryValue={country}
+                cityValue={city}
+                streetValue={street}
+                postalCodeValue={postalCode}
+                // setAdressType={setAddressType}
+                setCountry={setCountry}
+                setCity={setCity}
+                setStreet={setStreet}
+                setPostalCode={setPostalCode}
+              />
+              <Button
+                label="Save & Update"
+                onClick={(): void => {
+                  editMyProfile([
+                    {
+                      action: 'addAddress',
+                      address: {
+                        streetName: street,
+                        city: city,
+                        country: country,
+                        postalCode: postalCode,
+                      },
+                    },
+                  ]).then((resp) => {
+                    if (resp) {
+                      createAdresses(resp);
+                      setCustomerBody(resp);
+                    }
+                  });
+                  setIsAddAdrFormShown(false);
+                }}
+                className="button button-save-update"
+              />
+            </>
+          )}
           {edtitAdr && (
             <>
               <AddressComponent
                 label="Edit Address"
                 isReadOnly={false}
-                typeValue={addressType}
+                // typeValue={addressType}
                 countryValue={country}
                 cityValue={city}
                 streetValue={street}
                 postalCodeValue={postalCode}
-                setAdressType={setAddressType}
+                // setAdressType={setAddressType}
                 setCountry={setCountry}
                 setCity={setCity}
                 setStreet={setStreet}
