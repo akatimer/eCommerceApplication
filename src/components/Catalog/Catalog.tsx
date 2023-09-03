@@ -1,5 +1,12 @@
 import { FacetResults, ProductProjection } from '@commercetools/platform-sdk';
-import { Button, CircularProgress, Grid, SelectChangeEvent } from '@mui/material';
+import {
+  Breadcrumbs,
+  Button,
+  CircularProgress,
+  Grid,
+  SelectChangeEvent,
+  Typography,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { getProducts } from '../../utils/api/clientApi';
 import ProductCard from '../ProductCard/ProductCard';
@@ -9,6 +16,8 @@ import Search from '../Search/Search';
 import FilterAccordion from '../FilterAccordion/FilterAccordion';
 import { ColorResult } from 'react-color';
 import convertColor from '../../utils/convertColor';
+import { SHOP_ROUTE } from '../../utils/constants';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Catalog: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>();
@@ -20,8 +29,12 @@ const Catalog: React.FC = () => {
   const [price, setPrice] = useState<number[]>([20, 110]);
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
   const [checkedSize, setCheckedSize] = useState<string[]>([]);
-  const [checkedCategory, setCheckedCategory] = useState<string[]>([]);
+  const [checkedCategory, setCheckedCategory] = useState<string>('');
   const [facets, setFacets] = useState<FacetResults>();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const pathnames = location.pathname.split('/').filter((path) => !['shop', ''].includes(path));
 
   const brandHandleChange = (value: string) => () => {
     const index = checkedBrand.indexOf(value);
@@ -44,14 +57,7 @@ const Catalog: React.FC = () => {
     setCheckedSize(newCheckedValue);
   };
   const categoryHandleChange = (value: string) => () => {
-    const index = checkedCategory.indexOf(value);
-    const newCheckedValue = [...checkedCategory];
-    if (index === -1) {
-      newCheckedValue.push(value);
-    } else {
-      newCheckedValue.splice(index, 1);
-    }
-    setCheckedCategory(newCheckedValue);
+    setCheckedCategory(value);
   };
 
   const handleChange = (event: SelectChangeEvent): void => {
@@ -95,12 +101,12 @@ const Catalog: React.FC = () => {
           'variants.attributes.size.key',
           'variants.attributes.brand.key',
           'variants.attributes.color.key',
-          // 'categories.id',
+          `categories.id`,
         ],
         'filter.query': [
           color && `variants.attributes.color.key:"${convertColor(color)}"`,
           price && `variants.price.centAmount:range (${price[0] * 100} to ${price[1] * 100})`,
-          checkedCategory.length && `categories.id: ${checkedCategory.map((el) => `"${el}"`)}`,
+          checkedCategory && `categories.id: subtree("${checkedCategory}")`,
           checkedBrand.length &&
             `variants.attributes.brand.key: ${checkedBrand.map((el) => `"${el}"`)}`,
           checkedSize.length &&
@@ -132,6 +138,26 @@ const Catalog: React.FC = () => {
   return (
     <div className="catalog">
       <div className="control-block">
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          sx={{ alignSelf: 'center', marginRight: '2em', fontFamily: 'Mulish' }}
+        >
+          <Link to={SHOP_ROUTE} onClick={(): void => setCheckedCategory('')}>
+            Shop
+          </Link>
+          {pathnames.map((path, index) => {
+            const isPathLast = index === pathnames.length - 1;
+            return isPathLast ? (
+              <Typography key={index} sx={{ fontFamily: 'Mulish' }}>
+                {path}
+              </Typography>
+            ) : (
+              <Link key={index} to={path}>
+                {path}
+              </Link>
+            );
+          })}
+        </Breadcrumbs>
         <Search searchHandler={searchHandler} showModal={showModal} />
         <SortDropdown handleChange={handleChange} sorting={sorting} />
       </div>
@@ -159,7 +185,8 @@ const Catalog: React.FC = () => {
               setCheckedSize([]);
               setColor('');
               setPrice([20, 110]);
-              setCheckedCategory([]);
+              setCheckedCategory('');
+              navigate(SHOP_ROUTE);
             }}
           >
             reset filters

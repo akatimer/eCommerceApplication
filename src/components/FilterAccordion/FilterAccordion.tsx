@@ -15,9 +15,10 @@ import { CirclePicker, ColorResult } from 'react-color';
 import React from 'react';
 import './FilterAccordion.css';
 import pink from '@mui/material/colors/pink';
-import { BRANDS, COLORS } from '../../utils/constants';
+import { BRANDS, COLORS, SHOP_ROUTE } from '../../utils/constants';
 import { FacetResults, ProductProjection, TermFacetResult } from '@commercetools/platform-sdk';
 import convertCategory from '../../utils/convertCategory';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   colorHandleChange: (color: ColorResult) => void;
@@ -25,7 +26,7 @@ type Props = {
   brandHandleChange: (value: string) => () => void;
   sizeHandleChange: (value: string) => () => void;
   categoryHandleChange: (value: string) => () => void;
-  checkedCategory: string[];
+  checkedCategory: string;
   color: string;
   price: number[] | number;
   checkedBrand: string[];
@@ -36,6 +37,7 @@ type Props = {
 const sizesString = 'variants.attributes.size.key';
 
 const FilterAccordion: React.FC<Props> = (props) => {
+  const navigate = useNavigate();
   const { facets } = props;
   const sizes = facets ? (facets[sizesString] as TermFacetResult) : null;
   return (
@@ -62,7 +64,13 @@ const FilterAccordion: React.FC<Props> = (props) => {
             ].map((category) => {
               const labelId = `checkbox-list-label-${category}`;
               return (
-                <ListItem key={category} disablePadding>
+                <ListItem
+                  key={category}
+                  disablePadding
+                  onClick={(): void =>
+                    navigate(`${SHOP_ROUTE}/${convertCategory(category)?.toLowerCase()}`)
+                  }
+                >
                   <ListItemButton onClick={props.categoryHandleChange(category)} dense>
                     <Checkbox
                       edge="start"

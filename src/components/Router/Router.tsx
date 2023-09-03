@@ -37,6 +37,20 @@ const Router = createBrowserRouter([
       {
         path: SHOP_ROUTE,
         element: <Catalog />,
+        children: [
+          {
+            path: `${SHOP_ROUTE}/kids`,
+            element: <Catalog />,
+          },
+          {
+            path: `${SHOP_ROUTE}/women`,
+            element: <Catalog />,
+          },
+          {
+            path: `${SHOP_ROUTE}/unisex`,
+            element: <Catalog />,
+          },
+        ],
       },
       {
         path: PROFILE_ROUTE,
