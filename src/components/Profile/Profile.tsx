@@ -8,7 +8,7 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { HOME_ROUTE, LOGIN_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import DateInput from '../DateInput/DateInput';
 import EmailInput from '../EmailInput/EmailInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
@@ -20,6 +20,7 @@ import Button from '../Button/Button';
 import './Profile.css';
 import AddressComponent from '../AddressComponent/AddressComponent';
 import PasswordInput from '../PasswordInput/PasswordInput';
+import CustModal from '../Modal/CustModal';
 
 const Profile: React.FC = () => {
   const [name, setName] = useState('');
@@ -39,6 +40,7 @@ const Profile: React.FC = () => {
   const [curretnId, setCurrentId] = useState('');
   const [isEditAdr, setIsEditAdr] = useState(false);
   const [isChangePass, setIsChangePass] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const { setLoggedOut } = useAuth();
   const navigate = useNavigate();
 
@@ -277,12 +279,24 @@ const Profile: React.FC = () => {
                   changeMyPassword().then((resp) => {
                     console.log(resp);
                     if (resp) {
-                      setCustomerBody(resp);
+                      localStorage.removeItem(TOKEN_NAME);
+                      setLoggedOut(true);
+                      navigate(LOGIN_ROUTE);
+                    } else {
+                      setIsModal(true);
                     }
                   });
                 }}
               />
             </>
+          )}
+          {isModal && (
+            <CustModal
+              title="You Entered Wrong Password"
+              onClick={(): void => {
+                setIsModal(false);
+              }}
+            />
           )}
         </form>
       </div>
