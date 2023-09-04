@@ -1,5 +1,6 @@
 // import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import {
+  CategoryPagedQueryResponse,
   ClientResponse,
   CustomerDraft,
   CustomerSignInResult,
@@ -25,6 +26,21 @@ export const createCustomer = async (
     .catch(console.error);
   console.log(creationResponse);
   return creationResponse;
+};
+export const getCategories = async (
+  categoryId: string
+): Promise<void | ClientResponse<CategoryPagedQueryResponse>> => {
+  const categories = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .categories()
+    .get({
+      queryArgs: {
+        where: `parent(id="${categoryId}")`,
+      },
+    })
+    .execute()
+    .catch(console.error);
+  return categories;
 };
 
 export const getProducts = async (
