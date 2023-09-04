@@ -168,7 +168,7 @@ const Profile: React.FC = () => {
     if (currentBody) {
       const addr = currentBody.body.addresses.map((address: Address) => {
         return (
-          <div className="address address-layout" key={address.id}>
+          <div className="address address-layout address-profile" key={address.id}>
             <div>Type: </div>
             <div>
               {currentBody.body.shippingAddressIds.includes(address.id) &&
@@ -187,7 +187,7 @@ const Profile: React.FC = () => {
             <div>PostalCode: </div>
             <div>{address.postalCode}</div>
             <Button
-              label="Edit Addr"
+              label="Edit Address"
               className="button button-edit-adr"
               type="button"
               dataValue={address.id || ''}
@@ -196,7 +196,7 @@ const Profile: React.FC = () => {
               }}
             />
             <Button
-              label="Delete Addr"
+              label="Delete Address"
               className="button button-edit-adr"
               type="button"
               dataValue={address.id || ''}
@@ -231,7 +231,7 @@ const Profile: React.FC = () => {
   }, [navigate, setLoggedOut]);
 
   return (
-    <section className="form form-reg">
+    <section className="form form-reg profile">
       <div className="form-wrapper">
         <form className="auth-form reg-form" onSubmit={(e): void => e.preventDefault()}>
           <h1 className="form-title">Your Profile</h1>
@@ -241,7 +241,7 @@ const Profile: React.FC = () => {
           <EmailInput readOnlyValue={isReadOnly} onChange={setEmail} value={email} />
           {isReadOnly ? (
             <Button
-              label="Edit"
+              label="Edit name DOB e-mail"
               className="button button-edit"
               onClick={(): void => {
                 setIsReadOnly(!isReadOnly);
@@ -282,7 +282,7 @@ const Profile: React.FC = () => {
             />
           ) : (
             <Button
-              label="Add Addr"
+              label="Add Address"
               className="button button-edit"
               onClick={(): void => {
                 setIsAddAdrFormShown(true);
@@ -447,7 +447,7 @@ const Profile: React.FC = () => {
           )}
           {addressOnPage ? addressOnPage : createAdresses()}
           <Button
-            label="Change Pass"
+            label="Change Password"
             onClick={(): void => {
               setIsChangePass(true);
             }}

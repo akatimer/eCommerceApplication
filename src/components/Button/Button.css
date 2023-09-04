@@ -1,6 +1,6 @@
 .button {
   min-width: 225px;
-  max-height: 52px;
+  height: 52px;
   border: solid 2px #48484a;
   border-radius: 16px;
   font-family: 'Mulish', sans-serif;
