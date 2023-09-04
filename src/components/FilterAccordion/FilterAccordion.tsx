@@ -16,9 +16,14 @@ import React from 'react';
 import './FilterAccordion.css';
 import pink from '@mui/material/colors/pink';
 import { BRANDS, COLORS, SHOP_ROUTE } from '../../utils/constants';
-import { FacetResults, ProductProjection, TermFacetResult } from '@commercetools/platform-sdk';
+import {
+  Category,
+  FacetResults,
+  ProductProjection,
+  TermFacetResult,
+} from '@commercetools/platform-sdk';
 import convertCategory from '../../utils/convertCategory';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type Props = {
   colorHandleChange: (color: ColorResult) => void;
@@ -26,19 +31,23 @@ type Props = {
   brandHandleChange: (value: string) => () => void;
   sizeHandleChange: (value: string) => () => void;
   categoryHandleChange: (value: string) => () => void;
+  subcategoryHandleChange: (value: string) => () => void;
   checkedCategory: string;
+  checkedSubcategory: string;
   color: string;
   price: number[] | number;
   checkedBrand: string[];
   checkedSize: string[];
   products: ProductProjection[];
   facets: FacetResults | undefined;
+  subcategories: Category[];
 };
 const sizesString = 'variants.attributes.size.key';
 
 const FilterAccordion: React.FC<Props> = (props) => {
   const navigate = useNavigate();
-  const { facets } = props;
+  const location = useLocation();
+  const { facets, subcategories } = props;
   const sizes = facets ? (facets[sizesString] as TermFacetResult) : null;
   return (
     <div className="accordion-wrapper">
@@ -98,6 +107,70 @@ const FilterAccordion: React.FC<Props> = (props) => {
           </List>
         </AccordionDetails>
       </Accordion>
+      {subcategories.length !== 0 && (
+        <Accordion disableGutters>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel2a-content"
+            id="panel2a-header"
+          >
+            <Typography sx={{ fontFamily: 'Mulish', fontWeight: 700 }}>Subcategories</Typography>
+          </AccordionSummary>
+          <AccordionDetails
+            sx={{
+              maxHeight: 266,
+              overflow: 'auto',
+            }}
+          >
+            <List>
+              {subcategories.map((subcategory) => {
+                const labelId = `checkbox-list-label-${subcategory.id}`;
+                return (
+                  <ListItem
+                    key={subcategory.key}
+                    disablePadding
+                    onClick={(): void => {
+                      if (props.checkedCategory) {
+                        navigate(
+                          `${location.pathname.split('/').slice(2)[0]}/${subcategory.name[
+                            'en-US'
+                          ].toLowerCase()}`
+                        );
+                      } else {
+                        props.categoryHandleChange('');
+                        props.subcategoryHandleChange('');
+                        navigate(SHOP_ROUTE);
+                      }
+                    }}
+                  >
+                    <ListItemButton onClick={props.subcategoryHandleChange(subcategory.id)} dense>
+                      <Checkbox
+                        edge="start"
+                        checked={props.checkedSubcategory.indexOf(subcategory.id) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ 'aria-labelledby': labelId }}
+                        sx={{
+                          color: pink[50],
+                          '&.Mui-checked': {
+                            color: pink[200],
+                          },
+                        }}
+                      />
+
+                      <ListItemText id={labelId}>
+                        <Typography sx={{ fontFamily: 'Mulish', color: '#1B2437' }}>
+                          {subcategory.name['en-US']}
+                        </Typography>
+                      </ListItemText>
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </AccordionDetails>
+        </Accordion>
+      )}
       <Accordion disableGutters>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

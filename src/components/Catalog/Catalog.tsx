@@ -1,4 +1,4 @@
-import { FacetResults, ProductProjection } from '@commercetools/platform-sdk';
+import { Category, FacetResults, ProductProjection } from '@commercetools/platform-sdk';
 import {
   Breadcrumbs,
   Button,
@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getProducts } from '../../utils/api/clientApi';
+import { getCategories, getProducts } from '../../utils/api/clientApi';
 import ProductCard from '../ProductCard/ProductCard';
 import SortDropdown from '../SortDropdown/SortDropdown';
 import './Catalog.css';
@@ -18,9 +18,11 @@ import { ColorResult } from 'react-color';
 import convertColor from '../../utils/convertColor';
 import { SHOP_ROUTE } from '../../utils/constants';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 const Catalog: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>();
+  const [subcategories, setSubcategories] = useState<Category[]>([]);
   const [sorting, setSorting] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -30,11 +32,13 @@ const Catalog: React.FC = () => {
   const [checkedBrand, setCheckedBrand] = useState<string[]>([]);
   const [checkedSize, setCheckedSize] = useState<string[]>([]);
   const [checkedCategory, setCheckedCategory] = useState<string>('');
+  const [checkedSubcategory, setSubCheckedCategory] = useState<string>('');
   const [facets, setFacets] = useState<FacetResults>();
 
   const navigate = useNavigate();
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((path) => !['shop', ''].includes(path));
+  window.onload = (): void => navigate(SHOP_ROUTE);
 
   const brandHandleChange = (value: string) => () => {
     const index = checkedBrand.indexOf(value);
@@ -58,6 +62,10 @@ const Catalog: React.FC = () => {
   };
   const categoryHandleChange = (value: string) => () => {
     setCheckedCategory(value);
+    setSubCheckedCategory('');
+  };
+  const subcategoryHandleChange = (value: string) => () => {
+    setSubCheckedCategory(value);
   };
 
   const handleChange = (event: SelectChangeEvent): void => {
@@ -92,6 +100,12 @@ const Catalog: React.FC = () => {
   };
 
   useEffect(() => {
+    checkedCategory &&
+      getCategories(checkedCategory).then((response) => {
+        if (response?.body.results) {
+          setSubcategories(response.body.results);
+        }
+      });
     getProducts({
       queryArgs: {
         sort: sorting ? sorting : 'price asc',
@@ -106,7 +120,8 @@ const Catalog: React.FC = () => {
         'filter.query': [
           color && `variants.attributes.color.key:"${convertColor(color)}"`,
           price && `variants.price.centAmount:range (${price[0] * 100} to ${price[1] * 100})`,
-          checkedCategory && `categories.id: subtree("${checkedCategory}")`,
+          checkedSubcategory && `categories.id: "${checkedSubcategory}"`,
+          checkedCategory && !checkedSubcategory && `categories.id: subtree("${checkedCategory}")`,
           checkedBrand.length &&
             `variants.attributes.brand.key: ${checkedBrand.map((el) => `"${el}"`)}`,
           checkedSize.length &&
@@ -125,7 +140,16 @@ const Catalog: React.FC = () => {
         }
       })
       .catch(console.error);
-  }, [sorting, searchValue, color, price, checkedBrand, checkedSize, checkedCategory]);
+  }, [
+    sorting,
+    searchValue,
+    color,
+    price,
+    checkedBrand,
+    checkedSize,
+    checkedCategory,
+    checkedSubcategory,
+  ]);
 
   if (!products) {
     return (
@@ -139,20 +163,42 @@ const Catalog: React.FC = () => {
     <div className="catalog">
       <div className="control-block">
         <Breadcrumbs
+          // separator={<ArrowRightIcon fontSize="inherit" />}
           aria-label="breadcrumb"
-          sx={{ alignSelf: 'center', marginRight: '2em', fontFamily: 'Mulish' }}
+          sx={{
+            alignSelf: 'center',
+            marginRight: '2em',
+            fontFamily: 'Mulish',
+          }}
         >
-          <Link to={SHOP_ROUTE} onClick={(): void => setCheckedCategory('')}>
+          <Link
+            className="breadcrumb-link"
+            to={SHOP_ROUTE}
+            onClick={(): void => {
+              setCheckedCategory('');
+              setSubCheckedCategory('');
+            }}
+          >
+            <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
             Shop
           </Link>
           {pathnames.map((path, index) => {
             const isPathLast = index === pathnames.length - 1;
             return isPathLast ? (
-              <Typography key={index} sx={{ fontFamily: 'Mulish' }}>
+              <Typography
+                style={{ textDecoration: 'underline' }}
+                key={index}
+                sx={{ fontFamily: 'Mulish' }}
+              >
                 {path}
               </Typography>
             ) : (
-              <Link key={index} to={path}>
+              <Link
+                className="breadcrumb-link"
+                key={index}
+                to={path}
+                onClick={(): void => setSubCheckedCategory('')}
+              >
                 {path}
               </Link>
             );
@@ -169,13 +215,16 @@ const Catalog: React.FC = () => {
             checkedBrand={checkedBrand}
             checkedSize={checkedSize}
             checkedCategory={checkedCategory}
+            checkedSubcategory={checkedSubcategory}
             colorHandleChange={colorHandleChange}
             priceHandleChange={priceHandleChange}
             brandHandleChange={brandHandleChange}
             sizeHandleChange={sizeHandleChange}
             categoryHandleChange={categoryHandleChange}
+            subcategoryHandleChange={subcategoryHandleChange}
             products={products}
             facets={facets}
+            subcategories={subcategories}
           />
           <Button
             sx={{ fontFamily: 'Mulish', alignSelf: 'center', color: '#0faeae', marginTop: 2 }}
@@ -186,6 +235,7 @@ const Catalog: React.FC = () => {
               setColor('');
               setPrice([20, 110]);
               setCheckedCategory('');
+              setSubCheckedCategory('');
               navigate(SHOP_ROUTE);
             }}
           >

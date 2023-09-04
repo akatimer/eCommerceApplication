@@ -41,14 +41,56 @@ const Router = createBrowserRouter([
           {
             path: `${SHOP_ROUTE}/kids`,
             element: <Catalog />,
+            children: [
+              {
+                path: `${SHOP_ROUTE}/kids/accessories`,
+                element: <Catalog />,
+              },
+              {
+                path: `${SHOP_ROUTE}/kids/tops`,
+                element: <Catalog />,
+              },
+              {
+                path: `${SHOP_ROUTE}/kids/bottoms`,
+                element: <Catalog />,
+              },
+              {
+                path: `${SHOP_ROUTE}/kids/dresses`,
+                element: <Catalog />,
+              },
+            ],
           },
           {
             path: `${SHOP_ROUTE}/women`,
             element: <Catalog />,
+            children: [
+              {
+                path: `${SHOP_ROUTE}/women/accessories`,
+                element: <Catalog />,
+              },
+              {
+                path: `${SHOP_ROUTE}/women/tops`,
+                element: <Catalog />,
+              },
+              {
+                path: `${SHOP_ROUTE}/women/bottoms`,
+                element: <Catalog />,
+              },
+              {
+                path: `${SHOP_ROUTE}/women/dresses`,
+                element: <Catalog />,
+              },
+            ],
           },
           {
             path: `${SHOP_ROUTE}/unisex`,
             element: <Catalog />,
+            children: [
+              {
+                path: `${SHOP_ROUTE}/unisex/tops`,
+                element: <Catalog />,
+              },
+            ],
           },
         ],
       },
