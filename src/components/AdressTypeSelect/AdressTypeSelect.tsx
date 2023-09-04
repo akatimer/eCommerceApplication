@@ -22,6 +22,7 @@ const AdressTypeSelect: React.FC<AdressTypeSelectProps> = ({ onChange, value, re
     >
       <option value="Shipping">Shipping</option>
       <option value="Billing">Billing</option>
+      <option value="Both">Both</option>
     </select>
   );
 };
