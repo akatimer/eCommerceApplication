@@ -31,7 +31,7 @@ const Profile: React.FC = () => {
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('US');
   const [postalCode, setPostalCode] = useState('');
-  // const [addressType, setAddressType] = useState('Shipping');
+  const [addressType, setAddressType] = useState('Shipping');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [isReadOnly, setIsReadOnly] = useState(true);
@@ -117,8 +117,14 @@ const Profile: React.FC = () => {
         (addr: Address) => addr.id === storedValue
       );
       if (currentAddress) {
-        // const shippingIds = currentProfile?.body.shippingAddressIds || [];
-        // setAddressType(shippingIds.includes(storedValue) ? 'Shipping' : 'Billing');
+        setAddressType(
+          currentProfile?.body.shippingAddressIds?.includes(storedValue) &&
+            currentProfile.body.billingAddressIds?.includes(storedValue)
+            ? 'Both'
+            : currentProfile?.body.billingAddressIds?.includes(storedValue)
+            ? 'Billing'
+            : 'Shipping'
+        );
         setCountry(currentAddress[0].country);
         setCity(currentAddress[0].city || '');
         setStreet(currentAddress[0].streetName || '');
@@ -165,7 +171,12 @@ const Profile: React.FC = () => {
           <div className="address address-layout" key={address.id}>
             <div>Type: </div>
             <div>
-              {currentBody.body.shippingAddressIds.includes(address.id) ? 'Shipping' : 'Billing'}
+              {currentBody.body.shippingAddressIds.includes(address.id) &&
+              currentBody.body.billingAddressIds.includes(address.id)
+                ? 'Both'
+                : currentBody.body.billingAddressIds.includes(address.id)
+                ? 'Billing'
+                : 'Shipping'}
             </div>
             <div>Country: </div>
             <div>{address.country}</div>
@@ -284,12 +295,12 @@ const Profile: React.FC = () => {
               <AddressComponent
                 label="Add Address"
                 isReadOnly={false}
-                // typeValue={addressType}
+                typeValue={addressType}
                 countryValue={country}
                 cityValue={city}
                 streetValue={street}
                 postalCodeValue={postalCode}
-                // setAdressType={setAddressType}
+                setAdressType={setAddressType}
                 setCountry={setCountry}
                 setCity={setCity}
                 setStreet={setStreet}
@@ -308,12 +319,44 @@ const Profile: React.FC = () => {
                         postalCode: postalCode,
                       },
                     },
-                  ]).then((resp) => {
-                    if (resp) {
-                      createAdresses(resp);
-                      setCustomerBody(resp);
-                    }
-                  });
+                  ])
+                    .then((resp) => {
+                      console.log(resp);
+                      if (resp) {
+                        if (addressType === 'Billing') {
+                          return editMyProfile([
+                            {
+                              action: 'addBillingAddressId',
+                              addressId: resp.body.addresses[resp.body.addresses.length - 1].id,
+                            },
+                          ]);
+                        } else if (addressType === 'Both') {
+                          return editMyProfile([
+                            {
+                              action: 'addBillingAddressId',
+                              addressId: resp.body.addresses[resp.body.addresses.length - 1].id,
+                            },
+                            {
+                              action: 'addShippingAddressId',
+                              addressId: resp.body.addresses[resp.body.addresses.length - 1].id,
+                            },
+                          ]);
+                        } else {
+                          return editMyProfile([
+                            {
+                              action: 'addShippingAddressId',
+                              addressId: resp.body.addresses[resp.body.addresses.length - 1].id,
+                            },
+                          ]);
+                        }
+                      }
+                    })
+                    .then((resp) => {
+                      if (resp) {
+                        createAdresses(resp);
+                        setCustomerBody(resp);
+                      }
+                    });
                   setIsAddAdrFormShown(false);
                 }}
                 className="button button-save-update"
@@ -325,12 +368,12 @@ const Profile: React.FC = () => {
               <AddressComponent
                 label="Edit Address"
                 isReadOnly={false}
-                // typeValue={addressType}
+                typeValue={addressType}
                 countryValue={country}
                 cityValue={city}
                 streetValue={street}
                 postalCodeValue={postalCode}
-                // setAdressType={setAddressType}
+                setAdressType={setAddressType}
                 setCountry={setCountry}
                 setCity={setCity}
                 setStreet={setStreet}
@@ -340,12 +383,63 @@ const Profile: React.FC = () => {
                 label="Save & Update"
                 onClick={(): void => {
                   setIsEditAdr(false);
-                  editMyProfile([changeAdressAction]).then((resp) => {
-                    if (resp) {
-                      createAdresses(resp);
-                      setCustomerBody(resp);
-                    }
-                  });
+                  editMyProfile([changeAdressAction])
+                    .then((resp) => {
+                      if (resp) {
+                        if (addressType === 'Billing') {
+                          const action: MyCustomerUpdateAction[] =
+                            resp.body.shippingAddressIds?.includes(curretnId)
+                              ? [
+                                  { action: 'removeShippingAddressId', addressId: curretnId },
+                                  {
+                                    action: 'addBillingAddressId',
+                                    addressId: curretnId,
+                                  },
+                                ]
+                              : [
+                                  {
+                                    action: 'addBillingAddressId',
+                                    addressId: curretnId,
+                                  },
+                                ];
+                          return editMyProfile(action);
+                        } else if (addressType === 'Both') {
+                          return editMyProfile([
+                            {
+                              action: 'addBillingAddressId',
+                              addressId: curretnId,
+                            },
+                            {
+                              action: 'addShippingAddressId',
+                              addressId: curretnId,
+                            },
+                          ]);
+                        } else {
+                          const action: MyCustomerUpdateAction[] =
+                            resp.body.shippingAddressIds?.includes(curretnId)
+                              ? [
+                                  { action: 'removeBillingAddressId', addressId: curretnId },
+                                  {
+                                    action: 'addShippingAddressId',
+                                    addressId: curretnId,
+                                  },
+                                ]
+                              : [
+                                  {
+                                    action: 'addShippingAddressId',
+                                    addressId: curretnId,
+                                  },
+                                ];
+                          return editMyProfile(action);
+                        }
+                      }
+                    })
+                    .then((resp) => {
+                      if (resp) {
+                        createAdresses(resp);
+                        setCustomerBody(resp);
+                      }
+                    });
                 }}
                 className="button button-save-update"
               />
