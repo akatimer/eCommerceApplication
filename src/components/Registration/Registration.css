@@ -11,6 +11,7 @@
 
 .address {
   display: flex;
+  margin-top: 10px;
   gap: 24px;
   color: #48484a;
   border: solid 2px #48484a;
