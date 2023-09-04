@@ -176,7 +176,7 @@ const Profile: React.FC = () => {
             <div>PostalCode: </div>
             <div>{address.postalCode}</div>
             <Button
-              label="Edit Addr"
+              label="Edit Address"
               className="button button-edit-adr"
               type="button"
               dataValue={address.id || ''}
@@ -185,7 +185,7 @@ const Profile: React.FC = () => {
               }}
             />
             <Button
-              label="Delete Addr"
+              label="Delete Address"
               className="button button-edit-adr"
               type="button"
               dataValue={address.id || ''}
