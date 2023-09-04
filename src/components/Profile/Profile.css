@@ -1,6 +1,7 @@
 .button-edit {
   font-size: 1.2rem;
-  margin-top: 25px;
+  margin-top: 15px;
+  margin-bottom: 10px;
   padding: 15px;
   border: solid 2px #48484a;
   border-radius: 16px;
@@ -10,4 +11,30 @@
   text-align: center;
   transition: all 0.5s;
   cursor: pointer;
+}
+
+.address-layout {
+  width: 328px;
+  padding: 0.35em 0.75em 0.625em;
+  margin: 5px;
+  display: inline-grid;
+  grid-template-columns: 95px 170px;
+  grid-template-rows: repeat(5, 35px);
+  align-items: center;
+  justify-items: start;
+  justify-content: center;
+}
+
+.address-layout > div {
+  grid-column: auto/span 1;
+}
+
+.button-edit-adr {
+  justify-self: center;
+  grid-column: auto/span 2;
+}
+
+.button-save-update {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }

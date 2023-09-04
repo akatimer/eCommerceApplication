@@ -60,7 +60,9 @@ const CustomInput: React.FC<InputProps> = ({
           value={value}
           readOnly={readOnlyValue}
         />
-        {placeholder === 'Enter your password' && <PasswordToggle onClick={onToggle} />}
+        {(placeholder === 'Enter your password' || placeholder === 'Enter new password') && (
+          <PasswordToggle onClick={onToggle} />
+        )}
       </div>
     </>
   );
