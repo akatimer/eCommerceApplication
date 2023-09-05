@@ -14,6 +14,7 @@ interface InputProps {
   className?: string;
   onChange: (value: string) => void;
   value?: string;
+  readOnlyValue?: boolean;
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -27,6 +28,7 @@ const CustomInput: React.FC<InputProps> = ({
   onToggle,
   onChange,
   value,
+  readOnlyValue,
 }) => {
   const [message, setMessage] = useState('');
   const [messageColor, setMessageColor] = useState('');
@@ -56,8 +58,11 @@ const CustomInput: React.FC<InputProps> = ({
           placeholder={placeholder}
           onChange={inputHandler}
           value={value}
+          readOnly={readOnlyValue}
         />
-        {placeholder === 'Enter your password' && <PasswordToggle onClick={onToggle} />}
+        {(placeholder === 'Enter your password' || placeholder === 'Enter new password') && (
+          <PasswordToggle onClick={onToggle} />
+        )}
       </div>
     </>
   );

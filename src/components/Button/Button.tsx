@@ -7,11 +7,25 @@ interface ButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+  dataValue?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, onClick, className, type, disabled }) => {
+const Button: React.FC<ButtonProps> = ({
+  label,
+  onClick,
+  className,
+  type,
+  disabled,
+  dataValue,
+}) => {
   return (
-    <button className={className} onClick={onClick} type={type} disabled={disabled}>
+    <button
+      className={className}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+      data-value={dataValue}
+    >
       {label}
     </button>
   );

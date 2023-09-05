@@ -1,0 +1,49 @@
+.profile {
+  background: #f3c623;
+}
+
+.button-edit {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.address-profile {
+  background: #ffffff;
+}
+
+.address-layout {
+  width: 328px;
+  padding: 0.35em 0.75em 0.625em;
+  margin: 10px;
+  display: inline-grid;
+  grid-template-columns: 95px 170px;
+  grid-template-rows: repeat(5, 35px);
+  gap: 10px;
+  align-items: center;
+  justify-items: start;
+  justify-content: center;
+}
+
+.address-layout > div {
+  grid-column: auto/span 1;
+  border-bottom: 1px solid;
+  width: 95%;
+}
+.address-layout > div:last-child {
+  border-bottom: none;
+}
+
+.button-edit-adr {
+  justify-self: center;
+  grid-column: auto/span 2;
+  margin-bottom: 10px;
+}
+
+.button-save-update {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.hr {
+  border-bottom: 2px solid #000;
+}
