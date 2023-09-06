@@ -10,11 +10,13 @@ import {
   SHOP_ROUTE,
   PRODUCT_ROUTE,
   PROFILE_ROUTE,
+  CART_ROUTE,
 } from '../../utils/constants';
 import MainInfo from '../MainInfo/MainInfo';
 import Catalog from '../Catalog/Catalog';
 import Profile from '../Profile/Profile';
 import DetailedProduct from '../DetailedProduct/DetailedProduct';
+import Cart from '../Cart/Cart';
 
 const Router = createBrowserRouter([
   {
@@ -39,55 +41,11 @@ const Router = createBrowserRouter([
         element: <Catalog />,
         children: [
           {
-            path: `${SHOP_ROUTE}/kids`,
+            path: `${SHOP_ROUTE}/:categoryId`,
             element: <Catalog />,
             children: [
               {
-                path: `${SHOP_ROUTE}/kids/accessories`,
-                element: <Catalog />,
-              },
-              {
-                path: `${SHOP_ROUTE}/kids/tops`,
-                element: <Catalog />,
-              },
-              {
-                path: `${SHOP_ROUTE}/kids/bottoms`,
-                element: <Catalog />,
-              },
-              {
-                path: `${SHOP_ROUTE}/kids/dresses`,
-                element: <Catalog />,
-              },
-            ],
-          },
-          {
-            path: `${SHOP_ROUTE}/women`,
-            element: <Catalog />,
-            children: [
-              {
-                path: `${SHOP_ROUTE}/women/accessories`,
-                element: <Catalog />,
-              },
-              {
-                path: `${SHOP_ROUTE}/women/tops`,
-                element: <Catalog />,
-              },
-              {
-                path: `${SHOP_ROUTE}/women/bottoms`,
-                element: <Catalog />,
-              },
-              {
-                path: `${SHOP_ROUTE}/women/dresses`,
-                element: <Catalog />,
-              },
-            ],
-          },
-          {
-            path: `${SHOP_ROUTE}/unisex`,
-            element: <Catalog />,
-            children: [
-              {
-                path: `${SHOP_ROUTE}/unisex/tops`,
+                path: `${SHOP_ROUTE}/:categoryId/:subcategoryId`,
                 element: <Catalog />,
               },
             ],
@@ -101,6 +59,10 @@ const Router = createBrowserRouter([
       {
         path: `${PRODUCT_ROUTE}/:id`,
         element: <DetailedProduct />,
+      },
+      {
+        path: `${CART_ROUTE}`,
+        element: <Cart />,
       },
     ],
   },
