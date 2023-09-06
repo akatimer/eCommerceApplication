@@ -8,7 +8,7 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, LOGIN_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { HOME_ROUTE, LOGIN_ROUTE, LS_LOGIN, TOKEN_NAME } from '../../utils/constants';
 import DateInput from '../DateInput/DateInput';
 import EmailInput from '../EmailInput/EmailInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
@@ -42,7 +42,7 @@ const Profile: React.FC = () => {
   const [isChangePass, setIsChangePass] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isAddAdrFormShown, setIsAddAdrFormShown] = useState(false);
-  const { setLoggedOut } = useAuth();
+  const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   const getMyProfile = (): Promise<void | ClientResponse<Customer>> | undefined => {
@@ -224,11 +224,12 @@ const Profile: React.FC = () => {
         setCustomerBody(profileResponse);
       } else {
         localStorage.removeItem(TOKEN_NAME);
-        setLoggedOut(true);
+        setIsLoggedIn(false);
+        localStorage.removeItem('wichers_login');
         navigate(HOME_ROUTE);
       }
     })();
-  }, [navigate, setLoggedOut]);
+  }, [navigate, setIsLoggedIn]);
 
   return (
     <section className="form form-reg profile">
@@ -465,7 +466,8 @@ const Profile: React.FC = () => {
                     console.log(resp);
                     if (resp) {
                       localStorage.removeItem(TOKEN_NAME);
-                      setLoggedOut(true);
+                      setIsLoggedIn(false);
+                      localStorage.removeItem(LS_LOGIN);
                       navigate(LOGIN_ROUTE);
                     } else {
                       setIsModal(true);

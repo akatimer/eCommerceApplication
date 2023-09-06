@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
 import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { HOME_ROUTE, LS_LOGIN, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import { useAuth } from '../AuthUse/AuthUse';
@@ -17,12 +17,12 @@ const LogIn: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isDataValid, setIsDataValid] = useState(false);
   const [token, setToken] = useState('');
-  const { setLoggedOut } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isModalShown, setIsModalShown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
+    if (isLoggedIn) {
       navigate(HOME_ROUTE);
     }
     if (isEmailValid(email) && isPasswordValid(password)) {
@@ -32,7 +32,7 @@ const LogIn: React.FC = () => {
     if (storageToken) {
       setToken(storageToken);
     }
-  }, [email, navigate, password, token]);
+  }, [email, isLoggedIn, navigate, password, token]);
   return (
     <section className="form">
       <div className="form-wrapper">
@@ -57,7 +57,8 @@ const LogIn: React.FC = () => {
                   setIsModalShown(true);
                 });
               if (loginResponse) {
-                setLoggedOut(false);
+                setIsLoggedIn(true);
+                localStorage.setItem(LS_LOGIN, 'true');
                 navigate(HOME_ROUTE);
               }
             }}
