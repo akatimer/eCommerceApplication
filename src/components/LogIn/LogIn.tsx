@@ -3,26 +3,26 @@ import Button from '../Button/Button';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import EmailInput from '../EmailInput/EmailInput';
 import { useEffect, useState } from 'react';
-import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
-import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { createClientWithPass, getApiRoot, projectKey } from '../../utils/api/clientBuilder';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { HOME_ROUTE, LS_LOGIN, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import { useAuth } from '../AuthUse/AuthUse';
 import Alert from '@mui/material/Alert';
+import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDataValid, setIsDataValid] = useState(false);
   const [token, setToken] = useState('');
-  const { setLoggedOut } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isModalShown, setIsModalShown] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
+    if (isLoggedIn) {
       navigate(HOME_ROUTE);
     }
     if (isEmailValid(email) && isPasswordValid(password)) {
@@ -32,7 +32,7 @@ const LogIn: React.FC = () => {
     if (storageToken) {
       setToken(storageToken);
     }
-  }, [email, navigate, password, token]);
+  }, [email, isLoggedIn, navigate, password, token]);
   return (
     <section className="form">
       <div className="form-wrapper">
@@ -44,11 +44,9 @@ const LogIn: React.FC = () => {
             label="Continue"
             className="button button-login"
             onClick={async (): Promise<void> => {
-              const ApiPassRoot: () => ApiRoot = () => {
-                return createApiBuilderFromCtpClient(createClientWithPass(email, password));
-              };
-              const loginResponse = await ApiPassRoot()
+              const loginResponse = await getApiRoot()
                 .withProjectKey({ projectKey })
+                .me()
                 .login()
                 .post({ body: { email: email, password: password } })
                 .execute()
@@ -56,8 +54,23 @@ const LogIn: React.FC = () => {
                   console.error;
                   setIsModalShown(true);
                 });
+              const getApiPassRoot: () => ApiRoot = () => {
+                return createApiBuilderFromCtpClient(createClientWithPass(email, password));
+              };
+              const secondLogin = await getApiPassRoot()
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .get()
+                .execute()
+                .catch(() => {
+                  console.error;
+                  setIsModalShown(true);
+                });
+              console.log(secondLogin);
               if (loginResponse) {
-                setLoggedOut(false);
+                setIsLoggedIn(true);
+                localStorage.setItem(LS_LOGIN, 'true');
                 navigate(HOME_ROUTE);
               }
             }}

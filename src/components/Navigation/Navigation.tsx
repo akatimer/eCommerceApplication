@@ -6,26 +6,29 @@ import { NavLink } from 'react-router-dom';
 import {
   HOME_ROUTE,
   LOGIN_ROUTE,
+  LS_LOGIN,
   PROFILE_ROUTE,
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
   TOKEN_NAME,
 } from '../../utils/constants';
 import { useAuth } from '../AuthUse/AuthUse';
-import { useState } from 'react';
+// import { useState } from 'react';
 
 const Navigation: React.FC = () => {
-  const storageToken = localStorage.getItem(TOKEN_NAME);
-  const isTokenPresent = storageToken !== null;
+  const lsLogin = localStorage.getItem(LS_LOGIN);
+  // const isTokenPresent = storageToken !== null;
 
-  const [token, setToken] = useState(isTokenPresent);
+  // const isTokenPresent = storageToken !== null;
 
-  const { loggedOut, setLoggedOut } = useAuth();
+  // const [token, setToken] = useState(isTokenPresent);
+
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const handleLogOut = (): void => {
+    localStorage.removeItem(LS_LOGIN);
     localStorage.removeItem(TOKEN_NAME);
-    setToken(false);
-    setLoggedOut(true);
+    setIsLoggedIn(false);
   };
 
   return (
@@ -54,7 +57,7 @@ const Navigation: React.FC = () => {
         </li>
       </ul>
       <ul className="nav-list customer-nav">
-        {!loggedOut || token ? (
+        {isLoggedIn || lsLogin ? (
           <>
             <li className="nav-item">
               <NavLink to={PROFILE_ROUTE} className="nav-link profile">
