@@ -2,6 +2,8 @@ import React from 'react';
 import './Cart.css';
 import { LineItem } from '@commercetools/platform-sdk';
 import CartItem from './CartItem/CartItem';
+import { SHOP_ROUTE } from '../../utils/constants';
+import { useNavigate } from 'react-router-dom';
 
 const cartItems: LineItem[] = [
   {
@@ -119,6 +121,7 @@ const cartItems: LineItem[] = [
   },
 ];
 const Cart: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <div className="cart-page">
       <div className="cart-wrapper">
@@ -133,7 +136,9 @@ const Cart: React.FC = () => {
           <span className="amount-block__dollar">$</span>
           <span className="amount-block__total-price">623</span>
         </div>
-        <button className="cart-button">To shop</button>
+        <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
+          To shop
+        </button>
       </div>
     </div>
   );
