@@ -48,6 +48,7 @@ const Profile: React.FC = () => {
   const getMyProfile = (): Promise<void | ClientResponse<Customer>> | undefined => {
     const currentToken = localStorage.getItem(TOKEN_NAME);
     if (currentToken) {
+      console.log(currentToken);
       const apiTokenRoot = (): ApiRoot => {
         return createApiBuilderFromCtpClient(createClientWithToken(`Bearer ${currentToken}`));
       };
@@ -224,8 +225,8 @@ const Profile: React.FC = () => {
         setCustomerBody(profileResponse);
       } else {
         localStorage.removeItem(TOKEN_NAME);
+        localStorage.removeItem(LS_LOGIN);
         setIsLoggedIn(false);
-        localStorage.removeItem('wichers_login');
         navigate(HOME_ROUTE);
       }
     })();

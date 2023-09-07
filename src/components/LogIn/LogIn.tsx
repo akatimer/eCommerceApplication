@@ -3,8 +3,7 @@ import Button from '../Button/Button';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import EmailInput from '../EmailInput/EmailInput';
 import { useEffect, useState } from 'react';
-import { createClientWithPass, projectKey } from '../../utils/api/clientBuilder';
-import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { getApiPassRoot, getApiRoot, projectKey } from '../../utils/api/clientBuilder';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { HOME_ROUTE, LS_LOGIN, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
@@ -44,11 +43,9 @@ const LogIn: React.FC = () => {
             label="Continue"
             className="button button-login"
             onClick={async (): Promise<void> => {
-              const ApiPassRoot: () => ApiRoot = () => {
-                return createApiBuilderFromCtpClient(createClientWithPass(email, password));
-              };
-              const loginResponse = await ApiPassRoot()
+              const loginResponse = await getApiRoot()
                 .withProjectKey({ projectKey })
+                .me()
                 .login()
                 .post({ body: { email: email, password: password } })
                 .execute()
@@ -56,6 +53,17 @@ const LogIn: React.FC = () => {
                   console.error;
                   setIsModalShown(true);
                 });
+              const secondLogin = await getApiPassRoot(email, password)
+                .withProjectKey({ projectKey })
+                .me()
+                .carts()
+                .get()
+                .execute()
+                .catch(() => {
+                  console.error;
+                  setIsModalShown(true);
+                });
+              console.log(secondLogin);
               if (loginResponse) {
                 setIsLoggedIn(true);
                 localStorage.setItem(LS_LOGIN, 'true');
