@@ -1,5 +1,6 @@
 // import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import {
+  Cart,
   CategoryPagedQueryResponse,
   ClientResponse,
   CustomerDraft,
@@ -56,6 +57,49 @@ export const getProducts = async (
   return products;
 };
 
+export const createCart = async (): Promise<void | ClientResponse<Cart>> => {
+  const creationResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .me()
+    .carts()
+    .post({
+      body: {
+        currency: 'USD',
+      },
+    })
+    .execute()
+    .catch(console.error);
+  console.log(creationResponse);
+  return creationResponse;
+};
+
+export const addLineItem = async (
+  productId: string,
+  cartId: string,
+  cartVersion: number
+): Promise<void | ClientResponse<Cart>> => {
+  const creationResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [
+          {
+            action: 'addLineItem',
+            productId: productId,
+            variantId: 1,
+          },
+        ],
+      },
+    })
+    .execute()
+    .catch(console.error);
+  console.log(creationResponse);
+  return creationResponse;
+};
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })
 //   // .products()

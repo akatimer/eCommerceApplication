@@ -127,8 +127,8 @@ const Cart: React.FC = () => {
       <div className="cart-wrapper">
         <div className="cart-title">Cart</div>
         <div className="cart-body">
-          {[...cartItems, ...cartItems].map((item) => (
-            <CartItem lineItem={item} key={item.id} />
+          {[...cartItems, ...cartItems].map((item, index) => (
+            <CartItem lineItem={item} key={index} />
           ))}
         </div>
         <div className="amount-block">

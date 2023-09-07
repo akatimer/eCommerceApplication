@@ -113,7 +113,7 @@
   .cart-item__less-button {
     width: 26px;
     height: 26px;
-    border-radius: 14px;
+    border-radius: 10px;
   }
 
   .cart-item__quantity {
@@ -124,7 +124,7 @@
   .cart-item__plus-button {
     width: 26px;
     height: 26px;
-    border-radius: 14px;
+    border-radius: 10px;
   }
 
   .cart-item__minus {

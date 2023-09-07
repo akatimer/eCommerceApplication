@@ -6,12 +6,7 @@ import {
   TokenCache,
   TokenStore,
 } from '@commercetools/sdk-client-v2';
-import {
-  createApiBuilderFromCtpClient,
-  ApiRoot,
-  ClientResponse,
-  Cart,
-} from '@commercetools/platform-sdk';
+import { createApiBuilderFromCtpClient, ApiRoot } from '@commercetools/platform-sdk';
 import { LS_LOGIN, TOKEN_NAME } from '../constants';
 
 const MyTokenCache: TokenCache = {
@@ -167,20 +162,4 @@ export const createClientWithToken = (
     .withLoggerMiddleware()
     .build();
   return clientWithToken;
-};
-
-export const createCart = async (): Promise<void | ClientResponse<Cart>> => {
-  const creationResponse = await getApiRoot()
-    .withProjectKey({ projectKey })
-    .me()
-    .carts()
-    .post({
-      body: {
-        currency: 'USD',
-      },
-    })
-    .execute()
-    .catch(console.error);
-  console.log(creationResponse);
-  return creationResponse;
 };
