@@ -94,9 +94,9 @@ export const getApiRoot: () => ApiRoot = () => {
   }
 };
 
-export const getApiPassRoot: (email: string, password: string) => ApiRoot = (email, password) => {
-  return createApiBuilderFromCtpClient(createClientWithPass(email, password));
-};
+// export const getApiPassRoot: (email: string, password: string) => ApiRoot = (email, password) => {
+//   return createApiBuilderFromCtpClient(createClientWithPass(email, password));
+// };
 
 type PasswordAuthMiddlewareOptions = {
   host: string;

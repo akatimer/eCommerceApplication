@@ -3,13 +3,14 @@ import Button from '../Button/Button';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import EmailInput from '../EmailInput/EmailInput';
 import { useEffect, useState } from 'react';
-import { getApiPassRoot, getApiRoot, projectKey } from '../../utils/api/clientBuilder';
+import { createClientWithPass, getApiRoot, projectKey } from '../../utils/api/clientBuilder';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { HOME_ROUTE, LS_LOGIN, REGISTRATION_ROUTE, TOKEN_NAME } from '../../utils/constants';
 import isPasswordValid from '../../utils/validationFunctions/isPasswordValid';
 import isEmailValid from '../../utils/validationFunctions/isEmailValid';
 import { useAuth } from '../AuthUse/AuthUse';
 import Alert from '@mui/material/Alert';
+import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 
 const LogIn: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -53,7 +54,10 @@ const LogIn: React.FC = () => {
                   console.error;
                   setIsModalShown(true);
                 });
-              const secondLogin = await getApiPassRoot(email, password)
+              const getApiPassRoot: () => ApiRoot = () => {
+                return createApiBuilderFromCtpClient(createClientWithPass(email, password));
+              };
+              const secondLogin = await getApiPassRoot()
                 .withProjectKey({ projectKey })
                 .me()
                 .carts()
