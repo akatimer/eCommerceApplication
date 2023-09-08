@@ -1,0 +1,149 @@
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 0;
+  border-top: 1px solid #efeff4;
+}
+
+.cart-item__title {
+  font-family: 'Nunito';
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 33px;
+  color: #1b2437;
+}
+
+.cart-item__image-block {
+  max-width: 112px;
+}
+
+.cart-item__image {
+  border-radius: 8px;
+}
+
+.cart-item__quantity-block {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.cart-item__less-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 18px;
+  border: 2px solid #d1d1d6;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cart-item__minus {
+  margin: 0 auto;
+}
+
+.cart-item__plus {
+  margin: 0 auto;
+}
+
+.cart-item__quantity {
+  font-family: 'Mulish';
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 25px;
+  color: #d1d1d6;
+}
+
+.cart-item__plus-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 18px;
+  border: 2px solid #d1d1d6;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cart-item__price-block {
+  display: flex;
+}
+
+.cart-item__dollar {
+  display: block;
+  font-family: 'Nunito';
+  font-size: 24px;
+  line-height: 33px;
+  margin-right: 6px;
+  margin-top: 15px;
+}
+
+.cart-item__price {
+  font-family: 'Nunito';
+  font-size: 34px;
+  line-height: 46px;
+  letter-spacing: 0.4px;
+}
+
+.cart-item__delete-button {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cart-item__delete-button:hover {
+  filter: brightness(1.1);
+}
+
+@media (max-width: 667px) {
+  .cart-item {
+    padding: 16px 0;
+    gap: 15px;
+  }
+
+  .cart-item__image-block {
+    max-width: 72px;
+  }
+
+  .cart-item__title {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .cart-item__quantity-block {
+    gap: 8px;
+  }
+
+  .cart-item__less-button {
+    width: 26px;
+    height: 26px;
+    border-radius: 10px;
+  }
+
+  .cart-item__quantity {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .cart-item__plus-button {
+    width: 26px;
+    height: 26px;
+    border-radius: 10px;
+  }
+
+  .cart-item__minus {
+    max-width: 16px;
+  }
+
+  .cart-item__plus {
+    max-width: 16px;
+  }
+
+  .cart-item__dollar {
+    font-size: 16px;
+    line-height: 24px;
+    margin-right: 2px;
+    margin-top: 8px;
+  }
+
+  .cart-item__price {
+    font-size: 24px;
+    line-height: 24px;
+  }
+}

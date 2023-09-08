@@ -1,9 +1,11 @@
 import './Navigation.css';
 import logOutIcon from '../../assets/icons/logout.svg';
 import profile from '../../assets/icons/user_icn.svg';
+import cartIcon from '../../assets/icons/cart_icn.svg';
 import Logo from '../Logo/Logo';
 import { NavLink } from 'react-router-dom';
 import {
+  CART_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
   LS_LOGIN,
@@ -57,6 +59,11 @@ const Navigation: React.FC = () => {
         </li>
       </ul>
       <ul className="nav-list customer-nav">
+        <li className="nav-item">
+          <NavLink to={CART_ROUTE} className="nav-link cart">
+            <img src={cartIcon} alt="cart" />
+          </NavLink>
+        </li>
         {isLoggedIn || lsLogin ? (
           <>
             <li className="nav-item">

@@ -19,7 +19,6 @@ import convertColor from '../../utils/convertColor';
 import { SHOP_ROUTE } from '../../utils/constants';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
-import { createCart } from '../../utils/api/clientBuilder';
 
 const Catalog: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>();
@@ -101,7 +100,6 @@ const Catalog: React.FC = () => {
   };
 
   useEffect(() => {
-    createCart();
     checkedCategory &&
       getCategories(checkedCategory).then((response) => {
         if (response?.body.results) {

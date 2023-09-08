@@ -6,6 +6,7 @@ export const PRODUCT_ROUTE = '/about-product';
 export const TOKEN_NAME = 'self-employed_witchers_token';
 export const LS_LOGIN = 'witchers_login';
 export const PROFILE_ROUTE = '/profile';
+export const CART_ROUTE = '/cart';
 
 export const COLORS = ['#8bc34a', '#ff9800', '#ff7f50 ', '#f5f196', '#795548', '#000000'];
 export const SIZES = [
