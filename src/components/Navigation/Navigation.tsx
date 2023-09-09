@@ -3,7 +3,7 @@ import logOutIcon from '../../assets/icons/logout.svg';
 import profile from '../../assets/icons/user_icn.svg';
 import cartIcon from '../../assets/icons/cart_icn.svg';
 import Logo from '../Logo/Logo';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   CART_ROUTE,
   HOME_ROUTE,
@@ -24,13 +24,14 @@ const Navigation: React.FC = () => {
   // const isTokenPresent = storageToken !== null;
 
   // const [token, setToken] = useState(isTokenPresent);
-
+  const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const handleLogOut = (): void => {
     localStorage.removeItem(LS_LOGIN);
     localStorage.removeItem(TOKEN_NAME);
     setIsLoggedIn(false);
+    navigate(HOME_ROUTE);
   };
 
   return (

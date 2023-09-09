@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import './ProductCard.css';
 import { PRODUCT_ROUTE } from '../../utils/constants';
+import { createCart, addLineItem, getCart, getCarts } from '../../utils/api/clientApi';
 
 type Props = {
   product: ProductProjection;
@@ -12,13 +13,33 @@ type Props = {
 const region = 'en-US';
 
 const ProductCard: React.FC<Props> = ({ product }) => {
-  const { name, description, masterVariant } = product;
+  const { name, description, masterVariant, id } = product;
   const [discount, setDiscount] = useState<number>();
   useEffect(() => {
     if (masterVariant.prices) {
       setDiscount(masterVariant.prices[0].discounted?.value.centAmount);
     }
   }, [masterVariant.prices]);
+
+  const btnHandleClick = (): void => {
+    getCarts().then((response) => {
+      if (response) {
+        if (response.body.count) {
+          getCart().then((response) => {
+            if (response) {
+              addLineItem(id, response.body.id, response.body.version);
+            }
+          });
+        } else {
+          createCart().then((response) => {
+            if (response) {
+              addLineItem(id, response.body.id, response.body.version);
+            }
+          });
+        }
+      }
+    });
+  };
   return (
     <Card sx={{ width: [300, 300, 364], maxHeight: [480, 480, 560], borderRadius: 3 }}>
       <CardActionArea>
@@ -42,7 +63,9 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <div className={!discount ? 'card_current-price' : 'card_old-price'}>
           {masterVariant.prices ? masterVariant.prices[0].value.centAmount / 100 : ''}
         </div>
-        <button className="card-button">Shop Now</button>
+        <button className="card-button" onClick={btnHandleClick}>
+          Shop Now
+        </button>
       </div>
     </Card>
   );

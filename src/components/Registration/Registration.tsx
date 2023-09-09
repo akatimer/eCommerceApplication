@@ -148,7 +148,7 @@ const Registration: React.FC = () => {
       .post({ body: { email: email, password: password } })
       .execute();
     setIsLoggedIn(true);
-    localStorage.sestItem('wichers_login', 'true');
+    localStorage.setItem('wichers_login', 'true');
     navigate(HOME_ROUTE);
   };
 
