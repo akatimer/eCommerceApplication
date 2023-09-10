@@ -80,7 +80,8 @@ export const apiTokenRoot = (currentToken: string): ApiRoot => {
 
 export const getApiRoot: () => ApiRoot = () => {
   const currentLoginStatus = localStorage.getItem(LS_LOGIN);
-  if (currentLoginStatus) {
+  const tokenStatus = localStorage.getItem(TOKEN_NAME);
+  if (currentLoginStatus || tokenStatus) {
     return createApiBuilderFromCtpClient(
       createClientWithToken(`Bearer ${localStorage.getItem(TOKEN_NAME)}`)
     );
