@@ -43,7 +43,15 @@ const Cart: React.FC = () => {
       <div className="cart-wrapper">
         <div className="cart-title">Cart</div>
         <div className="cart-body">
-          {cart?.lineItems.map((item) => <CartItem lineItem={item} key={item.id} />)}
+          {cart?.lineItems.map((item) => (
+            <CartItem
+              lineItem={item}
+              setCart={setCart}
+              cartId={cart.id}
+              cartVersion={cart.version}
+              key={item.id}
+            />
+          ))}
         </div>
         <div className="amount-block">
           Total amount

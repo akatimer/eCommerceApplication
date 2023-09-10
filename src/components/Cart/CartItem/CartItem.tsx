@@ -1,18 +1,30 @@
 import React from 'react';
 import './CartItem.css';
-import { LineItem } from '@commercetools/platform-sdk';
+import { Cart, LineItem } from '@commercetools/platform-sdk';
 import closeImg from '../../../assets/icons/cancel_icn.svg';
 import minusImg from '../../../assets/icons/arrow_icn_small.svg';
 import plusImg from '../../../assets/icons/plus_icn_pink.svg';
+import { removeLineItem } from '../../../utils/api/clientApi';
 
 type Props = {
   lineItem: LineItem;
+  cartId: string;
+  cartVersion: number;
+  setCart: React.Dispatch<React.SetStateAction<Cart | undefined>>;
 };
-const CartItem: React.FC<Props> = ({ lineItem }) => {
+const CartItem: React.FC<Props> = ({ lineItem, cartId, cartVersion, setCart }) => {
   const itemName = lineItem.name['en-US'];
   const itemImg = lineItem.variant.images ? lineItem.variant.images[0].url : '';
   const itemPrice = lineItem.totalPrice.centAmount / 100;
   const itemQuantity = lineItem.quantity;
+  const itemId = lineItem.id;
+  const deleteHandleClick = (): void => {
+    removeLineItem(itemId, itemQuantity, cartId, cartVersion).then((response) => {
+      if (response) {
+        setCart(response.body);
+      }
+    });
+  };
   return (
     <div className="cart-item">
       <div className="cart-item__image-block">
@@ -43,8 +55,8 @@ const CartItem: React.FC<Props> = ({ lineItem }) => {
         <span className="cart-item__price">{itemPrice}</span>
       </div>
       <div className="cart-item__delete-block">
-        <button className="cart-item__delete-button">
-          <img src={closeImg} alt="delete item" />
+        <button className="cart-item__delete-button" onClick={deleteHandleClick}>
+          <img src={closeImg} alt="delete item" style={{ width: '35px' }} />
         </button>
       </div>
     </div>

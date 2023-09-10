@@ -122,6 +122,34 @@ export const addLineItem = async (
     .catch(console.error);
   return creationResponse;
 };
+
+export const removeLineItem = async (
+  lineItemId: string,
+  productQuantity: number,
+  cartId: string,
+  cartVersion: number
+): Promise<void | ClientResponse<Cart>> => {
+  const creationResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [
+          {
+            action: 'removeLineItem',
+            lineItemId: lineItemId,
+            quantity: productQuantity,
+          },
+        ],
+      },
+    })
+    .execute()
+    .catch(console.error);
+  return creationResponse;
+};
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })
 //   // .products()
