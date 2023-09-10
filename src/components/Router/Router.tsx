@@ -11,12 +11,14 @@ import {
   PRODUCT_ROUTE,
   PROFILE_ROUTE,
   CART_ROUTE,
+  ABOUT_US,
 } from '../../utils/constants';
 import MainInfo from '../MainInfo/MainInfo';
 import Catalog from '../Catalog/Catalog';
 import Profile from '../Profile/Profile';
 import DetailedProduct from '../DetailedProduct/DetailedProduct';
 import Cart from '../Cart/Cart';
+import AboutUs from '../AboutUs/AboutUs';
 
 const Router = createBrowserRouter([
   {
@@ -63,6 +65,10 @@ const Router = createBrowserRouter([
       {
         path: `${CART_ROUTE}`,
         element: <Cart />,
+      },
+      {
+        path: ABOUT_US,
+        element: <AboutUs />,
       },
     ],
   },

@@ -13,6 +13,7 @@ import {
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
   TOKEN_NAME,
+  ABOUT_US,
 } from '../../utils/constants';
 import { useAuth } from '../AuthUse/AuthUse';
 // import { useState } from 'react';
@@ -49,14 +50,9 @@ const Navigation: React.FC = () => {
           </NavLink>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#!">
-            About
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" href="#!">
-            Contact
-          </a>
+          <NavLink to={ABOUT_US} className="nav-link">
+            About Us
+          </NavLink>
         </li>
       </ul>
       <ul className="nav-list customer-nav">

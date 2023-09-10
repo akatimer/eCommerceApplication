@@ -1,0 +1,28 @@
+.main-about-us {
+  min-height: 570px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border-radius: 16px;
+  background: linear-gradient(to bottom, #d8d8d8, #979797);
+}
+
+.introduction {
+  font-family: 'Mulish';
+  color: #1b2437;
+  font-size: 1.4rem;
+  margin: 12px 113px;
+}
+
+.title-intro {
+  margin: 8px 0;
+}
+
+.card-about {
+  overflow: visible;
+}
+
+.card-title-about {
+  background: url('../../assets/icons/github.svg') no-repeat right;
+  background-size: 2rem;
+}
