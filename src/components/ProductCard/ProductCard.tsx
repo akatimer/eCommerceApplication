@@ -1,20 +1,27 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { Card, CardActionArea, CardContent } from '@mui/material';
-import { Link } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import './ProductCard.css';
-import { PRODUCT_ROUTE } from '../../utils/constants';
+import { CART_ROUTE, PRODUCT_ROUTE } from '../../utils/constants';
 import { createCart, addLineItem, getCart, getCarts } from '../../utils/api/clientApi';
 
 type Props = {
   product: ProductProjection;
+  lineItemsId: string[] | undefined;
+  setLineItemsId: Dispatch<SetStateAction<string[] | undefined>>;
 };
 
 const region = 'en-US';
 
-const ProductCard: React.FC<Props> = ({ product }) => {
+const ProductCard: React.FC<Props> = ({ product, lineItemsId, setLineItemsId }) => {
+  const navigate = useNavigate();
   const { name, description, masterVariant, id } = product;
   const [discount, setDiscount] = useState<number>();
+  const [isInCart, setIsInCart] = useState(false);
+  useEffect(() => {
+    lineItemsId?.includes(id) ? setIsInCart(true) : setIsInCart(false);
+  }, [id, lineItemsId]);
   useEffect(() => {
     if (masterVariant.prices) {
       setDiscount(masterVariant.prices[0].discounted?.value.centAmount);
@@ -28,12 +35,15 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           getCart().then((response) => {
             if (response) {
               addLineItem(id, response.body.id, response.body.version);
+              setIsInCart(true);
+              setLineItemsId(lineItemsId?.concat(id));
             }
           });
         } else {
           createCart().then((response) => {
             if (response) {
               addLineItem(id, response.body.id, response.body.version);
+              setIsInCart(true);
             }
           });
         }
@@ -63,8 +73,14 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <div className={!discount ? 'card_current-price' : 'card_old-price'}>
           {masterVariant.prices ? masterVariant.prices[0].value.centAmount / 100 : ''}
         </div>
-        <button className="card-button" onClick={btnHandleClick}>
-          Shop Now
+
+        <button
+          className={isInCart ? 'card-button-in-cart' : 'card-button'}
+          onClick={(): void => {
+            isInCart ? navigate(CART_ROUTE) : btnHandleClick();
+          }}
+        >
+          {isInCart ? 'In Cart' : 'Add to Cart'}
         </button>
       </div>
     </Card>

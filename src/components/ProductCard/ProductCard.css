@@ -97,6 +97,27 @@
   margin-left: auto;
 }
 
+.card-button-in-cart {
+  width: 160px;
+  height: 52px;
+  background-color: #46b9b9;
+  border: 2px solid #46b9b9;
+  color: #ffffff;
+  border-radius: 15px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.card-button-in-cart:hover {
+  text-decoration: underline;
+}
+
 .card-button:hover {
   color: #ffffff;
   background-color: #eda3b5;
@@ -145,6 +166,13 @@
     margin-bottom: 10px;
   }
   .card-button {
+    width: 100px;
+    height: 40px;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 18px;
+  }
+  .card-button-in-cart {
     width: 100px;
     height: 40px;
     border-radius: 15px;
