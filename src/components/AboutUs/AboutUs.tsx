@@ -4,6 +4,7 @@ import { Card, CardActionArea, CardContent } from '@mui/material';
 import userIcon from '../../assets/icons/user_icn.svg';
 import maksim from '../../assets/images/maksim.jpeg';
 import { Link } from 'react-router-dom';
+import RsLogo from '../RsLogo/RsLogo';
 
 const AboutUs: React.FC = () => {
   return (
@@ -72,6 +73,7 @@ const AboutUs: React.FC = () => {
           debitis!
         </p>
       </div>
+      <RsLogo />
     </div>
   );
 };
