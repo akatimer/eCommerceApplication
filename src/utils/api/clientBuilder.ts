@@ -5,6 +5,7 @@ import {
   HttpMiddlewareOptions,
   TokenCache,
   TokenStore,
+  PasswordAuthMiddlewareOptions,
 } from '@commercetools/sdk-client-v2';
 import { createApiBuilderFromCtpClient, ApiRoot } from '@commercetools/platform-sdk';
 import { LS_LOGIN, TOKEN_NAME } from '../constants';
@@ -88,28 +89,6 @@ export const getApiRoot: () => ApiRoot = () => {
   } else {
     return createApiBuilderFromCtpClient(anonymClient);
   }
-};
-
-// export const getApiPassRoot: (email: string, password: string) => ApiRoot = (email, password) => {
-//   return createApiBuilderFromCtpClient(createClientWithPass(email, password));
-// };
-
-type PasswordAuthMiddlewareOptions = {
-  host: string;
-  projectKey: string;
-  credentials: {
-    clientId: string;
-    clientSecret: string;
-    user: {
-      username: string;
-      password: string;
-    };
-  };
-  scopes?: string[];
-  tokenCache?: TokenCache;
-  oauthUri?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetch?: any;
 };
 
 const createPassOptions = (login: string, pass: string): PasswordAuthMiddlewareOptions => {
