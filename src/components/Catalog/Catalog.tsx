@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { getCategories, getProducts } from '../../utils/api/clientApi';
+import { getCart, getCarts, getCategories, getProducts } from '../../utils/api/clientApi';
 import ProductCard from '../ProductCard/ProductCard';
 import SortDropdown from '../SortDropdown/SortDropdown';
 import './Catalog.css';
@@ -22,6 +22,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 const Catalog: React.FC = () => {
   const [products, setProducts] = useState<ProductProjection[]>();
+  const [lineItemsId, setLineItemsId] = useState<string[]>();
   const [subcategories, setSubcategories] = useState<Category[]>([]);
   const [sorting, setSorting] = useState('');
   const [searchValue, setSearchValue] = useState('');
@@ -98,7 +99,19 @@ const Catalog: React.FC = () => {
       setPrice(newValue as number[]);
     }
   };
-
+  useEffect(() => {
+    getCarts().then((response) => {
+      if (response) {
+        if (response.body.count) {
+          getCart().then((response) => {
+            if (response) {
+              setLineItemsId(response.body.lineItems.map((lineItem) => lineItem.productId));
+            }
+          });
+        }
+      }
+    });
+  }, []);
   useEffect(() => {
     checkedCategory &&
       getCategories(checkedCategory).then((response) => {
@@ -251,7 +264,12 @@ const Catalog: React.FC = () => {
           {products &&
             products.map((product) => (
               <Grid item key={product.id}>
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  lineItemsId={lineItemsId}
+                  setLineItemsId={setLineItemsId}
+                />
               </Grid>
             ))}
         </Grid>
