@@ -38,6 +38,10 @@
   transition: 0.3s;
 }
 
+.cart-item__less-button:hover {
+  background: #e5e5ea;
+}
+
 .cart-item__minus {
   margin: 0 auto;
 }
@@ -61,6 +65,10 @@
   border: 2px solid #d1d1d6;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.cart-item__plus-button:hover {
+  background: #e5e5ea;
 }
 
 .cart-item__price-block {

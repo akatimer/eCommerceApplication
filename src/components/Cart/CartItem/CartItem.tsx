@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CartItem.css';
 import { Cart, LineItem } from '@commercetools/platform-sdk';
 import closeImg from '../../../assets/icons/cancel_icn.svg';
-import minusImg from '../../../assets/icons/arrow_icn_small.svg';
+import minusImg from '../../../assets/icons/minus_icn_pink.svg';
 import plusImg from '../../../assets/icons/plus_icn_pink.svg';
-import { removeLineItem } from '../../../utils/api/clientApi';
+import { changeLineItemQuantity, removeLineItem } from '../../../utils/api/clientApi';
 
 type Props = {
   lineItem: LineItem;
@@ -13,11 +13,31 @@ type Props = {
   setCart: React.Dispatch<React.SetStateAction<Cart | undefined>>;
 };
 const CartItem: React.FC<Props> = ({ lineItem, cartId, cartVersion, setCart }) => {
+  const [isDisabledMinusBtn, setIsDisabledMinusBtn] = useState(false);
+  const [isDisabledPlusBtn, setIsDisabledPlusBtn] = useState(false);
   const itemName = lineItem.name['en-US'];
   const itemImg = lineItem.variant.images ? lineItem.variant.images[0].url : '';
   const itemPrice = lineItem.totalPrice.centAmount / 100;
   const itemQuantity = lineItem.quantity;
   const itemId = lineItem.id;
+  const decreaseQuantity = (): void => {
+    setIsDisabledMinusBtn(true);
+    changeLineItemQuantity(itemId, itemQuantity - 1, cartId, cartVersion).then((response) => {
+      if (response) {
+        setCart(response.body);
+        setIsDisabledMinusBtn(false);
+      }
+    });
+  };
+  const increaseQuantity = (): void => {
+    setIsDisabledPlusBtn(true);
+    changeLineItemQuantity(itemId, itemQuantity + 1, cartId, cartVersion).then((response) => {
+      if (response) {
+        setCart(response.body);
+        setIsDisabledPlusBtn(false);
+      }
+    });
+  };
   const deleteHandleClick = (): void => {
     removeLineItem(itemId, itemQuantity, cartId, cartVersion).then((response) => {
       if (response) {
@@ -34,7 +54,11 @@ const CartItem: React.FC<Props> = ({ lineItem, cartId, cartVersion, setCart }) =
         <h3 className="cart-item__title">{itemName}</h3>
       </div>
       <div className="cart-item__quantity-block">
-        <button className="cart-item__less-button">
+        <button
+          className="cart-item__less-button"
+          disabled={isDisabledMinusBtn}
+          onClick={decreaseQuantity}
+        >
           <img
             className="cart-item__minus"
             src={minusImg}
@@ -42,7 +66,11 @@ const CartItem: React.FC<Props> = ({ lineItem, cartId, cartVersion, setCart }) =
           />
         </button>
         <span className="cart-item__quantity">{itemQuantity}</span>
-        <button className="cart-item__plus-button">
+        <button
+          className="cart-item__plus-button"
+          onClick={increaseQuantity}
+          disabled={isDisabledPlusBtn}
+        >
           <img
             className="cart-item__plus"
             src={plusImg}
