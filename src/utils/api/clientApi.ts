@@ -59,29 +59,29 @@ export const getProducts = async (
 };
 
 export const getCarts = async (): Promise<void | ClientResponse<CartPagedQueryResponse>> => {
-  const creationResponse = await getApiRoot()
+  const cartsResponse = await getApiRoot()
     .withProjectKey({ projectKey })
     .me()
     .carts()
     .get()
     .execute()
     .catch(console.error);
-  return creationResponse;
+  return cartsResponse;
 };
 
 export const getCart = async (): Promise<void | ClientResponse<Cart>> => {
-  const creationResponse = await getApiRoot()
+  const cartResponse = await getApiRoot()
     .withProjectKey({ projectKey })
     .me()
     .activeCart()
     .get()
     .execute()
     .catch(console.error);
-  return creationResponse;
+  return cartResponse;
 };
 
 export const createCart = async (): Promise<void | ClientResponse<Cart>> => {
-  const creationResponse = await getApiRoot()
+  const cartResponse = await getApiRoot()
     .withProjectKey({ projectKey })
     .me()
     .carts()
@@ -92,7 +92,7 @@ export const createCart = async (): Promise<void | ClientResponse<Cart>> => {
     })
     .execute()
     .catch(console.error);
-  return creationResponse;
+  return cartResponse;
 };
 
 export const addLineItem = async (
@@ -100,7 +100,7 @@ export const addLineItem = async (
   cartId: string,
   cartVersion: number
 ): Promise<void | ClientResponse<Cart>> => {
-  const creationResponse = await getApiRoot()
+  const cartResponse = await getApiRoot()
     .withProjectKey({ projectKey })
     .me()
     .carts()
@@ -120,7 +120,7 @@ export const addLineItem = async (
     })
     .execute()
     .catch(console.error);
-  return creationResponse;
+  return cartResponse;
 };
 
 export const removeLineItem = async (
@@ -129,7 +129,7 @@ export const removeLineItem = async (
   cartId: string,
   cartVersion: number
 ): Promise<void | ClientResponse<Cart>> => {
-  const creationResponse = await getApiRoot()
+  const cartResponse = await getApiRoot()
     .withProjectKey({ projectKey })
     .me()
     .carts()
@@ -148,8 +148,37 @@ export const removeLineItem = async (
     })
     .execute()
     .catch(console.error);
-  return creationResponse;
+  return cartResponse;
 };
+
+export const changeLineItemQuantity = async (
+  lineItemId: string,
+  productQuantity: number,
+  cartId: string,
+  cartVersion: number
+): Promise<void | ClientResponse<Cart>> => {
+  const cartResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [
+          {
+            action: 'changeLineItemQuantity',
+            lineItemId: lineItemId,
+            quantity: productQuantity,
+          },
+        ],
+      },
+    })
+    .execute()
+    .catch(console.error);
+  return cartResponse;
+};
+
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })
 //   // .products()
