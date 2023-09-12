@@ -27,19 +27,4 @@ describe('Product Card Renders', async () => {
       expect(currentCard).toBeDefined();
     });
   }
-
-  // it('Test Add to Cart', () => {
-
-  // })
 });
-
-// describe('Test EmailInput can`t be change when read only passed', () => {
-//   it('ReadOnly', () => {
-//     render(<EmailInput onChange={(): void => {}} value="11111" readOnlyValue={true} />);
-//     const currentInput = screen.getByPlaceholderText('Enter your email');
-//     if (currentInput) {
-//       fireEvent.change(currentInput, { target: { value: 'inv' } });
-//     }
-//     expect(screen.getAllByDisplayValue(/11111/i)).toBeDefined();
-//   });
-// });
