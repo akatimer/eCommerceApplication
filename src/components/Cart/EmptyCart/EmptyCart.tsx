@@ -11,9 +11,9 @@ const EmptyCart: React.FC = () => {
       <div className="empty-cart__image-block">
         <img src={emptyCart} alt="empty-cart" />
       </div>
-      <h3 className="empty-cart__title">You Cart is empty.</h3>
+      <h3 className="empty-cart__title">Your cart is empty</h3>
       <p className="empty-cart__description">
-        Looks like you haven&apos;t added anything to your cart yet.
+        Looks like you haven&apos;t added anything to your cart yet
       </p>
       <button className="empty-cart__button" onClick={(): void => navigate(SHOP_ROUTE)}>
         Start shopping
