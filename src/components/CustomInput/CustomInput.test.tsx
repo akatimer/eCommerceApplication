@@ -4,7 +4,7 @@ import CustomInput from './CustomInput';
 import React from 'react';
 import isNameValid from '../../utils/validationFunctions/isNameValid';
 
-describe('PostalCode', () => {
+describe('Test CustomInput Renders', () => {
   it('Renders', () => {
     render(
       <CustomInput
