@@ -20,7 +20,7 @@ import Button from '../Button/Button';
 import './Profile.css';
 import AddressComponent from '../AddressComponent/AddressComponent';
 import PasswordInput from '../PasswordInput/PasswordInput';
-import CustModal from '../Modal/CustModal';
+import CustModal from '../CustModal/CustModal';
 
 const Profile: React.FC = () => {
   const [name, setName] = useState('');

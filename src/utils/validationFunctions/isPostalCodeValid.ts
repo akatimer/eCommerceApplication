@@ -4,7 +4,9 @@ function isPostalCodeValid(code: string): boolean {
   // A1A 1A1
   const canadaPattern = /^[ABCEGHJKLMNPRSTVXY]\d[A-Z] \d[A-Z]\d$/;
 
-  return usaPattern.test(code) || canadaPattern.test(code);
+  const canadaNewPatern = /^[A-Z]\d[A-Z] [A-Z]\d[A-Z]$/;
+
+  return usaPattern.test(code) || canadaPattern.test(code) || canadaNewPatern.test(code);
 }
 
 export default isPostalCodeValid;
