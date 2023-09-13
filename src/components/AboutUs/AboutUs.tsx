@@ -39,7 +39,7 @@ const AboutUs: React.FC = () => {
   Miro boards - for visualizing processes and actions that required visual representation.
   Trello - for task distribution and tracking status updates.
   
-  And there you have it; we've introduced you to our team. 
+  And there you have it; we've introduced our team to you. 
   Now, all you need to do is to relax and enjoy our product because it's made just for you!`;
 
   return (
