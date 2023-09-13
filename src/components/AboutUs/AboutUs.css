@@ -20,9 +20,23 @@
 
 .card-about {
   overflow: visible;
+  white-space: pre-line;
 }
 
 .card-title-about {
   background: url('../../assets/icons/github.svg') no-repeat right;
   background-size: 2rem;
+}
+
+.MuiPaper-root {
+  min-height: 640px !important;
+}
+
+.card-description {
+  -webkit-box-orient: unset !important;
+}
+
+.about-us__page-text {
+  overflow: visible;
+  white-space: pre-line;
 }
