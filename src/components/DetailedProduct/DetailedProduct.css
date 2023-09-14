@@ -155,3 +155,24 @@
 .hidden {
   display: none;
 }
+
+.btn-detail-uncart {
+  width: 70px;
+  height: 52px;
+  background-color: #8e8e93;
+  border: 2px solid #8e8e93;
+  color: #ffffff;
+  border-radius: 15px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.btn-detail-uncart:hover {
+  text-decoration: underline;
+}

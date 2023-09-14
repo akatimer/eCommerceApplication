@@ -161,6 +161,12 @@ const DetailedProduct: React.FC = () => {
             >
               {isInCart ? 'In Cart' : 'Add to Cart'}
             </button>
+            <button
+              className={isInCart ? 'btn-detail-uncart' : 'hidden'}
+              // onClick={deleteHandleClick}
+            >
+              {`Uncart`}
+            </button>
           </div>
         </div>
       </div>
