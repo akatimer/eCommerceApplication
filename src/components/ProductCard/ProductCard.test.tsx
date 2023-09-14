@@ -18,7 +18,11 @@ describe('Product Card Renders', async () => {
     it('Renders', () => {
       const { container } = render(
         <MemoryRouter>
-          <ProductCard product={firstProduct} />
+          <ProductCard
+            product={firstProduct}
+            lineItemsId={undefined}
+            setLineItemsId={(): void => {}}
+          />
         </MemoryRouter>
       );
       const currentCard = container.querySelector(
