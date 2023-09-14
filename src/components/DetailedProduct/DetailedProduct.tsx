@@ -8,7 +8,13 @@ import crossPic from '../../assets/icons/cancel_icn.svg';
 import { CART_ROUTE, SHOP_ROUTE } from '../../utils/constants';
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
-import { addLineItem, createCart, getCart, getCarts } from '../../utils/api/clientApi';
+import {
+  addLineItem,
+  createCart,
+  getCart,
+  getCarts,
+  removeLineItem,
+} from '../../utils/api/clientApi';
 
 const DetailedProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -86,7 +92,6 @@ const DetailedProduct: React.FC = () => {
     getCarts().then((response) => {
       if (response) {
         if (response.body.count) {
-          console.log(response.body.count);
           getCart().then((response) => {
             if (response && id) {
               addLineItem(id, response.body.id, response.body.version);
@@ -105,6 +110,33 @@ const DetailedProduct: React.FC = () => {
       }
     });
   };
+
+  const deleteHandleClick = async (): Promise<void> => {
+    try {
+      const cartsResponse = await getCarts();
+      if (!cartsResponse || !cartsResponse.body.count) {
+        return;
+      }
+      const cartResponse = await getCart();
+      if (!cartResponse || !id) {
+        return;
+      }
+      const lineItem = cartResponse.body.lineItems.find((item) => item.productId === id);
+      if (!lineItem) {
+        return;
+      }
+      await removeLineItem(
+        lineItem.id,
+        lineItem.quantity,
+        cartResponse.body.id,
+        cartResponse.body.version
+      );
+      setIsInCart(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="prod-wrapper">
       <div className={`prod-container ${modalVisible ? 'hidden' : ''}`}>
@@ -163,7 +195,7 @@ const DetailedProduct: React.FC = () => {
             </button>
             <button
               className={isInCart ? 'btn-detail-uncart' : 'hidden'}
-              // onClick={deleteHandleClick}
+              onClick={deleteHandleClick}
             >
               {`Uncart`}
             </button>

@@ -176,3 +176,12 @@
 .btn-detail-uncart:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 900px) {
+  .btn-detail-uncart {
+    height: 40px;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 18px;
+  }
+}
