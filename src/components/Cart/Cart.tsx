@@ -3,10 +3,11 @@ import './Cart.css';
 import CartItem from './CartItem/CartItem';
 import { SHOP_ROUTE } from '../../utils/constants';
 import { useNavigate } from 'react-router-dom';
-import { addPromoCode, getCart, getCarts } from '../../utils/api/clientApi';
+import { getCart, getCarts } from '../../utils/api/clientApi';
 import { Cart } from '@commercetools/platform-sdk';
 import { CircularProgress } from '@mui/material';
 import EmptyCart from './EmptyCart/EmptyCart';
+import PromoCode from './PromoCode/PromoCode';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
@@ -85,25 +86,12 @@ const Cart: React.FC = () => {
               {cart?.discountCodes.length ? '/' + oldAmount : ''}
             </span>
           </div>
-          <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
-            To shop
-          </button>
-          <button
-            className="cart-button"
-            onClick={(): void => {
-              getCart().then((response) => {
-                if (response) {
-                  addPromoCode('BOGO', response.body.id, response.body.version).then((response) => {
-                    if (response) {
-                      setCart(response.body);
-                    }
-                  });
-                }
-              });
-            }}
-          >
-            PROMO CODE
-          </button>
+          <div className="cart__control-block">
+            <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
+              To shop
+            </button>
+            <PromoCode setCart={setCart} />
+          </div>
         </div>
       )}
     </div>

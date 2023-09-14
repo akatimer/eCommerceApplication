@@ -63,6 +63,13 @@
   background-color: #eda3b5;
 }
 
+.cart__control-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
+}
+
 @media (max-width: 667px) {
   .cart-wrapper {
     padding: 16px 16px 24px 16px;
