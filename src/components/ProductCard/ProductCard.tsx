@@ -53,7 +53,7 @@ const ProductCard: React.FC<Props> = ({ product, lineItemsId, setLineItemsId }) 
   return (
     <Card sx={{ width: [300, 300, 364], maxHeight: [480, 480, 560], borderRadius: 3 }}>
       <CardActionArea>
-        <Link to={`${PRODUCT_ROUTE}/${product.key}`}>
+        <Link to={`${PRODUCT_ROUTE}/${product.id}`}>
           <div className="card-image_block">
             <img
               className="card-image"
