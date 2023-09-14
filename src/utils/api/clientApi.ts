@@ -6,6 +6,7 @@ import {
   ClientResponse,
   CustomerDraft,
   CustomerSignInResult,
+  DiscountCodePagedQueryResponse,
   ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 import {
@@ -204,6 +205,17 @@ export const addPromoCode = async (
     .catch(console.error);
   return cartResponse;
 };
+
+export const getPromoCodes =
+  async (): Promise<void | ClientResponse<DiscountCodePagedQueryResponse>> => {
+    const promoCodes = await getApiRoot()
+      .withProjectKey({ projectKey })
+      .discountCodes()
+      .get()
+      .execute()
+      .catch(console.error);
+    return promoCodes;
+  };
 
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })

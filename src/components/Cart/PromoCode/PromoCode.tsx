@@ -17,6 +17,7 @@ const PromoCode: React.FC<Props> = ({ setCart }) => {
   const [isDisabledBtn, setIsDisabledBtn] = useState(false);
   const { register, handleSubmit } = useForm<Form>();
   const [isError, setIsError] = useState(false);
+  const [isApplied, setIsApplied] = useState(false);
   const onSubmit: SubmitHandler<Form> = (data) => {
     setIsDisabledBtn(true);
     getCart()
@@ -26,6 +27,7 @@ const PromoCode: React.FC<Props> = ({ setCart }) => {
             setIsDisabledBtn(false);
             if (response) {
               setCart(response.body);
+              setIsApplied(true);
             } else setIsError(true);
           });
         }
@@ -36,7 +38,10 @@ const PromoCode: React.FC<Props> = ({ setCart }) => {
     <form className="cart-form" onSubmit={handleSubmit(onSubmit)}>
       <div className="cart-input__wrapper">
         <Input
-          onFocus={(): void => setIsError(false)}
+          onFocus={(): void => {
+            setIsError(false);
+            setIsApplied(false);
+          }}
           {...register('code')}
           placeholder="Coupon code"
           color="primary"
@@ -50,6 +55,7 @@ const PromoCode: React.FC<Props> = ({ setCart }) => {
           }}
         />
         {isError && <div className="coupon-error">Coupon not found</div>}
+        {isApplied && <div className="coupon-applied">Coupon applied</div>}
       </div>
       <Button
         disabled={isDisabledBtn}
