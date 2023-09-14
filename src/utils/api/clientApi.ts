@@ -179,6 +179,32 @@ export const changeLineItemQuantity = async (
   return cartResponse;
 };
 
+export const addPromoCode = async (
+  code: string = 'BOGO',
+  cartId: string,
+  cartVersion: number
+): Promise<void | ClientResponse<Cart>> => {
+  const cartResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [
+          {
+            action: 'addDiscountCode',
+            code: code,
+          },
+        ],
+      },
+    })
+    .execute()
+    .catch(console.error);
+  return cartResponse;
+};
+
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })
 //   // .products()
