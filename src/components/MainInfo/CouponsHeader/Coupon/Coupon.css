@@ -1,0 +1,33 @@
+.coupon__wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  padding-right: 40px;
+  font-size: 0.8rem;
+}
+.coupon-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  gap: 3px;
+}
+.coupon__image {
+  max-width: 30px;
+  align-self: center;
+}
+.coupon__name {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.coupon__code {
+  color: #eda3b5;
+  font-weight: 700;
+}
+@media (max-width: 667px) {
+  .coupon__wrapper {
+    justify-content: start;
+  }
+}
