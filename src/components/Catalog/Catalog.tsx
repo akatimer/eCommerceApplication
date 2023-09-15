@@ -37,11 +37,14 @@ const Catalog: React.FC = () => {
   const [checkedSubcategory, setSubCheckedCategory] = useState<string>('');
   const [facets, setFacets] = useState<FacetResults>();
   const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(5);
+  const [showPagination, setShowPagination] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((path) => !['shop', ''].includes(path));
   window.onload = (): void => navigate(SHOP_ROUTE);
+  const limit = 6;
 
   const brandHandleChange = (value: string) => () => {
     const index = checkedBrand.indexOf(value);
@@ -126,6 +129,8 @@ const Catalog: React.FC = () => {
         sort: sorting ? sorting : 'price asc',
         'text.en-US': searchValue.length > 3 ? searchValue : '',
         fuzzy: true,
+        offset: page,
+        limit: limit,
         facet: [
           'variants.attributes.size.key',
           'variants.attributes.brand.key',
@@ -145,11 +150,18 @@ const Catalog: React.FC = () => {
       },
     })
       .then((response) => {
-        if (response?.body.count) {
+        if (response?.body.count && response?.body.count !== 0) {
+          if (response?.body.total && response?.body.results.length !== 0) {
+            setShowPagination(true);
+            setPageCount(Math.ceil(response?.body.total / limit) || 1);
+          } else {
+            setShowPagination(false);
+          }
           setProducts(response.body.results);
           setNotFound(false);
           setFacets(response.body.facets);
         } else {
+          setShowPagination(false);
           setProducts([]);
           setNotFound(true);
         }
@@ -164,6 +176,7 @@ const Catalog: React.FC = () => {
     checkedSize,
     checkedCategory,
     checkedSubcategory,
+    page,
   ]);
 
   if (!products) {
@@ -222,16 +235,18 @@ const Catalog: React.FC = () => {
         <Search searchHandler={searchHandler} showModal={showModal} />
         <SortDropdown handleChange={handleChange} sorting={sorting} />
       </div>
-      <div className="catalog__pagination">
-        <Pagination
-          page={page}
-          count={10}
-          onChange={(_, num): void => {
-            console.log(num);
-            setPage(num);
-          }}
-        />
-      </div>
+      {showPagination && (
+        <div className="catalog__pagination">
+          <Pagination
+            page={page}
+            count={pageCount}
+            onChange={(_, num): void => {
+              console.log(num);
+              setPage(num);
+            }}
+          />
+        </div>
+      )}
       <div className="catalog-wrapper">
         <div className="side-panel">
           <FilterAccordion
