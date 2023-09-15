@@ -7,12 +7,14 @@ import { getCart, getCarts } from '../../utils/api/clientApi';
 import { Cart } from '@commercetools/platform-sdk';
 import { CircularProgress } from '@mui/material';
 import EmptyCart from './EmptyCart/EmptyCart';
+import PromoCode from './PromoCode/PromoCode';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState<Cart>();
   const [isFetching, setIsFetching] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
+  const [oldAmount, setOldAmount] = useState<number | null>(null);
   const totalAmount = cart?.totalPrice ? cart.totalPrice.centAmount / 100 : 0;
 
   useEffect(() => {
@@ -36,6 +38,20 @@ const Cart: React.FC = () => {
     cart?.lineItems.length ? setIsEmpty(false) : setIsEmpty(true);
   }, [cart]);
 
+  useEffect(() => {
+    if (cart?.discountCodes.length) {
+      const amount = +cart.lineItems
+        .reduce((acc, value) => {
+          const oldPrice = value.price.discounted?.value?.centAmount
+            ? value.price.discounted?.value?.centAmount / 100
+            : value.price.value.centAmount / 100;
+          return oldPrice * value.quantity + acc;
+        }, 0)
+        .toFixed(2);
+      setOldAmount(amount);
+    }
+  }, [cart]);
+
   if (!isFetching) {
     return (
       <div className="loading">
@@ -46,7 +62,7 @@ const Cart: React.FC = () => {
   }
   return (
     <div className="cart-page">
-      {isEmpty === true ? (
+      {isEmpty ? (
         <EmptyCart />
       ) : (
         <div className="cart-wrapper">
@@ -65,11 +81,20 @@ const Cart: React.FC = () => {
           <div className="amount-block">
             Total amount
             <span className="amount-block__dollar">$</span>
-            <span className="amount-block__total-price">{totalAmount}</span>
+            <span
+              style={oldAmount ? { color: '#0faeae' } : { color: '#000000' }}
+              className="amount-block__total-price"
+            >
+              {totalAmount}
+            </span>
+            {oldAmount && <span className="amount-block__old-price">{oldAmount}</span>}
           </div>
-          <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
-            To shop
-          </button>
+          <div className="cart__control-block">
+            <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
+              To shop
+            </button>
+            <PromoCode setCart={setCart} />
+          </div>
         </div>
       )}
     </div>
