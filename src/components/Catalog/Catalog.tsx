@@ -47,6 +47,7 @@ const Catalog: React.FC = () => {
   const limit = 6;
 
   const brandHandleChange = (value: string) => () => {
+    setPage(1);
     const index = checkedBrand.indexOf(value);
     const newCheckedValue = [...checkedBrand];
     if (index === -1) {
@@ -57,6 +58,7 @@ const Catalog: React.FC = () => {
     setCheckedBrand(newCheckedValue);
   };
   const sizeHandleChange = (value: string) => () => {
+    setPage(1);
     const index = checkedSize.indexOf(value);
     const newCheckedValue = [...checkedSize];
     if (index === -1) {
@@ -67,27 +69,33 @@ const Catalog: React.FC = () => {
     setCheckedSize(newCheckedValue);
   };
   const categoryHandleChange = (value: string) => () => {
+    setPage(1);
     setCheckedCategory(value);
     setSubCheckedCategory('');
   };
   const subcategoryHandleChange = (value: string) => () => {
+    setPage(1);
     setSubCheckedCategory(value);
   };
 
   const handleChange = (event: SelectChangeEvent): void => {
+    setPage(1);
     setSorting(event.target.value);
   };
   const searchHandler = (event: React.SyntheticEvent): void => {
+    setPage(1);
     const target = event.target as HTMLInputElement;
     setSearchValue(target.value);
     target.value.length < 4 && target.value.length > 0 ? setShowModal(true) : setShowModal(false);
   };
   const colorHandleChange = (color: ColorResult): void => {
+    setPage(1);
     setColor(color.hex);
   };
   const MIN_PRICE = 20;
 
   const priceHandleChange = (event: Event, newValue: number | number[], active: number): void => {
+    setPage(1);
     if (!Array.isArray(newValue)) {
       return;
     }
@@ -129,7 +137,7 @@ const Catalog: React.FC = () => {
         sort: sorting ? sorting : 'price asc',
         'text.en-US': searchValue.length > 3 ? searchValue : '',
         fuzzy: true,
-        offset: page,
+        offset: (page - 1) * limit,
         limit: limit,
         facet: [
           'variants.attributes.size.key',
@@ -203,6 +211,7 @@ const Catalog: React.FC = () => {
             className="breadcrumb-link"
             to={SHOP_ROUTE}
             onClick={(): void => {
+              setPage(1);
               setCheckedCategory('');
               setSubCheckedCategory('');
             }}
@@ -225,7 +234,10 @@ const Catalog: React.FC = () => {
                 className="breadcrumb-link"
                 key={index}
                 to={path}
-                onClick={(): void => setSubCheckedCategory('')}
+                onClick={(): void => {
+                  setPage(1);
+                  setSubCheckedCategory('');
+                }}
               >
                 {path}
               </Link>
