@@ -4,6 +4,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  Pagination,
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
@@ -35,6 +36,7 @@ const Catalog: React.FC = () => {
   const [checkedCategory, setCheckedCategory] = useState<string>('');
   const [checkedSubcategory, setSubCheckedCategory] = useState<string>('');
   const [facets, setFacets] = useState<FacetResults>();
+  const [page, setPage] = useState(1);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -219,6 +221,16 @@ const Catalog: React.FC = () => {
         </Breadcrumbs>
         <Search searchHandler={searchHandler} showModal={showModal} />
         <SortDropdown handleChange={handleChange} sorting={sorting} />
+      </div>
+      <div className="catalog__pagination">
+        <Pagination
+          page={page}
+          count={10}
+          onChange={(_, num): void => {
+            console.log(num);
+            setPage(num);
+          }}
+        />
       </div>
       <div className="catalog-wrapper">
         <div className="side-panel">
