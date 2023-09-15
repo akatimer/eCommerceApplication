@@ -14,7 +14,7 @@ const Cart: React.FC = () => {
   const [cart, setCart] = useState<Cart>();
   const [isFetching, setIsFetching] = useState(false);
   const [isEmpty, setIsEmpty] = useState(true);
-  const [oldAmount, setOldAmount] = useState(0);
+  const [oldAmount, setOldAmount] = useState<number | null>(null);
   const totalAmount = cart?.totalPrice ? cart.totalPrice.centAmount / 100 : 0;
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const Cart: React.FC = () => {
   }
   return (
     <div className="cart-page">
-      {isEmpty === true ? (
+      {isEmpty ? (
         <EmptyCart />
       ) : (
         <div className="cart-wrapper">
@@ -81,10 +81,13 @@ const Cart: React.FC = () => {
           <div className="amount-block">
             Total amount
             <span className="amount-block__dollar">$</span>
-            <span className="amount-block__total-price">
+            <span
+              style={oldAmount ? { color: '#0faeae' } : { color: '#000000' }}
+              className="amount-block__total-price"
+            >
               {totalAmount}
-              {cart?.discountCodes.length ? '/' + oldAmount : ''}
             </span>
+            {oldAmount && <span className="amount-block__old-price">{oldAmount}</span>}
           </div>
           <div className="cart__control-block">
             <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
