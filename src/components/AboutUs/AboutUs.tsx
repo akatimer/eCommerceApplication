@@ -44,7 +44,10 @@ const AboutUs: React.FC = () => {
 
   return (
     <div className="main-about-us">
-      <Card sx={{ width: [300, 300, 364], minHeight: [480, 480, 560], borderRadius: 3, margin: 5 }}>
+      <Card
+        className="about-us__card"
+        sx={{ width: [300, 300, 364], minHeight: [480, 480, 560], borderRadius: 3, margin: 5 }}
+      >
         <CardActionArea>
           <Link to="https://github.com/Zhiznevski">
             <div className="card-image_block">
@@ -59,7 +62,10 @@ const AboutUs: React.FC = () => {
           </Link>
         </CardActionArea>
       </Card>
-      <Card sx={{ width: [300, 300, 364], minHeight: [480, 480, 560], borderRadius: 3, margin: 5 }}>
+      <Card
+        className="about-us__card"
+        sx={{ width: [300, 300, 364], minHeight: [480, 480, 560], borderRadius: 3, margin: 5 }}
+      >
         <CardActionArea>
           <Link to="https://github.com/akatimer">
             <div className="card-image_block">
@@ -74,7 +80,10 @@ const AboutUs: React.FC = () => {
           </Link>
         </CardActionArea>
       </Card>
-      <Card sx={{ width: [300, 300, 364], minHeight: [480, 480, 560], borderRadius: 3, margin: 5 }}>
+      <Card
+        className="about-us__card"
+        sx={{ width: [300, 300, 364], minHeight: [480, 480, 560], borderRadius: 3, margin: 5 }}
+      >
         <CardActionArea>
           <Link to="https://github.com/MaxFralou">
             <div className="card-image_block">
