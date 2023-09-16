@@ -199,7 +199,6 @@ const Catalog: React.FC = () => {
     <div className="catalog">
       <div className="control-block">
         <Breadcrumbs
-          // separator={<ArrowRightIcon fontSize="inherit" />}
           aria-label="breadcrumb"
           sx={{
             alignSelf: 'center',
@@ -253,7 +252,6 @@ const Catalog: React.FC = () => {
             page={page}
             count={pageCount}
             onChange={(_, num): void => {
-              console.log(num);
               setPage(num);
             }}
           />

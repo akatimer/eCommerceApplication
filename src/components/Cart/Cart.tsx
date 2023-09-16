@@ -7,6 +7,7 @@ import { getCart, getCarts } from '../../utils/api/clientApi';
 import { Cart } from '@commercetools/platform-sdk';
 import { CircularProgress } from '@mui/material';
 import EmptyCart from './EmptyCart/EmptyCart';
+import ClearCartBtn from './ClearCartBtn/ClearCartBtn';
 import PromoCode from './PromoCode/PromoCode';
 
 const Cart: React.FC = () => {
@@ -66,7 +67,10 @@ const Cart: React.FC = () => {
         <EmptyCart />
       ) : (
         <div className="cart-wrapper">
-          <div className="cart-title">Cart</div>
+          <div className="cart__header">
+            <div className="cart-title">Cart</div>
+            <ClearCartBtn setCart={setCart} />
+          </div>
           <div className="cart-body">
             {cart?.lineItems.map((item) => (
               <CartItem
