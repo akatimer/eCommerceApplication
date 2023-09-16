@@ -33,6 +33,12 @@
   text-decoration: underline;
 }
 
+.catalog__pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media (max-width: 1246px) {
   .catalog {
     padding: 0 48px;

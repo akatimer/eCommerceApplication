@@ -4,6 +4,7 @@ import {
   Button,
   CircularProgress,
   Grid,
+  Pagination,
   SelectChangeEvent,
   Typography,
 } from '@mui/material';
@@ -35,13 +36,18 @@ const Catalog: React.FC = () => {
   const [checkedCategory, setCheckedCategory] = useState<string>('');
   const [checkedSubcategory, setSubCheckedCategory] = useState<string>('');
   const [facets, setFacets] = useState<FacetResults>();
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(5);
+  const [showPagination, setShowPagination] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((path) => !['shop', ''].includes(path));
   window.onload = (): void => navigate(SHOP_ROUTE);
+  const limit = 6;
 
   const brandHandleChange = (value: string) => () => {
+    setPage(1);
     const index = checkedBrand.indexOf(value);
     const newCheckedValue = [...checkedBrand];
     if (index === -1) {
@@ -52,6 +58,7 @@ const Catalog: React.FC = () => {
     setCheckedBrand(newCheckedValue);
   };
   const sizeHandleChange = (value: string) => () => {
+    setPage(1);
     const index = checkedSize.indexOf(value);
     const newCheckedValue = [...checkedSize];
     if (index === -1) {
@@ -62,27 +69,33 @@ const Catalog: React.FC = () => {
     setCheckedSize(newCheckedValue);
   };
   const categoryHandleChange = (value: string) => () => {
+    setPage(1);
     setCheckedCategory(value);
     setSubCheckedCategory('');
   };
   const subcategoryHandleChange = (value: string) => () => {
+    setPage(1);
     setSubCheckedCategory(value);
   };
 
   const handleChange = (event: SelectChangeEvent): void => {
+    setPage(1);
     setSorting(event.target.value);
   };
   const searchHandler = (event: React.SyntheticEvent): void => {
+    setPage(1);
     const target = event.target as HTMLInputElement;
     setSearchValue(target.value);
     target.value.length < 4 && target.value.length > 0 ? setShowModal(true) : setShowModal(false);
   };
   const colorHandleChange = (color: ColorResult): void => {
+    setPage(1);
     setColor(color.hex);
   };
   const MIN_PRICE = 20;
 
   const priceHandleChange = (event: Event, newValue: number | number[], active: number): void => {
+    setPage(1);
     if (!Array.isArray(newValue)) {
       return;
     }
@@ -124,6 +137,8 @@ const Catalog: React.FC = () => {
         sort: sorting ? sorting : 'price asc',
         'text.en-US': searchValue.length > 3 ? searchValue : '',
         fuzzy: true,
+        offset: (page - 1) * limit,
+        limit: limit,
         facet: [
           'variants.attributes.size.key',
           'variants.attributes.brand.key',
@@ -143,11 +158,18 @@ const Catalog: React.FC = () => {
       },
     })
       .then((response) => {
-        if (response?.body.count) {
+        if (response?.body.count && response?.body.count !== 0) {
+          if (response?.body.total && response?.body.results.length !== 0) {
+            setShowPagination(true);
+            setPageCount(Math.ceil(response?.body.total / limit) || 1);
+          } else {
+            setShowPagination(false);
+          }
           setProducts(response.body.results);
           setNotFound(false);
           setFacets(response.body.facets);
         } else {
+          setShowPagination(false);
           setProducts([]);
           setNotFound(true);
         }
@@ -162,6 +184,7 @@ const Catalog: React.FC = () => {
     checkedSize,
     checkedCategory,
     checkedSubcategory,
+    page,
   ]);
 
   if (!products) {
@@ -188,6 +211,7 @@ const Catalog: React.FC = () => {
             className="breadcrumb-link"
             to={SHOP_ROUTE}
             onClick={(): void => {
+              setPage(1);
               setCheckedCategory('');
               setSubCheckedCategory('');
             }}
@@ -210,7 +234,10 @@ const Catalog: React.FC = () => {
                 className="breadcrumb-link"
                 key={index}
                 to={path}
-                onClick={(): void => setSubCheckedCategory('')}
+                onClick={(): void => {
+                  setPage(1);
+                  setSubCheckedCategory('');
+                }}
               >
                 {path}
               </Link>
@@ -220,6 +247,18 @@ const Catalog: React.FC = () => {
         <Search searchHandler={searchHandler} showModal={showModal} />
         <SortDropdown handleChange={handleChange} sorting={sorting} />
       </div>
+      {showPagination && (
+        <div className="catalog__pagination">
+          <Pagination
+            page={page}
+            count={pageCount}
+            onChange={(_, num): void => {
+              console.log(num);
+              setPage(num);
+            }}
+          />
+        </div>
+      )}
       <div className="catalog-wrapper">
         <div className="side-panel">
           <FilterAccordion

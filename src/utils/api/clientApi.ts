@@ -6,6 +6,7 @@ import {
   ClientResponse,
   CustomerDraft,
   CustomerSignInResult,
+  DiscountCodePagedQueryResponse,
   ProductProjectionPagedSearchResponse,
 } from '@commercetools/platform-sdk';
 import {
@@ -178,6 +179,43 @@ export const changeLineItemQuantity = async (
     .catch(console.error);
   return cartResponse;
 };
+
+export const addPromoCode = async (
+  code: string = 'BOGO',
+  cartId: string,
+  cartVersion: number
+): Promise<void | ClientResponse<Cart>> => {
+  const cartResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .post({
+      body: {
+        version: cartVersion,
+        actions: [
+          {
+            action: 'addDiscountCode',
+            code: code,
+          },
+        ],
+      },
+    })
+    .execute()
+    .catch(console.error);
+  return cartResponse;
+};
+
+export const getPromoCodes =
+  async (): Promise<void | ClientResponse<DiscountCodePagedQueryResponse>> => {
+    const promoCodes = await getApiRoot()
+      .withProjectKey({ projectKey })
+      .discountCodes()
+      .get()
+      .execute()
+      .catch(console.error);
+    return promoCodes;
+  };
 
 export const removeCart = async (
   cartId: string,
