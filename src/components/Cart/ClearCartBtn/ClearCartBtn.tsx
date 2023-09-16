@@ -6,7 +6,7 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { getCart, removeCart } from '../../../utils/api/clientApi';
 import { Cart } from '@commercetools/platform-sdk';
 
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const ClearCartBtn: React.FC<Props> = ({ setCart }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const clearCartHandle = (): void => {
     getCart().then((response) => {
@@ -37,21 +37,23 @@ const ClearCartBtn: React.FC<Props> = ({ setCart }) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button color="error" sx={{ fontFamily: 'Mulish' }} onClick={handleClickOpen}>
         Clear cart
       </Button>
-      <Dialog maxWidth="xs" sx={{ maxHeight: '100' }} open={open} onClose={handleClose}>
-        <DialogTitle>Clear Cart</DialogTitle>
+      <Dialog maxWidth="xs" open={open} onClose={handleClose}>
+        <DialogTitle sx={{ fontFamily: 'Mulish' }}>Clear cart</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText sx={{ fontFamily: 'Mulish' }}>
             Are you sure you want to delete all products including all entered promotional codes? It
             will be impossible to cancel this action.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={clearCartHandle} autoFocus>
-            Delete
+          <Button color="primary" sx={{ fontFamily: 'Mulish' }} onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button color="error" sx={{ fontFamily: 'Mulish' }} onClick={clearCartHandle} autoFocus>
+            Clear
           </Button>
         </DialogActions>
       </Dialog>

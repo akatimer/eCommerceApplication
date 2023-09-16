@@ -8,6 +8,11 @@
   display: flex;
   flex-direction: column;
 }
+.cart__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
 .cart-title {
   font-family: 'Mulish';

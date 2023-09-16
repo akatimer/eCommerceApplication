@@ -67,7 +67,10 @@ const Cart: React.FC = () => {
         <EmptyCart />
       ) : (
         <div className="cart-wrapper">
-          <div className="cart-title">Cart</div>
+          <div className="cart__header">
+            <div className="cart-title">Cart</div>
+            <ClearCartBtn setCart={setCart} />
+          </div>
           <div className="cart-body">
             {cart?.lineItems.map((item) => (
               <CartItem
@@ -94,7 +97,6 @@ const Cart: React.FC = () => {
             <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
               To shop
             </button>
-            <ClearCartBtn setCart={setCart} />
             <PromoCode setCart={setCart} />
           </div>
         </div>
