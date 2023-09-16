@@ -7,6 +7,7 @@ import { getCart, getCarts } from '../../utils/api/clientApi';
 import { Cart } from '@commercetools/platform-sdk';
 import { CircularProgress } from '@mui/material';
 import EmptyCart from './EmptyCart/EmptyCart';
+import ClearCartBtn from './ClearCartBtn/ClearCartBtn';
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ const Cart: React.FC = () => {
           <button className="cart-button" onClick={(): void => navigate(SHOP_ROUTE)}>
             To shop
           </button>
+          <ClearCartBtn setCart={setCart} />
         </div>
       )}
     </div>

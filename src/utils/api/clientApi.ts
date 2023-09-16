@@ -179,6 +179,21 @@ export const changeLineItemQuantity = async (
   return cartResponse;
 };
 
+export const removeCart = async (
+  cartId: string,
+  cartVersion: number
+): Promise<void | ClientResponse<Cart>> => {
+  const cartResponse = await getApiRoot()
+    .withProjectKey({ projectKey })
+    .me()
+    .carts()
+    .withId({ ID: cartId })
+    .delete({ queryArgs: { version: cartVersion } })
+    .execute()
+    .catch(console.error);
+  return cartResponse;
+};
+
 // export const getCustomers = await getApiRoot()
 //   .withProjectKey({ projectKey })
 //   // .products()
