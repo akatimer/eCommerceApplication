@@ -125,16 +125,6 @@ export const createClientWithToken = (
     force: true,
   }
 ): Client => {
-  // const refreshOptions: RefreshAuthMiddlewareOptions = {
-  //   host: import.meta.env.VITE_AUTH_URL || '',
-  //   projectKey: projectKey,
-  //   credentials: {
-  //     clientId: import.meta.env.VITE_CLIENT_ID || '',
-  //     clientSecret: import.meta.env.VITE_CLIENT_SECRET || '',
-  //   },
-  //   refreshToken: token,
-  //   // tokenCache: MyTokenCache,
-  // };
   const clientWithToken = new ClientBuilder()
     .withExistingTokenFlow(token, options)
     // .withRefreshTokenFlow(refreshOptions)

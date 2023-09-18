@@ -1,4 +1,3 @@
-// import { ApiRoot, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import {
   Cart,
   CartPagedQueryResponse,
@@ -27,7 +26,6 @@ export const createCustomer = async (
     })
     .execute()
     .catch(console.error);
-  console.log(creationResponse);
   return creationResponse;
 };
 export const getCategories = async (
@@ -231,69 +229,3 @@ export const removeCart = async (
     .catch(console.error);
   return cartResponse;
 };
-
-// export const getCustomers = await getApiRoot()
-//   .withProjectKey({ projectKey })
-//   // .products()
-//   // .get()
-//   // .execute();
-//   .customers()
-//   .post({
-//     body: {
-//       email: 'timur@test.com',
-//       password: 'testpass',
-//       firstName: 'Timur',
-//       lastName: 'Mudryi',
-//       dateOfBirth: '1988-02-27',
-//       addresses: [
-//         {
-//           country: 'US',
-//           city: 'New York',
-//           streetName: '17 State Street',
-//           postalCode: '10004',
-//           phone: '0000000000',
-//         },
-//       ],
-//       defaultBillingAddress: 0,
-//       defaultShippingAddress: 0,
-//     },
-//   })
-//   .execute();
-
-// const getApiPassRoot: () => ApiRoot = () => {
-//   return createApiBuilderFromCtpClient(createClientWithPass('timur@test.test.com', 'testpass'));
-// };
-
-// export const getMeWithPassResponse = await getApiPassRoot()
-//   .withProjectKey({ projectKey })
-//   // .products()
-//   // .get()
-//   // .execute();
-//   .me()
-//   .delete({
-//     queryArgs: {
-//       version: 1,
-//     },
-//   })
-//   // .get()
-//   // .login()
-//   // .post({
-//   //   body: {
-//   //     email: 'test@test.com',
-//   //     password: 'cvsy09oq',
-//   //   },
-//   //   })
-//   // .get()
-//   .execute()
-//   .catch(console.error);
-
-// const getApiTokenRoot: () => ApiRoot = () => {
-//   const currentToket = `Bearer ${localStorage.getItem('token')}`;
-//   return createApiBuilderFromCtpClient(createClientWithToken(currentToket));
-// };
-
-// export const getMeWithToken = await getApiTokenRoot()
-//   .withProjectKey({ projectKey })
-//   .me()
-//   .get()
-//   .execute();

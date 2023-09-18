@@ -170,7 +170,6 @@ const Registration: React.FC = () => {
       ...billingAddressNumbers,
       ...shippingAddressNumbers,
     };
-    console.log(body);
     return body;
   };
 
