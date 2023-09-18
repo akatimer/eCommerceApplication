@@ -1,5 +1,5 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Card, CardActionArea, CardContent } from '@mui/material';
+import { Card, CardActionArea, CardContent, CircularProgress } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import './ProductCard.css';
@@ -19,6 +19,7 @@ const ProductCard: React.FC<Props> = ({ product, lineItemsId, setLineItemsId }) 
   const { name, description, masterVariant, id } = product;
   const [discount, setDiscount] = useState<number>();
   const [isInCart, setIsInCart] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     lineItemsId?.includes(id) ? setIsInCart(true) : setIsInCart(false);
   }, [id, lineItemsId]);
@@ -29,12 +30,14 @@ const ProductCard: React.FC<Props> = ({ product, lineItemsId, setLineItemsId }) 
   }, [masterVariant.prices]);
 
   const btnHandleClick = (): void => {
+    setIsLoading(true);
     getCarts().then((response) => {
       if (response) {
         if (response.body.count) {
           getCart().then((response) => {
             if (response) {
               addLineItem(id, response.body.id, response.body.version);
+              setIsLoading(false);
               setIsInCart(true);
               setLineItemsId(lineItemsId?.concat(id));
             }
@@ -43,6 +46,7 @@ const ProductCard: React.FC<Props> = ({ product, lineItemsId, setLineItemsId }) 
           createCart().then((response) => {
             if (response) {
               addLineItem(id, response.body.id, response.body.version);
+              setIsLoading(false);
               setIsInCart(true);
             }
           });
@@ -80,7 +84,8 @@ const ProductCard: React.FC<Props> = ({ product, lineItemsId, setLineItemsId }) 
             isInCart ? navigate(CART_ROUTE) : btnHandleClick();
           }}
         >
-          {isInCart ? 'In Cart' : 'Add to Cart'}
+          {isLoading ? <CircularProgress color="inherit" /> : isInCart ? 'In Cart' : 'Add to Cart'}
+          {}
         </button>
       </div>
     </Card>
