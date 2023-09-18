@@ -1,7 +1,6 @@
 import './AboutUs.css';
 import React from 'react';
 import { Card, CardActionArea, CardContent } from '@mui/material';
-// import userIcon from '../../assets/icons/user_icn.svg';
 import maksim from '../../assets/images/maksim.jpeg';
 import artem from '../../assets/images/artem.jpg';
 import timur from '../../assets/images/timur.jpg';

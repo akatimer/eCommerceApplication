@@ -16,15 +16,9 @@ import {
   ABOUT_US,
 } from '../../utils/constants';
 import { useAuth } from '../AuthUse/AuthUse';
-// import { useState } from 'react';
 
 const Navigation: React.FC = () => {
   const lsLogin = localStorage.getItem(LS_LOGIN);
-  // const isTokenPresent = storageToken !== null;
-
-  // const isTokenPresent = storageToken !== null;
-
-  // const [token, setToken] = useState(isTokenPresent);
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 

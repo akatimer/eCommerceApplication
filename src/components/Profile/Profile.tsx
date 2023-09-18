@@ -48,7 +48,6 @@ const Profile: React.FC = () => {
   const getMyProfile = (): Promise<void | ClientResponse<Customer>> | undefined => {
     const currentToken = localStorage.getItem(TOKEN_NAME);
     if (currentToken) {
-      console.log(currentToken);
       const apiTokenRoot = (): ApiRoot => {
         return createApiBuilderFromCtpClient(createClientWithToken(`Bearer ${currentToken}`));
       };
@@ -79,10 +78,6 @@ const Profile: React.FC = () => {
     { action: 'setDateOfBirth', dateOfBirth: date },
     { action: 'changeEmail', email: email },
   ];
-
-  // useEffect(() => {
-  //   createAdresses();
-  // }, [createAdresses]);
 
   const editMyProfile = async (
     actions: MyCustomerUpdateAction[]
@@ -247,7 +242,6 @@ const Profile: React.FC = () => {
               className="button button-edit"
               onClick={(): void => {
                 setIsReadOnly(!isReadOnly);
-                // checkProfileResponse();
               }}
               type="button"
             />
@@ -323,7 +317,6 @@ const Profile: React.FC = () => {
                     },
                   ])
                     .then((resp) => {
-                      console.log(resp);
                       if (resp) {
                         if (addressType === 'Billing') {
                           return editMyProfile([
@@ -464,7 +457,6 @@ const Profile: React.FC = () => {
                 className="button button-edit"
                 onClick={(): void => {
                   changeMyPassword().then((resp) => {
-                    console.log(resp);
                     if (resp) {
                       localStorage.removeItem(TOKEN_NAME);
                       setIsLoggedIn(false);

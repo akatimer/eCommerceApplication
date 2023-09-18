@@ -57,7 +57,7 @@ const LogIn: React.FC = () => {
               const getApiPassRoot: () => ApiRoot = () => {
                 return createApiBuilderFromCtpClient(createClientWithPass(email, password));
               };
-              const secondLogin = await getApiPassRoot()
+              await getApiPassRoot()
                 .withProjectKey({ projectKey })
                 .me()
                 .carts()
@@ -67,7 +67,6 @@ const LogIn: React.FC = () => {
                   console.error;
                   setIsModalShown(true);
                 });
-              console.log(secondLogin);
               if (loginResponse) {
                 setIsLoggedIn(true);
                 localStorage.setItem(LS_LOGIN, 'true');
