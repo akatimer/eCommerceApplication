@@ -1,6 +1,6 @@
 .cart-item {
   display: grid;
-  grid-template-columns: 2fr 3fr 2fr 1.5fr 0.5fr;
+  grid-template-columns: 1.5fr 2fr 2fr 2fr 0.5fr;
   align-items: center;
   padding: 32px 0;
   gap: 15px;
@@ -114,7 +114,7 @@
   .cart-item {
     padding: 16px 0;
     gap: 15px;
-    grid-template-columns: 1.5fr 3fr 2fr 1.5fr 0.4fr;
+    grid-template-columns: 1fr 2fr 2fr 1.5fr 0.4fr;
   }
 
   .cart-item__image-block {
@@ -163,7 +163,7 @@
   }
 
   .cart-item__price {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 12px;
   }
 }
