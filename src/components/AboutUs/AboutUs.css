@@ -10,7 +10,7 @@
 .introduction {
   font-family: 'Mulish';
   color: #1b2437;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin: 12px 113px;
 }
 
@@ -39,4 +39,10 @@
 .about-us__page-text {
   overflow: visible;
   white-space: pre-line;
+}
+
+@media (max-width: 667px) {
+  .introduction {
+    margin: 12px 32px;
+  }
 }
