@@ -1,0 +1,123 @@
+.cart-page {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.cart-wrapper {
+  padding: 16px 32px 24px 32px;
+  display: flex;
+  flex-direction: column;
+}
+.cart__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.cart-title {
+  font-family: 'Mulish';
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 25px;
+  margin-bottom: 16px;
+}
+
+.amount-block {
+  align-items: center;
+  font-family: 'Nunito';
+  font-size: 24px;
+  line-height: 33px;
+  display: flex;
+  align-self: flex-end;
+  padding: 11px 0 15px 0;
+}
+
+.amount-block__dollar {
+  display: block;
+  font-family: 'Nunito';
+  font-size: 24px;
+  line-height: 33px;
+  margin: 15px 6px 0 17px;
+}
+
+.amount-block__total-price {
+  font-family: 'Nunito';
+  font-size: 34px;
+  line-height: 46px;
+  letter-spacing: 0.4px;
+}
+
+.cart-button {
+  display: block;
+  width: 160px;
+  height: 52px;
+  border: 2px solid #eda3b5;
+  color: #eda3b5;
+  border-radius: 15px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25px;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.cart-button:hover {
+  color: #ffffff;
+  background-color: #eda3b5;
+}
+
+.cart__control-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.amount-block__old-price {
+  font-family: 'Nunito', sans-serif;
+  font-size: 24px;
+  color: #7a7878;
+  font-weight: 400;
+  line-height: 46px;
+  letter-spacing: 0.4px;
+  text-decoration: line-through;
+  margin-left: 5px;
+}
+
+@media (max-width: 667px) {
+  .cart-wrapper {
+    padding: 16px 16px 24px 16px;
+  }
+
+  .cart-button {
+    width: 100px;
+    height: 40px;
+    border-radius: 15px;
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .amount-block {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .amount-block__dollar {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 15px 6px 0 17px;
+  }
+
+  .amount-block__total-price {
+    font-size: 24px;
+    line-height: 24px;
+    letter-spacing: 0.4px;
+  }
+
+  .amount-block__old-price {
+    font-size: 16px;
+    line-height: 34px;
+  }
+}

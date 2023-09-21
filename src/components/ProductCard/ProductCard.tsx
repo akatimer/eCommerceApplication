@@ -1,28 +1,63 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
-import { Card, CardActionArea, CardContent } from '@mui/material';
-import { Link } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { Card, CardActionArea, CardContent, CircularProgress } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import './ProductCard.css';
-import { PRODUCT_ROUTE } from '../../utils/constants';
+import { CART_ROUTE, PRODUCT_ROUTE } from '../../utils/constants';
+import { createCart, addLineItem, getCart, getCarts } from '../../utils/api/clientApi';
 
 type Props = {
   product: ProductProjection;
+  lineItemsId: string[] | undefined;
+  setLineItemsId: Dispatch<SetStateAction<string[] | undefined>>;
 };
 
 const region = 'en-US';
 
-const ProductCard: React.FC<Props> = ({ product }) => {
-  const { name, description, masterVariant } = product;
+const ProductCard: React.FC<Props> = ({ product, lineItemsId, setLineItemsId }) => {
+  const navigate = useNavigate();
+  const { name, description, masterVariant, id } = product;
   const [discount, setDiscount] = useState<number>();
+  const [isInCart, setIsInCart] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    lineItemsId?.includes(id) ? setIsInCart(true) : setIsInCart(false);
+  }, [id, lineItemsId]);
   useEffect(() => {
     if (masterVariant.prices) {
       setDiscount(masterVariant.prices[0].discounted?.value.centAmount);
     }
   }, [masterVariant.prices]);
+
+  const btnHandleClick = (): void => {
+    setIsLoading(true);
+    getCarts().then((response) => {
+      if (response) {
+        if (response.body.count) {
+          getCart().then((response) => {
+            if (response) {
+              addLineItem(id, response.body.id, response.body.version);
+              setIsLoading(false);
+              setIsInCart(true);
+              setLineItemsId(lineItemsId?.concat(id));
+            }
+          });
+        } else {
+          createCart().then((response) => {
+            if (response) {
+              addLineItem(id, response.body.id, response.body.version);
+              setIsLoading(false);
+              setIsInCart(true);
+            }
+          });
+        }
+      }
+    });
+  };
   return (
-    <Card sx={{ width: [300, 300, 364], maxHeight: [480, 480, 560], borderRadius: 3 }}>
+    <Card sx={{ width: [300, 300, 364], maxHeight: [480, 480, 575], borderRadius: 3 }}>
       <CardActionArea>
-        <Link to={`${PRODUCT_ROUTE}/${product.key}`}>
+        <Link to={`${PRODUCT_ROUTE}/${product.id}`}>
           <div className="card-image_block">
             <img
               className="card-image"
@@ -42,7 +77,16 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <div className={!discount ? 'card_current-price' : 'card_old-price'}>
           {masterVariant.prices ? masterVariant.prices[0].value.centAmount / 100 : ''}
         </div>
-        <button className="card-button">Shop Now</button>
+
+        <button
+          className={isInCart ? 'card-button-in-cart' : 'card-button'}
+          onClick={(): void => {
+            isInCart ? navigate(CART_ROUTE) : btnHandleClick();
+          }}
+        >
+          {isLoading ? <CircularProgress color="inherit" /> : isInCart ? 'In Cart' : 'Add to Cart'}
+          {}
+        </button>
       </div>
     </Card>
   );

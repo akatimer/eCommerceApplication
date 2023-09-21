@@ -7,6 +7,9 @@ import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfil
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 
 const testConfig: vitest.InlineConfig = {
+  coverage: {
+    provider: 'istanbul',
+  },
   globals: true,
   environment: 'jsdom',
   setupFiles: './src/tests/setup.ts',

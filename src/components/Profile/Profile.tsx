@@ -8,7 +8,7 @@ import {
   createApiBuilderFromCtpClient,
 } from '@commercetools/platform-sdk';
 import { useNavigate } from 'react-router-dom';
-import { HOME_ROUTE, LOGIN_ROUTE, TOKEN_NAME } from '../../utils/constants';
+import { HOME_ROUTE, LOGIN_ROUTE, LS_LOGIN, TOKEN_NAME } from '../../utils/constants';
 import DateInput from '../DateInput/DateInput';
 import EmailInput from '../EmailInput/EmailInput';
 import LastNameInput from '../LastNameInput/LastNameInput';
@@ -20,7 +20,7 @@ import Button from '../Button/Button';
 import './Profile.css';
 import AddressComponent from '../AddressComponent/AddressComponent';
 import PasswordInput from '../PasswordInput/PasswordInput';
-import CustModal from '../Modal/CustModal';
+import CustModal from '../CustModal/CustModal';
 
 const Profile: React.FC = () => {
   const [name, setName] = useState('');
@@ -42,7 +42,7 @@ const Profile: React.FC = () => {
   const [isChangePass, setIsChangePass] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [isAddAdrFormShown, setIsAddAdrFormShown] = useState(false);
-  const { setLoggedOut } = useAuth();
+  const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   const getMyProfile = (): Promise<void | ClientResponse<Customer>> | undefined => {
@@ -78,10 +78,6 @@ const Profile: React.FC = () => {
     { action: 'setDateOfBirth', dateOfBirth: date },
     { action: 'changeEmail', email: email },
   ];
-
-  // useEffect(() => {
-  //   createAdresses();
-  // }, [createAdresses]);
 
   const editMyProfile = async (
     actions: MyCustomerUpdateAction[]
@@ -224,11 +220,12 @@ const Profile: React.FC = () => {
         setCustomerBody(profileResponse);
       } else {
         localStorage.removeItem(TOKEN_NAME);
-        setLoggedOut(true);
+        localStorage.removeItem(LS_LOGIN);
+        setIsLoggedIn(false);
         navigate(HOME_ROUTE);
       }
     })();
-  }, [navigate, setLoggedOut]);
+  }, [navigate, setIsLoggedIn]);
 
   return (
     <section className="form form-reg profile">
@@ -245,7 +242,6 @@ const Profile: React.FC = () => {
               className="button button-edit"
               onClick={(): void => {
                 setIsReadOnly(!isReadOnly);
-                // checkProfileResponse();
               }}
               type="button"
             />
@@ -321,7 +317,6 @@ const Profile: React.FC = () => {
                     },
                   ])
                     .then((resp) => {
-                      console.log(resp);
                       if (resp) {
                         if (addressType === 'Billing') {
                           return editMyProfile([
@@ -462,10 +457,10 @@ const Profile: React.FC = () => {
                 className="button button-edit"
                 onClick={(): void => {
                   changeMyPassword().then((resp) => {
-                    console.log(resp);
                     if (resp) {
                       localStorage.removeItem(TOKEN_NAME);
-                      setLoggedOut(true);
+                      setIsLoggedIn(false);
+                      localStorage.removeItem(LS_LOGIN);
                       navigate(LOGIN_ROUTE);
                     } else {
                       setIsModal(true);

@@ -55,11 +55,11 @@ const Registration: React.FC = () => {
   const [isDataValid, setIsDataValid] = useState(false);
 
   const [isModalShown, setIsModalShown] = useState(false);
-  const { setLoggedOut } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
+    if (isLoggedIn) {
       navigate(HOME_ROUTE);
     }
     const storageToken = localStorage.getItem(TOKEN_NAME);
@@ -107,6 +107,7 @@ const Registration: React.FC = () => {
     date,
     email,
     isDataValid,
+    isLoggedIn,
     lastName,
     name,
     navigate,
@@ -146,7 +147,8 @@ const Registration: React.FC = () => {
       .login()
       .post({ body: { email: email, password: password } })
       .execute();
-    setLoggedOut(false);
+    setIsLoggedIn(true);
+    localStorage.setItem('wichers_login', 'true');
     navigate(HOME_ROUTE);
   };
 
@@ -168,7 +170,6 @@ const Registration: React.FC = () => {
       ...billingAddressNumbers,
       ...shippingAddressNumbers,
     };
-    console.log(body);
     return body;
   };
 
