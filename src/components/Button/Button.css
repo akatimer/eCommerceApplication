@@ -1,0 +1,18 @@
+.button {
+  min-width: 225px;
+  height: 52px;
+  border: solid 2px #48484a;
+  border-radius: 16px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  color: #48484a;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  align-self: center;
+}
+
+.button:hover {
+  background-color: #48484a;
+  color: #ffffff;
+}

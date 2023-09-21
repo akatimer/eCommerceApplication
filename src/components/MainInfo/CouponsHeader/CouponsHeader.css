@@ -1,0 +1,29 @@
+.coupons__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: center;
+  background-color: #f4f4f4;
+  border-radius: 15px;
+  font-family: 'Mulish', sans-serif;
+  padding: 10px 0;
+  gap: 1em;
+  margin-bottom: 7px;
+}
+.coupons__wrapper > *:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 2em;
+  background-color: #48484a;
+  top: calc(50% - 1em);
+  right: 0;
+}
+@media (max-width: 667px) {
+  .coupons__wrapper {
+    grid-template-columns: none;
+    gap: 1em;
+  }
+  .coupons__wrapper > *:not(:last-child)::after {
+    content: none;
+  }
+}

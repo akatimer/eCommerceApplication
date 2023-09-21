@@ -1,0 +1,37 @@
+.form-reg {
+  background: #ee9977;
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.shipp-wrapper,
+.bill-wrapper {
+  width: 300px;
+}
+
+.address {
+  display: flex;
+  margin-top: 10px;
+  gap: 24px;
+  color: #48484a;
+  border: solid 2px #48484a;
+  border-radius: 16px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+}
+
+@media (max-width: 667px) {
+  .address {
+    flex-direction: column;
+    width: 320px !important;
+  }
+}
+
+.modal {
+  position: absolute;
+  max-width: 330px;
+  bottom: 10px;
+  left: calc(50% - 165px);
+}

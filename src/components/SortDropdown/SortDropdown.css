@@ -1,0 +1,25 @@
+.select-wrapper {
+  max-width: max-content;
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.sort-select {
+  margin: 0 auto;
+  width: 150px;
+  height: 44px;
+  border-radius: 5px;
+  font-family: 'Mulish', sans-serif !important;
+  border: none !important;
+}
+
+.select-item {
+  font-family: 'Mulish', sans-serif !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border: 0 !important;
+}

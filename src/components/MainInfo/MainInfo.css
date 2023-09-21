@@ -1,0 +1,72 @@
+.main-info {
+  min-height: 570px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border-radius: 16px;
+  background: linear-gradient(to bottom, #bcaeab, #b7aba8);
+}
+
+.main-item {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 540px;
+  margin: 124px 113px;
+}
+
+.item-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 48px;
+  color: #ffffff;
+}
+
+.item-desc {
+  max-width: 292px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.button-item {
+  min-width: 160px;
+  min-height: 52px;
+  border: solid #c9bebc;
+  border-radius: 16px;
+  font-family: 'Mulish', sans-serif;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.5s;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+@media (max-width: 1198px) {
+  .main-info {
+    align-items: center;
+  }
+  .main-item {
+    align-items: center;
+  }
+  .item-title {
+    text-align: center;
+  }
+  .item-desc {
+    text-align: center;
+  }
+  .button-item {
+    align-self: center;
+  }
+}
+
+@media (max-width: 399px) {
+  .item-title {
+    text-align: center;
+  }
+
+  .item-desc {
+    text-align: center;
+  }
+}

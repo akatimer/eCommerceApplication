@@ -1,0 +1,48 @@
+.main-about-us {
+  min-height: 570px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border-radius: 16px;
+  background: linear-gradient(to bottom, #d8d8d8, #979797);
+}
+
+.introduction {
+  font-family: 'Mulish';
+  color: #1b2437;
+  font-size: 1.2rem;
+  margin: 12px 113px;
+}
+
+.title-intro {
+  margin: 8px 0;
+}
+
+.card-about {
+  overflow: visible;
+  white-space: pre-line;
+}
+
+.card-title-about {
+  background: url('../../assets/icons/github.svg') no-repeat right;
+  background-size: 2rem;
+}
+
+.about-us__card {
+  min-height: 640px !important;
+}
+
+.card-description {
+  -webkit-box-orient: unset !important;
+}
+
+.about-us__page-text {
+  overflow: visible;
+  white-space: pre-line;
+}
+
+@media (max-width: 667px) {
+  .introduction {
+    margin: 12px 32px;
+  }
+}
